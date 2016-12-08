@@ -1,0 +1,7 @@
+.Status {
+  color: red;
+}
+
+.Status.OK {
+  color: green;
+}
