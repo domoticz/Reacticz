@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import ReactGridLayout from 'react-grid-layout';
-import logo from './logo.svg';
-import './App.css';
+
 import SettingsView from './SettingsView'
 import DeviceListView from './DeviceListView'
 import DeviceWidget from './widgets/DeviceWidget'
 import LocalStorage from './util/LocalStorage'
 import MqttClientSingleton from './util/MqttClientSingleton'
 import JSONClientSingleton from './util/JSONClientSingleton'
+
+import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css'
 import '../node_modules/react-resizable/css/styles.css'
 
@@ -82,14 +83,12 @@ class App extends Component {
   }
 
   handleServerConfigChange = (config) => {
-    console.debug('config change', config);
     this.setState({serverConfig: config});
     this.store.write('serverConfig', config);
     this.connectClients();
   }
 
   handleDeviceListChange = (list) => {
-    console.log('new list', list);
     const devices = Object.assign({}, this.state.devices);
     // Delete device info for devices that were removed from the whitelist.
     for (let i = 0; i < this.state.whitelist.length; i++) {
@@ -155,17 +154,12 @@ class App extends Component {
         widgets.push(<div key={deviceId}><DeviceWidget device={device}></DeviceWidget></div>);
       }
     };
-    console.log(layout);
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
+        <div>
            <button onClick={this.toggleSettings}>settings</button>
            <button onClick={this.toggleDeviceList}>select devices</button>
-        </p>
+        </div>
         <ReactGridLayout className="layout" layout={layout} items={this.state.whitelist.length} cols={6} rowHeight={100} width={800}>
           {widgets}
         </ReactGridLayout>

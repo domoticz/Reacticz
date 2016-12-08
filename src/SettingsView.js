@@ -25,7 +25,7 @@ class SettingsView extends Component {
   }
 
   render() {
-    const welcome = this.props.config.mqttBrokerUrl ? '' :  <span>Welcome, please setup your server config to proceed</span>;
+    const welcome = this.props.config.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
     const mqttOk = this.props.status ? <span className="OK">Connected</span> : <span className="Status">Offline</span>;
     return (
       <div className="Settings">
@@ -44,7 +44,7 @@ class SettingsView extends Component {
           </label>
           <input type="submit" value="Save" />
         </form>
-        <button onClick={this.props.onExit}>Back</button>
+        <button onClick={this.props.onExit} style={welcome ? {display: 'none'} : {}}>Back</button>
       </div>
     );
   }
