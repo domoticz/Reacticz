@@ -30,13 +30,11 @@ class MqttClientSingleton {
   }
 
   connect(brokerUrl) {
-    console.log('attempting connexion');
-    if (!brokerUrl) {
-      console.log('missing broker url');
-      return;
-    }
     if (this.client) {
       this.close();
+    }
+    if (!brokerUrl) {
+      return;
     }
     try {
       this.client = mqtt.connect(brokerUrl);

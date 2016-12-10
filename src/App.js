@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ReactGridLayout from 'react-grid-layout';
+import {Responsive, WidthProvider} from 'react-grid-layout';
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 import SettingsView from './SettingsView'
 import DeviceListView from './DeviceListView'
@@ -26,7 +27,8 @@ class App extends Component {
       },
       mqttConnected: false,
       whitelist: [],
-      devices: {}
+      devices: {},
+      layout: []
     };
     this.store = new LocalStorage();
     this.mqtt = new MqttClientSingleton();
@@ -63,29 +65,29 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const storedWhitelist = this.store.read('whitelist');
     const storedServerConfig = this.store.read('serverConfig');
-    if (storedWhitelist) {
-      this.setState({whitelist: storedWhitelist});
-    }
+    this.setState({
+      whitelist: this.store.read('whitelist') || [],
+      layout: this.store.read('layout') || []
+    });
     if (storedServerConfig) {
       this.setState({serverConfig: storedServerConfig});
     }
   }
 
   componentDidMount() {
-    this.connectClients();
+    this.connectClients(this.state.serverConfig);
   }
 
-  connectClients() {
-    this.mqtt.connect(this.state.serverConfig.mqttBrokerUrl);
-    this.json.setServerUrl(this.state.serverConfig.domoticzUrl);
+  connectClients(config) {
+    this.mqtt.connect(config.mqttBrokerUrl);
+    this.json.setServerUrl(config.domoticzUrl);
   }
 
   handleServerConfigChange = (config) => {
     this.setState({serverConfig: config});
     this.store.write('serverConfig', config);
-    this.connectClients();
+    this.connectClients(config);
   }
 
   handleDeviceListChange = (list) => {
@@ -99,12 +101,12 @@ class App extends Component {
     }
     this.setState({whitelist: list, devices: devices});
     this.store.write('whitelist', list);
+    this.cleanupLayout(list);
     for (let i = 0; i < list.length; i++) {
       if (!devices[list[i]]) {
         this.requestDeviceStatus(list[i]);
       }
     }
-    this.render();
   }
 
   toggleSettings = () => {
@@ -131,6 +133,35 @@ class App extends Component {
     this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
   }
 
+  cleanupLayout(list) {
+    console.log('cleaning up layout', this.state.layout);
+    // Clear layout items for devices that are no longer present.
+    const ids = [];
+    const updatedLayout = this.state.layout.filter(function(deviceLayout) {
+      ids.push(deviceLayout.i);
+      return list.indexOf(deviceLayout.i) >= 0;
+    }, this);
+    console.log('ids', ids);
+    console.log('cleared ' + (this.state.layout.length - updatedLayout.length) + ' layouts');
+    // Add missing layouts
+    for (let i = 0; i < list.length; i++) {
+      const deviceId = list[i];
+      if (ids.indexOf(deviceId) < 0) {
+        console.log('adding layout for device ' + deviceId);
+        updatedLayout.push({x: 0, y: i, w: 2, h: 1, i: deviceId})
+      }
+    };
+    console.log('final layout ', updatedLayout);
+    this.setState({layout: updatedLayout});
+    this.store.write('layout', updatedLayout);
+  }
+
+  onLayoutChange = (layout) => {
+    console.log('layout change', layout);
+    this.setState({layout: layout});
+    this.store.write('layout', layout);
+  }
+
   render() {
     if (this.state.settingsPanel || !this.state.serverConfig.mqttBrokerUrl) {
       return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onExit={this.toMainView} onChange={this.handleServerConfigChange}></SettingsView>);
@@ -138,31 +169,41 @@ class App extends Component {
     if (this.state.deviceListPanel) {
       return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onExit={this.toMainView} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
     }
-    const widgets = [];
-    const layout = [];
-    let y = 0;
-    for (const deviceId in this.state.devices) {
-      if ({}.hasOwnProperty.call(this.state.devices, deviceId)) {
-        const device = this.state.devices[deviceId];
-        layout.push({
-          i: deviceId,
-          x: ++y,
-          y: 0,
-          w: 1,
-          h: 1
-        });
-        widgets.push(<div key={deviceId}><DeviceWidget device={device}></DeviceWidget></div>);
+
+    // Main view (dashboard).
+    const widgets = this.state.layout.map(function(deviceLayout) {
+      const deviceId = deviceLayout.i;
+      const device = this.state.devices[deviceId];
+      if (!device) {
+        // Device not available
+        return (<div key={deviceId} data-grid={deviceLayout}>loading</div>);
       }
-    };
+      return (
+        <div key={deviceId} data-grid={deviceLayout}><DeviceWidget device={device}></DeviceWidget></div>
+      );
+    }, this);
+
+    // const widgets = [];
+    // for (const deviceId in this.state.devices) {
+    //   if ({}.hasOwnProperty.call(this.state.devices, deviceId)) {
+    //     const device = this.state.devices[deviceId];
+    //     widgets.push(<div key={deviceId}><DeviceWidget device={device} data-grid={device.layout}></DeviceWidget></div>);
+    //   }
+    // };
     return (
       <div className="App">
         <div>
            <button onClick={this.toggleSettings}>settings</button>
            <button onClick={this.toggleDeviceList}>select devices</button>
         </div>
-        <ReactGridLayout className="layout" layout={layout} items={this.state.whitelist.length} cols={6} rowHeight={100} width={800}>
+        <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}
+            breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+            cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+            className="layout" layout={this.state.layout}
+            items={this.state.whitelist.length}
+            rowHeight={100}>
           {widgets}
-        </ReactGridLayout>
+        </ResponsiveGridLayout>
       </div>
     );
   }

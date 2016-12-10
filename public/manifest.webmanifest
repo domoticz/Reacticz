@@ -1,0 +1,11 @@
+{
+  "name": "Reacticz",
+  "short_name": "Reacticz",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Domoticz dashboard in a static web app",
+  "related_applications": [{
+    "platform": "web"
+  }]
+}
