@@ -21,6 +21,7 @@ class App extends Component {
     this.state = {
       settingsPanel: false,
       deviceListPanel: false,
+      layoutLocked: true,
       serverConfig: {
         mqttBrokerUrl: '', //ws://192.168.0.2:9001
         domoticzUrl: '' //http://192.168.0.6:8080
@@ -117,6 +118,10 @@ class App extends Component {
     this.setState({ 'deviceListPanel': !this.state.deviceListPanel });
   }
 
+  toggleLayoutEdit = () => {
+    this.setState({ 'layoutLocked': !this.state.layoutLocked });
+  }
+
   toMainView = () => {
     this.setState({
       'settingsPanel': false,
@@ -176,30 +181,28 @@ class App extends Component {
       const device = this.state.devices[deviceId];
       if (!device) {
         // Device not available
-        return (<div key={deviceId} data-grid={deviceLayout}>loading</div>);
+        return (<div key={deviceId}>Loading</div>);
       }
       return (
-        <div key={deviceId} data-grid={deviceLayout}><DeviceWidget device={device}></DeviceWidget></div>
+        <div key={deviceId}><DeviceWidget device={device}></DeviceWidget></div>
       );
     }, this);
-
-    // const widgets = [];
-    // for (const deviceId in this.state.devices) {
-    //   if ({}.hasOwnProperty.call(this.state.devices, deviceId)) {
-    //     const device = this.state.devices[deviceId];
-    //     widgets.push(<div key={deviceId}><DeviceWidget device={device} data-grid={device.layout}></DeviceWidget></div>);
-    //   }
-    // };
     return (
       <div className="App">
         <div>
            <button onClick={this.toggleSettings}>settings</button>
            <button onClick={this.toggleDeviceList}>select devices</button>
+           <button onClick={this.toggleLayoutEdit}>{this.state.layoutLocked ? 'Locked':'Unlocked'}</button>
         </div>
-        <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}
+        <ResponsiveGridLayout
+            layouts={{lg:this.state.layout}}
+            onDragStop={this.onLayoutChange}
+            onResizeStop={this.onLayoutChange}
+            isDraggable={!this.state.layoutLocked}
+            isResizable={!this.state.layoutLocked}
             breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
             cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-            className="layout" layout={this.state.layout}
+            className="layout"
             items={this.state.whitelist.length}
             rowHeight={100}>
           {widgets}

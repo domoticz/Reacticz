@@ -53,7 +53,7 @@ class MqttClientSingleton {
     this.client.on('message', function (topic, message) {
       // message is Buffer
       const data = JSON.parse(message.toString())
-      console.debug('got message', data);
+      // console.debug('got message', data);
       self.eventHandler('message', data);
     });
     this.client.on('error', function (error) {
