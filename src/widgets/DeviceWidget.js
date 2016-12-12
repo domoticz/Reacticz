@@ -18,7 +18,7 @@ class DeviceWidget extends Component {
         if (device.stype === "RGBW") {
           return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue}></SwitchRGBW>;
         }
-        return <SwitchDimmer idx={device.idx} label={device.name} value={device.nvalue}></SwitchDimmer>
+        return <SwitchDimmer idx={device.idx} label={device.name} value={device.svalue1}></SwitchDimmer>
       default:
         return <div><h3>Unsupported type: {device.switchType}</h3><pre>{JSON.stringify(device)}</pre></div>;
     }

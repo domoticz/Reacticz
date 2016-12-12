@@ -36,7 +36,6 @@ class SwitchBlinds extends Component {
       message.param = "switchlight";
       this.json.get(message);
     } else {
-      message.command = "switchlight";
       this.mqtt.publish(message);
     }
   }

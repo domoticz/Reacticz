@@ -55,7 +55,6 @@ class App extends Component {
           const devices = Object.assign({}, this.state.devices);
           devices['d|' + opt_data.idx] = opt_data;
           this.setState({devices: devices});
-          console.debug('devices state updated', this.state.devices);
         }
         this.render();
         break;
