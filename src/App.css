@@ -1,1 +1,68 @@
 /*  Main css file */
+
+.gridItem {
+  overflow: hidden;
+}
+
+.gridItem.resizeable {
+  animation-duration: .3s;
+  animation-name: bgcolor;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bgcolor {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: #eee;
+  }
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
+.appbar {
+  top: 0;
+  right: 0;
+  position: fixed;
+  background-color: transparent;
+  transform: translateX(calc(100% - 45px));
+  transition: transform .3s ease-in-out, background-color .3s linear;
+  z-index: 2;
+}
+
+.appbar i {
+  color: #666;
+  font-size: 35px;
+  line-height: 40px;
+}
+
+.appbar button {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.appbar.open {
+  background-color: rgba(255, 255, 255, .85);
+  transform: translateX(0);
+}
+
+.appbar i.settings {
+  color: #ddd;
+  transition: transform .3s ease-in-out, color .3s linear;
+}
+
+.appbar.open i.settings {
+  color: #666;
+  transform: rotate(-120deg);
+}

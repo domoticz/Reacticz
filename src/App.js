@@ -13,14 +13,19 @@ import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css'
 import '../node_modules/react-resizable/css/styles.css'
 
+const View = {
+  DASHBOARD: 1,
+  DEVICE_LIST: 2,
+  SERVER_SETTINGS: 3
+}
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      settingsPanel: false,
-      deviceListPanel: false,
+      menuOpen: false,
+      currentView: View.DASHBOARD,
       layoutLocked: true,
       serverConfig: {
         mqttBrokerUrl: '', //ws://192.168.0.2:9001
@@ -109,12 +114,16 @@ class App extends Component {
     }
   }
 
+  toggleMenu = () => {
+    this.setState({ 'menuOpen': !this.state.menuOpen });
+  }
+
   toggleSettings = () => {
-    this.setState({ 'settingsPanel': !this.state.settingsPanel });
+    this.setState({ 'currentView': View.SERVER_SETTINGS });
   }
 
   toggleDeviceList = () => {
-    this.setState({ 'deviceListPanel': !this.state.deviceListPanel });
+    this.setState({ 'currentView': View.DEVICE_LIST });
   }
 
   toggleLayoutEdit = () => {
@@ -122,10 +131,7 @@ class App extends Component {
   }
 
   toMainView = () => {
-    this.setState({
-      'settingsPanel': false,
-      'deviceListPanel': false
-    });
+    this.setState({'currentView': View.DASHBOARD });
   }
 
   requestDeviceStatus = (id) => {
@@ -152,7 +158,7 @@ class App extends Component {
       const deviceId = list[i];
       if (ids.indexOf(deviceId) < 0) {
         console.log('adding layout for device ' + deviceId);
-        updatedLayout.push({x: 0, y: i, w: 2, h: 1, i: deviceId})
+        updatedLayout.push({x: 0, y: i, w: 1, h: 1, i: deviceId})
       }
     };
     console.log('final layout ', updatedLayout);
@@ -166,46 +172,55 @@ class App extends Component {
     this.store.write('layout', layout);
   }
 
-  render() {
-    if (this.state.settingsPanel || !this.state.serverConfig.mqttBrokerUrl) {
-      return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onExit={this.toMainView} onChange={this.handleServerConfigChange}></SettingsView>);
+  renderCurrentView = () => {
+    switch (this.state.currentView) {
+      case View.SERVER_SETTINGS:
+        return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onExit={this.toMainView} onChange={this.handleServerConfigChange}></SettingsView>);
+      case View.DEVICE_LIST:
+        return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onExit={this.toMainView} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
+      default:
+        const widgets = this.state.layout.map(function(deviceLayout) {
+          const deviceId = deviceLayout.i;
+          const device = this.state.devices[deviceId];
+          if (!device) {
+            // Device not available
+            return (<div key={deviceId} className="gridItem centered">Loading</div>);
+          }
+          return (
+            <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}><DeviceWidget key={'item'+ deviceId} device={device}></DeviceWidget></div>
+          );
+        }, this);
+        return (
+            <ResponsiveGridLayout
+                layouts={{lg:this.state.layout}}
+                onDragStop={this.onLayoutChange}
+                onResizeStop={this.onLayoutChange}
+                isDraggable={!this.state.layoutLocked}
+                isResizable={!this.state.layoutLocked}
+                breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                cols={{lg: 12, md: 10, sm: 8, xs: 6, xxs: 4}}
+                className="layout"
+                items={this.state.whitelist.length}
+                rowHeight={100}>
+              {widgets}
+            </ResponsiveGridLayout>);
     }
-    if (this.state.deviceListPanel) {
-      return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onExit={this.toMainView} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
-    }
+  }
 
-    // Main view (dashboard).
-    const widgets = this.state.layout.map(function(deviceLayout) {
-      const deviceId = deviceLayout.i;
-      const device = this.state.devices[deviceId];
-      if (!device) {
-        // Device not available
-        return (<div key={deviceId}>Loading</div>);
-      }
-      return (
-        <div key={deviceId}><DeviceWidget device={device}></DeviceWidget></div>
-      );
-    }, this);
+  render() {
+    if (!this.state.serverConfig.mqttBrokerUrl) {
+      this.setState({currentView: View.SERVER_SETTINGS});
+    }
+    const view = this.renderCurrentView();
     return (
       <div className="App">
-        <div>
-           <button onClick={this.toggleSettings}>settings</button>
-           <button onClick={this.toggleDeviceList}>select devices</button>
-           <button onClick={this.toggleLayoutEdit}>{this.state.layoutLocked ? 'Locked':'Unlocked'}</button>
+        <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'}>
+           <button key='toggle' onClick={this.toggleMenu}><i className="material-icons settings">settings</i></button>
+           <button onClick={this.toggleLayoutEdit}><i className="material-icons">{this.state.layoutLocked ? 'lock' : 'lock_open'}</i></button>
+           <button onClick={this.toggleDeviceList}><i className="material-icons">playlist_add_check</i></button>
+           <button onClick={this.toggleSettings}><i className="material-icons">router</i></button>
         </div>
-        <ResponsiveGridLayout
-            layouts={{lg:this.state.layout}}
-            onDragStop={this.onLayoutChange}
-            onResizeStop={this.onLayoutChange}
-            isDraggable={!this.state.layoutLocked}
-            isResizable={!this.state.layoutLocked}
-            breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-            cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-            className="layout"
-            items={this.state.whitelist.length}
-            rowHeight={100}>
-          {widgets}
-        </ResponsiveGridLayout>
+        {view}
       </div>
     );
   }

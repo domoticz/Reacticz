@@ -4,6 +4,7 @@ import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
 import './DeviceWidget.css';
+import '../App.css';
 
 class DeviceWidget extends Component {
 

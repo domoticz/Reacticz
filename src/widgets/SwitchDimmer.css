@@ -1,0 +1,23 @@
+.doughnut {
+  transform: rotate(-90deg);
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  margin-top: -50%;
+  z-index: -1;
+}
+
+.doughnut circle {
+  transition: stroke-dashoffset .3s ease-out;
+  stroke: #ddd;
+  stroke-width: 20px;
+}
+
+.doughnut .progress {
+  stroke: #ffbc00;
+  transform: translateZ(0);
+}
+
+.slider {
+  width: 100%;
+}

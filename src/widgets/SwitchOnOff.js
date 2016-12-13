@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MqttClientSingleton from '../util/MqttClientSingleton'
-
-//import './SettingsView.css';
+import './SwitchOnOff.css';
 
 class SwitchOnOff extends Component {
 
@@ -23,10 +22,7 @@ class SwitchOnOff extends Component {
   render() {
     const valueText = this.props.value === 0 ? 'Off' : 'On';
     return (
-      <div>
-        <h3>{this.props.label}</h3>
-        <button onClick={this.handleClick}>{valueText}</button>
-      </div>
+      <button className={'circle ' + valueText} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
     );
   }
 
