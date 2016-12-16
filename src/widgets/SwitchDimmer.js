@@ -32,19 +32,19 @@ class SwitchDimmer extends Component {
   }
 
   render() {
-
-    const val = this.props.value;
-    const c = Math.PI * (90 * 2);
-    const pct = ((15 - val) / 15) * c;
-
-    //const valueText = this.props.value === 0 ? 'Off' : 'On';
+    const targetPct = this.state.localValue / 15 * 100;
+    const currentPct = this.props.value / 15 * 100;
     return (
       <div>
-        <svg className="doughnut" viewBox="0 0 200 200" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <circle r="90" cx="100" cy="100" fill="transparent" strokeDasharray="565.48" strokeDashoffset="0"></circle>
-          <circle className="progress" r="90" cx="100" cy="100" fill="transparent" strokeDasharray="565.48" strokeDashoffset={pct}></circle>
-        </svg>
-        <h3>{this.props.label}</h3>
+        <div className="dimmerContainer">
+          <div className="dimmerProgress" style={{transform: 'translateX(' + currentPct + '%)'}}>
+            <div className="dimmerProgressContent" style={{transform: 'translateX(' + (100 - currentPct) + '%)'}}>
+              <p>{this.props.label}</p>
+            </div>
+          </div>
+          <p>{this.props.label}</p>
+        </div>
+        <div className="bar" style={{transform: 'translateX(' + targetPct + '%)'}}></div>
         <div className="centered" style={{position: 'absolute', top: 0}}>
           <input className="slider" type="range" min="0" max="15" step="1" value={this.state.localValue} onChange={this.onChange} />
         </div>

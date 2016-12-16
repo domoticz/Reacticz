@@ -144,30 +144,24 @@ class App extends Component {
   }
 
   cleanupLayout(list) {
-    console.log('cleaning up layout', this.state.layout);
     // Clear layout items for devices that are no longer present.
     const ids = [];
     const updatedLayout = this.state.layout.filter(function(deviceLayout) {
       ids.push(deviceLayout.i);
       return list.indexOf(deviceLayout.i) >= 0;
     }, this);
-    console.log('ids', ids);
-    console.log('cleared ' + (this.state.layout.length - updatedLayout.length) + ' layouts');
     // Add missing layouts
     for (let i = 0; i < list.length; i++) {
       const deviceId = list[i];
       if (ids.indexOf(deviceId) < 0) {
-        console.log('adding layout for device ' + deviceId);
         updatedLayout.push({x: 0, y: i, w: 1, h: 1, i: deviceId})
       }
     };
-    console.log('final layout ', updatedLayout);
     this.setState({layout: updatedLayout});
     this.store.write('layout', updatedLayout);
   }
 
   onLayoutChange = (layout) => {
-    console.log('layout change', layout);
     this.setState({layout: layout});
     this.store.write('layout', layout);
   }
