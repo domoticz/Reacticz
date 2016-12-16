@@ -5,6 +5,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 import SettingsView from './SettingsView'
 import DeviceListView from './DeviceListView'
 import DeviceWidget from './widgets/DeviceWidget'
+import LoadingWidget from './widgets/LoadingWidget'
 import LocalStorage from './util/LocalStorage'
 import MqttClientSingleton from './util/MqttClientSingleton'
 import JSONClientSingleton from './util/JSONClientSingleton'
@@ -119,11 +120,15 @@ class App extends Component {
   }
 
   toggleSettings = () => {
-    this.setState({ 'currentView': View.SERVER_SETTINGS });
+    this.setState({
+      'currentView': View.SERVER_SETTINGS,
+      'layoutLocked': true });
   }
 
   toggleDeviceList = () => {
-    this.setState({ 'currentView': View.DEVICE_LIST });
+    this.setState({
+      'currentView': View.DEVICE_LIST,
+      'layoutLocked': true });
   }
 
   toggleLayoutEdit = () => {
@@ -131,7 +136,9 @@ class App extends Component {
   }
 
   toMainView = () => {
-    this.setState({'currentView': View.DASHBOARD });
+    this.setState({
+      'currentView': View.DASHBOARD,
+      'menuOpen': false });
   }
 
   requestDeviceStatus = (id) => {
@@ -178,10 +185,16 @@ class App extends Component {
           const device = this.state.devices[deviceId];
           if (!device) {
             // Device not available
-            return (<div key={deviceId} className="gridItem centered">Loading</div>);
+            return (<div key={deviceId} className="gridItem centered"><LoadingWidget/></div>);
           }
           return (
-            <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}><DeviceWidget key={'item'+ deviceId} device={device}></DeviceWidget></div>
+            <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}>
+              <DeviceWidget
+                  readOnly={!this.state.layoutLocked}
+                  key={'item'+ deviceId}
+                  device={device}>
+              </DeviceWidget>
+            </div>
           );
         }, this);
         return (

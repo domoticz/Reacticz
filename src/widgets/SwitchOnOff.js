@@ -10,6 +10,9 @@ class SwitchOnOff extends Component {
   }
 
   handleClick = (event) => {
+    if (this.props.readOnly) {
+      return
+    }
     const message = {
       command: "switchlight",
       idx: this.props.idx,

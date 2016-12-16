@@ -26,6 +26,9 @@ class SwitchBlinds extends Component {
   }
 
   sendValue(val, opt_useJSON = false) {
+    if (this.props.readOnly) {
+      return
+    }
     const message = {
       command: "switchlight",
       idx: this.props.idx,

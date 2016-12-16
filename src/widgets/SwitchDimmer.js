@@ -15,6 +15,9 @@ class SwitchDimmer extends Component {
   }
 
   onChange = (event) => {
+    if (this.props.readOnly) {
+      return
+    }
     this.setState({localValue: parseInt(event.target.value, 10)});
     global.clearTimeout(this.state.timeoutId);
     this.setState({timeoutId: global.setTimeout(this.sendValue, 200)});

@@ -12,6 +12,9 @@ class SwitchBlinds extends Component {
   }
 
   toggle = () => {
+    if (this.props.readOnly) {
+      return
+    }
     let message = {
       type: 'command',
       param: 'switchlight',
@@ -22,6 +25,9 @@ class SwitchBlinds extends Component {
   }
 
   changeColor = (event) => {
+    if (this.props.readOnly) {
+      return
+    }
     console.log(event.target.value);
     let message = {
       type: 'command',

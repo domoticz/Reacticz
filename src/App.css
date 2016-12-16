@@ -35,7 +35,7 @@
   right: 0;
   position: fixed;
   background-color: transparent;
-  transform: translateX(calc(100% - 45px));
+  transform: translateX(calc(100% - 52px));
   transition: transform .3s ease-in-out, background-color .3s linear;
   z-index: 2;
 }
@@ -47,6 +47,7 @@
 }
 
 .appbar button {
+  margin: 4px;
   background: transparent;
   border: none;
   outline: none;
