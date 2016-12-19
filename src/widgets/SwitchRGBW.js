@@ -1,13 +1,16 @@
-//param=setcolbrightnessvalue&idx=15&hex=FF00FF&brightness=100&iswhite=false
 import React, { Component } from 'react';
 import JSONClientSingleton from '../util/JSONClientSingleton'
 
-//import './SettingsView.css';
+import './SwitchRGBW.css';
+import './SwitchOnOff.css';
 
 class SwitchBlinds extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      color: ''
+    }
     this.json = new JSONClientSingleton();
   }
 
@@ -28,7 +31,7 @@ class SwitchBlinds extends Component {
     if (this.props.readOnly) {
       return
     }
-    console.log(event.target.value);
+    this.setState({color: event.target.value});
     let message = {
       type: 'command',
       param: 'setcolbrightnessvalue',
@@ -41,12 +44,12 @@ class SwitchBlinds extends Component {
   }
 
   render() {
-    const valueText = this.props.value === 0 ? 'Off' : 'On';
+    const value = this.props.value === 0 ? 'Off' : 'On';
     return (
-      <div>
-        <h3>{this.props.label}</h3>
-        <input type="color" onChange={this.changeColor}/>
-        <button onClick={this.toggle}>{valueText}</button>
+      <div className="SwitchRGBW">
+        <div className="unknown" style={{opacity: this.state.color ? 0 : 1}}>?</div>
+        <button onClick={this.toggle} className={'switch ' + value}>{this.props.label}</button>
+        <input type="color" value={this.state.color ? this.state.color : '#000000'} onChange={this.changeColor}/>
       </div>
     );
   }

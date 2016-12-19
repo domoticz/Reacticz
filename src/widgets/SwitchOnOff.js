@@ -25,7 +25,7 @@ class SwitchOnOff extends Component {
   render() {
     const valueText = this.props.value === 0 ? 'Off' : 'On';
     return (
-      <button className={'circle ' + valueText} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
+      <button className={'switch ' + valueText} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
     );
   }
 

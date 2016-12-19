@@ -1,0 +1,12 @@
+.AboutView {
+  margin: 50px 20px;
+}
+
+.url {
+  width: 100%;
+}
+
+.exportOptions {
+  display: flex;
+  flex-direction: column;
+}

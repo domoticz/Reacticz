@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
+import AboutView from './AboutView'
 import SettingsView from './SettingsView'
 import DeviceListView from './DeviceListView'
 import DeviceWidget from './widgets/DeviceWidget'
@@ -9,6 +10,7 @@ import LoadingWidget from './widgets/LoadingWidget'
 import LocalStorage from './util/LocalStorage'
 import MqttClientSingleton from './util/MqttClientSingleton'
 import JSONClientSingleton from './util/JSONClientSingleton'
+import LZString from 'lz-string'
 
 import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css'
@@ -17,7 +19,8 @@ import '../node_modules/react-resizable/css/styles.css'
 const View = {
   DASHBOARD: 1,
   DEVICE_LIST: 2,
-  SERVER_SETTINGS: 3
+  SERVER_SETTINGS: 3,
+  ABOUT: 4
 }
 
 class App extends Component {
@@ -41,6 +44,27 @@ class App extends Component {
     this.mqtt = new MqttClientSingleton();
     this.json = new JSONClientSingleton();
     this.mqtt.setEventHandler(this.mqttEventHandler);
+  }
+
+  componentWillMount() {
+    const storedServerConfig = this.store.read('serverConfig');
+    this.setState({
+      whitelist: this.store.read('whitelist') || [],
+      layout: this.store.read('layout') || []
+    });
+    if (storedServerConfig) {
+      this.setState({serverConfig: storedServerConfig});
+    }
+    this.readConfigParameter();
+  }
+
+  componentDidMount() {
+    this.connectClients(this.state.serverConfig);
+  }
+
+  connectClients(config) {
+    this.mqtt.connect(config.mqttBrokerUrl);
+    this.json.setServerUrl(config.domoticzUrl);
   }
 
   mqttEventHandler = (eventType, opt_data = null) => {
@@ -70,24 +94,22 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-    const storedServerConfig = this.store.read('serverConfig');
-    this.setState({
-      whitelist: this.store.read('whitelist') || [],
-      layout: this.store.read('layout') || []
-    });
-    if (storedServerConfig) {
-      this.setState({serverConfig: storedServerConfig});
+  readConfigParameter() {
+    const param = document.location.hash.slice(1);
+    if (!param) {
+      return;
     }
-  }
-
-  componentDidMount() {
-    this.connectClients(this.state.serverConfig);
-  }
-
-  connectClients(config) {
-    this.mqtt.connect(config.mqttBrokerUrl);
-    this.json.setServerUrl(config.domoticzUrl);
+    if (confirm('Reacticz configuration parameters detected! Apply here?\n(existing configuration will be lost)')) {
+      try {
+        const config = JSON.parse(LZString.decompressFromEncodedURIComponent(param));
+        config.s && this.handleServerConfigChange(config.s);
+        config.w && this.handleDeviceListChange(config.w);
+        config.l && this.setState({layout: config.l});
+      } catch (e) {
+        alert('Sorry, something went wrong. The configuration could not be read.');
+      }
+    }
+    document.location.hash = '';
   }
 
   handleServerConfigChange = (config) => {
@@ -131,6 +153,12 @@ class App extends Component {
       'layoutLocked': true });
   }
 
+  toggleAbout = () => {
+    this.setState({
+      'currentView': View.ABOUT,
+      'layoutLocked': true });
+  }
+
   toggleLayoutEdit = () => {
     this.setState({ 'layoutLocked': !this.state.layoutLocked });
   }
@@ -161,7 +189,7 @@ class App extends Component {
     for (let i = 0; i < list.length; i++) {
       const deviceId = list[i];
       if (ids.indexOf(deviceId) < 0) {
-        updatedLayout.push({x: 0, y: i, w: 1, h: 1, i: deviceId})
+        updatedLayout.push({x: 0, y: i, w: 2, h: 1, i: deviceId})
       }
     };
     this.setState({layout: updatedLayout});
@@ -173,8 +201,11 @@ class App extends Component {
     this.store.write('layout', layout);
   }
 
-  renderCurrentView = () => {
-    switch (this.state.currentView) {
+  renderCurrentView = (opt_forceView = null) => {
+    const view = opt_forceView || this.state.currentView;
+    switch (view) {
+      case View.ABOUT:
+        return (<AboutView appState={this.state} onExit={this.toMainView} />);
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onExit={this.toMainView} onChange={this.handleServerConfigChange}></SettingsView>);
       case View.DEVICE_LIST:
@@ -215,17 +246,16 @@ class App extends Component {
   }
 
   render() {
-    if (!this.state.serverConfig.mqttBrokerUrl) {
-      this.setState({currentView: View.SERVER_SETTINGS});
-    }
-    const view = this.renderCurrentView();
+    const shouldConfigure = !this.state.serverConfig.mqttBrokerUrl || !this.state.serverConfig.domoticzUrl;
+    const view = this.renderCurrentView(shouldConfigure ? View.SERVER_SETTINGS : undefined);
     return (
       <div className="App">
-        <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'}>
+        <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={{display: shouldConfigure ? 'none' : ''}}>
            <button key='toggle' onClick={this.toggleMenu}><i className="material-icons settings">settings</i></button>
            <button onClick={this.toggleLayoutEdit}><i className="material-icons">{this.state.layoutLocked ? 'lock' : 'lock_open'}</i></button>
            <button onClick={this.toggleDeviceList}><i className="material-icons">playlist_add_check</i></button>
            <button onClick={this.toggleSettings}><i className="material-icons">router</i></button>
+           <button onClick={this.toggleAbout}><i className="material-icons">info_outline</i></button>
         </div>
         {view}
       </div>

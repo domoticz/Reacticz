@@ -1,0 +1,67 @@
+.SwitchBlinds {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-color: #ddd;
+}
+
+.SwitchBlinds h3 {
+  position: absolute;
+  width: 100%;
+  font-weight: lighter;
+  text-align: center;
+  pointer-events: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: translateZ(0);
+  z-index: 1;
+}
+
+.SwitchBlinds .selected {
+  color: #ffbc00;
+}
+
+.blindsOpen, .blindsStop, .blindsClose {
+  color: white;
+  flex-grow: 1;
+  width: 33%;
+  border: none;
+  font-size: 14px;
+  padding-top: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform .3s ease-out;
+}
+
+.SwitchBlinds button:active {
+  transform: scale(0.9);
+  outline: none;
+}
+
+.blindsOpen {
+  background-color: #718bbb;
+}
+
+.blindsStop {
+  background-color: #808080;
+/*  background: linear-gradient(
+    to bottom,
+    #57698a,
+    #57698a 50%,
+    #555 50%,
+    #555
+  );*/
+  background-size: 100% 20px;
+}
+
+.blindsClose {
+  background: linear-gradient(
+    to bottom,
+    #555,
+    #555 50%,
+    #4a4a4a 50%,
+    #4a4a4a
+  );
+  background-size: 100% 20px;
+}

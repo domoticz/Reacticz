@@ -59,7 +59,7 @@
 }
 
 .appbar i.settings {
-  color: #ddd;
+  color: #808080;
   transition: transform .3s ease-in-out, color .3s linear;
 }
 

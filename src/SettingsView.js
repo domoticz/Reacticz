@@ -29,7 +29,7 @@ class SettingsView extends Component {
     const welcome = this.props.config.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
     const mqttOk = this.props.status ? <span className="OK">Connected</span> : <span className="Status">Offline</span>;
     return (
-      <div className="Settings">
+      <div className="SettingsView">
         {welcome}
         <h2>Settings</h2>
         <form onSubmit={this.handleSubmit}>

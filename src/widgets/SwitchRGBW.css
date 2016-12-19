@@ -1,0 +1,26 @@
+.SwitchRGBW {
+  display: flex;
+  height: 100%;
+}
+
+.SwitchRGBW input, .SwitchRGBW button {
+  flex-grow: 1;
+  height: 100%;
+  border: none;
+  width: 50%
+}
+
+.SwitchRGBW h3 {
+  position: absolute;
+}
+
+.unknown {
+  position: absolute;
+  left: calc(75% - 11px);
+  top: calc( 50% - 20px);
+  color: #ddd;
+  pointer-events: none;
+  font-size: 40px;
+  font-weight: 100;
+  transition: opacity .3s linear;
+}

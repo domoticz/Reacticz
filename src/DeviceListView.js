@@ -14,7 +14,6 @@ class DeviceListView extends Component {
   }
 
   handleListChange = (event) => {
-    console.log('Changed', event.target.checked);
     const checkboxEl = event.target;
     if (checkboxEl.checked && this.props.idxWhitelist.indexOf(checkboxEl.value) < 0) {
       // Add device

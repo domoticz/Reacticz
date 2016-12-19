@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MqttClientSingleton from '../util/MqttClientSingleton'
 import JSONClientSingleton from '../util/JSONClientSingleton'
 
-//import './SettingsView.css';
+import './SwitchBlinds.css';
 
 class SwitchBlinds extends Component {
 
@@ -45,11 +45,11 @@ class SwitchBlinds extends Component {
 
   render() {
     return (
-      <div>
+      <div className="SwitchBlinds">
         <h3>{this.props.label}</h3>
-        <button onClick={this.open} className={this.props.value === 1 ? 'selected' : ''}>Open</button>
-        <button onClick={this.stop} className={this.props.value === 0 ? 'selected' : ''}>Stop</button>
-        <button onClick={this.close} className={this.props.value === 3 ? 'selected' : ''}>Close</button>
+        <button onClick={this.open} className={'blindsOpen' + (this.props.value === 1 ? ' selected' : '')}>Open</button>
+        <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')}>Stop</button>
+        <button onClick={this.close} className={'blindsClose' + (this.props.value === 3 ? ' selected' : '')}>Close</button>
       </div>
     );
   }
