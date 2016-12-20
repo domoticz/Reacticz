@@ -4,7 +4,6 @@ import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
 import WeatherWidget from './WeatherWidget'
-import './DeviceWidget.css';
 import '../App.css';
 
 class DeviceWidget extends Component {
@@ -13,14 +12,14 @@ class DeviceWidget extends Component {
     const device = this.props.device;
     switch (device.switchType) {
       case "On/Off" :
-        return <SwitchOnOff idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly}></SwitchOnOff>;
+        return <SwitchOnOff idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
       case "Blinds" :
-        return <SwitchBlinds idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly}></SwitchBlinds>;
+        return <SwitchBlinds idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
       case "Dimmer" :
         if (device.stype === "RGBW") {
-          return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly}></SwitchRGBW>;
+          return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
         }
-        return <SwitchDimmer idx={device.idx} label={device.name} value={device.svalue1} readOnly={this.props.readOnly}></SwitchDimmer>;
+        return <SwitchDimmer idx={device.idx} label={device.name} value={device.svalue1} readOnly={this.props.readOnly} />;
       default:
         break;
     }

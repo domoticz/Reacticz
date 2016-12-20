@@ -4,7 +4,7 @@ button.switch {
   height: 100%;
   border: none;
   color: #808080;
-  background-color: #ddd;
+  background-color: #eee;
   outline: none;
   transition: all .2s ease-out;
   font-size: 20px;
@@ -20,4 +20,28 @@ button.switch.On {
 
 button.switch:active {
   transform: scale(0.9);
+}
+
+button.switch.Mixed {
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffbc00,
+    #ffbc00 20%,
+    #eee 20%,
+    #eee 80%,
+    #ffbc00 80%,
+    #ffbc00 100%
+  );
+}
+
+button.switch.Push {
+  background: repeating-linear-gradient(
+    -45deg,
+    #808080,
+    #808080 20%,
+    #eee 20%,
+    #eee 80%,
+    #808080 80%,
+    #808080 100%
+  );
 }

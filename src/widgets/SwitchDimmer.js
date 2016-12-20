@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import JSONClientSingleton from '../util/JSONClientSingleton'
 import './SwitchDimmer.css'
-import './DeviceWidget.css'
 
 class SwitchDimmer extends Component {
 

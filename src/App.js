@@ -3,14 +3,15 @@ import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 import AboutView from './AboutView'
-import SettingsView from './SettingsView'
 import DeviceListView from './DeviceListView'
 import DeviceWidget from './widgets/DeviceWidget'
+import JSONClientSingleton from './util/JSONClientSingleton'
+import LZString from 'lz-string'
 import LoadingWidget from './widgets/LoadingWidget'
 import LocalStorage from './util/LocalStorage'
 import MqttClientSingleton from './util/MqttClientSingleton'
-import JSONClientSingleton from './util/JSONClientSingleton'
-import LZString from 'lz-string'
+import SceneWidget from './widgets/SceneWidget'
+import SettingsView from './SettingsView'
 
 import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css'
@@ -60,6 +61,9 @@ class App extends Component {
 
   componentDidMount() {
     this.connectClients(this.state.serverConfig);
+    if (this.hasWhitelistedScenes()) {
+      this.requestScenesStatus();
+    }
   }
 
   connectClients(config) {
@@ -85,6 +89,7 @@ class App extends Component {
           const devices = Object.assign({}, this.state.devices);
           devices['d|' + opt_data.idx] = opt_data;
           this.setState({devices: devices});
+          this.requestScenesStatus();
         }
         this.render();
         break;
@@ -135,15 +140,42 @@ class App extends Component {
         this.requestDeviceStatus(list[i]);
       }
     }
+    if (this.hasWhitelistedScenes()) {
+      this.requestScenesStatus();
+    }
   }
 
   requestDeviceStatus = (id) => {
     const explodedId = id.split('|');
     if (explodedId[0] !== 'd') {
+      // Not a device type.
       return;
     }
     const idx = parseInt(id.split('|')[1], 10);
     this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
+  }
+
+  hasWhitelistedScenes() {
+    return this.state.whitelist.some((id) => (id[0] === 's' || id[0] === 'g'));
+  }
+
+  requestScenesStatus = () => {
+    this.json.getAllScenes((data) => {
+      if (data.status !== "OK") {
+        alert("Unable to get scenes status.");
+        return;
+      }
+      const scenes = data.result;
+      for (let i = 0; i < scenes.length; i++) {
+        const scene = scenes[i];
+        const devices = Object.assign({}, this.state.devices);
+        const fullId = (scene.Type === 'Group' ? 'g' : 's') + '|' + scene.idx;
+        if (this.state.whitelist.indexOf(fullId) >= 0) {
+          devices[fullId] = scene;
+        }
+        this.setState({devices: devices});
+      }
+    });
   }
 
   toggleMenu = () => {
@@ -216,7 +248,7 @@ class App extends Component {
               <p>Your dashboard is currently empty. Open the menu at the top right (<i className="material-icons">settings</i>) and go to the devices list screen (<i className="material-icons">playlist_add_check</i>) to select the widgets you want to add.</p>
               <p>Then come back here (<i className="material-icons">home</i>) and unlock the layout (<i className="material-icons">lock</i>) to drag and resize the widgets however you like.</p>
               <p>That's it!</p>
-              <aside>Note: this is a work in progress, only a limited number of device types are currently supported. Scenes and groups are not supported yet.</aside>
+              <aside>Note: this is a work in progress, only a limited number of device types are currently supported.</aside>
             </div>
           );
         }
@@ -227,13 +259,22 @@ class App extends Component {
             // Device not available
             return (<div key={deviceId} className="gridItem centered"><LoadingWidget/></div>);
           }
+          let widget = '';
+          if (device.Type === 'Group' || device.Type === 'Scene') {
+            widget = <SceneWidget
+                readOnly={!this.state.layoutLocked}
+                key={'item'+ deviceId}
+                scene={device}
+                onSceneChange={this.requestScenesStatus} />
+          } else {
+          widget = <DeviceWidget
+              readOnly={!this.state.layoutLocked}
+              key={'item'+ deviceId}
+              device={device} />
+          }
           return (
             <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}>
-              <DeviceWidget
-                  readOnly={!this.state.layoutLocked}
-                  key={'item'+ deviceId}
-                  device={device}>
-              </DeviceWidget>
+              {widget}
             </div>
           );
         }, this);

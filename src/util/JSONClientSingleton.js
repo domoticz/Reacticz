@@ -3,6 +3,7 @@ import axios from 'axios';
 let singletonInstance = null;
 
 const GET_ALL_DEVICES = {type: 'devices', filter: 'all', used: true, order: 'Name'};
+const GET_ALL_SCENES = {type: 'scenes'};
 
 class JSONClientSingleton {
 
@@ -25,6 +26,10 @@ class JSONClientSingleton {
   getAllDevices(callback) {
     this.get(GET_ALL_DEVICES, callback);
   }
+
+  getAllScenes(callback) {
+    this.get(GET_ALL_SCENES, callback);
+  };
 
   objectToQuery(data) {
     const keyvals = [];

@@ -39,4 +39,6 @@
   color: white;
 }
 
-
+.dimmerContainer p {
+  font-weight: lighter;
+}
