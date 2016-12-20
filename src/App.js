@@ -137,6 +137,15 @@ class App extends Component {
     }
   }
 
+  requestDeviceStatus = (id) => {
+    const explodedId = id.split('|');
+    if (explodedId[0] !== 'd') {
+      return;
+    }
+    const idx = parseInt(id.split('|')[1], 10);
+    this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
+  }
+
   toggleMenu = () => {
     this.setState({ 'menuOpen': !this.state.menuOpen });
   }
@@ -164,18 +173,7 @@ class App extends Component {
   }
 
   toMainView = () => {
-    this.setState({
-      'currentView': View.DASHBOARD,
-      'menuOpen': false });
-  }
-
-  requestDeviceStatus = (id) => {
-    const explodedId = id.split('|');
-    if (explodedId[0] !== 'd') {
-      return;
-    }
-    const idx = parseInt(id.split('|')[1], 10);
-    this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
+    this.setState({ 'currentView': View.DASHBOARD });
   }
 
   cleanupLayout(list) {
@@ -205,12 +203,23 @@ class App extends Component {
     const view = opt_forceView || this.state.currentView;
     switch (view) {
       case View.ABOUT:
-        return (<AboutView appState={this.state} onExit={this.toMainView} />);
+        return (<AboutView appState={this.state} />);
       case View.SERVER_SETTINGS:
-        return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onExit={this.toMainView} onChange={this.handleServerConfigChange}></SettingsView>);
+        return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onChange={this.handleServerConfigChange}></SettingsView>);
       case View.DEVICE_LIST:
-        return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onExit={this.toMainView} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
+        return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
       default:
+        if (this.state.whitelist.length === 0) {
+          return (
+            <div className="addDevices">
+              <h2>Welcome to your Reacticz dashboard!</h2>
+              <p>Your dashboard is currently empty. Open the menu at the top right (<i className="material-icons">settings</i>) and go to the devices list screen (<i className="material-icons">playlist_add_check</i>) to select the widgets you want to add.</p>
+              <p>Then come back here (<i className="material-icons">home</i>) and unlock the layout (<i className="material-icons">lock</i>) to drag and resize the widgets however you like.</p>
+              <p>That's it!</p>
+              <aside>Note: this is a work in progress, only a limited number of device types are currently supported. Scenes and groups are not supported yet.</aside>
+            </div>
+          );
+        }
         const widgets = this.state.layout.map(function(deviceLayout) {
           const deviceId = deviceLayout.i;
           const device = this.state.devices[deviceId];
@@ -248,14 +257,16 @@ class App extends Component {
   render() {
     const shouldConfigure = !this.state.serverConfig.mqttBrokerUrl || !this.state.serverConfig.domoticzUrl;
     const view = this.renderCurrentView(shouldConfigure ? View.SERVER_SETTINGS : undefined);
+    const currentView = this.state.currentView;
     return (
       <div className="App">
         <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={{display: shouldConfigure ? 'none' : ''}}>
            <button key='toggle' onClick={this.toggleMenu}><i className="material-icons settings">settings</i></button>
-           <button onClick={this.toggleLayoutEdit}><i className="material-icons">{this.state.layoutLocked ? 'lock' : 'lock_open'}</i></button>
-           <button onClick={this.toggleDeviceList}><i className="material-icons">playlist_add_check</i></button>
-           <button onClick={this.toggleSettings}><i className="material-icons">router</i></button>
-           <button onClick={this.toggleAbout}><i className="material-icons">info_outline</i></button>
+           {currentView !== View.DASHBOARD && <button onClick={this.toMainView}><i className="material-icons">home</i></button>}
+           {currentView === View.DASHBOARD && <button onClick={this.toggleLayoutEdit}><i className="material-icons selected">{this.state.layoutLocked ? 'lock' : 'lock_open'}</i></button>}
+           <button onClick={this.toggleDeviceList}><i className={'material-icons' + (currentView === View.DEVICE_LIST ? ' selected' : '')}>playlist_add_check</i></button>
+           <button onClick={this.toggleSettings}><i className={'material-icons' + (currentView === View.SERVER_SETTINGS ? ' selected' : '')}>router</i></button>
+           <button onClick={this.toggleAbout}><i className={'material-icons' + (currentView === View.ABOUT ? ' selected' : '')}>info_outline</i></button>
         </div>
         {view}
       </div>

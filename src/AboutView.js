@@ -64,9 +64,9 @@ class AboutView extends Component {
     const url = this.generateExportUrl();
     return (
       <div className="AboutView">
-        <button onClick={this.props.onExit}>Back</button>
         <h1>Reacticz</h1>
         <p>Minimalistic Domoticz dashboard</p>
+        <p>This is a work in progress!</p>
         <section>
           <h2>Export settings</h2>
           <p>To clone your settings to another device, share the URL below.</p>
@@ -78,7 +78,7 @@ class AboutView extends Component {
               <input type="checkbox" disabled={!this.state.exportWhitelist} checked={this.state.exportLayout} onChange={this.handleLayoutCheckChange} /> Include dashboard layout
             </label>
           </div>
-          <input className="url" type="text" value={url} onFocus={this.handleUrlInputFocus} readOnly />
+          <textarea className="url" type="text" value={url} onFocus={this.handleUrlInputFocus} readOnly />
         </section>
       </div>
     );

@@ -27,25 +27,24 @@ class SettingsView extends Component {
 
   render() {
     const welcome = this.props.config.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
-    const mqttOk = this.props.status ? <span className="OK">Connected</span> : <span className="Status">Offline</span>;
+    const mqttOk = this.props.status ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
     return (
       <div className="SettingsView">
         {welcome}
         <h2>Settings</h2>
+        <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled.</p>
         <form onSubmit={this.handleSubmit}>
           <label>
-            MQTT Broker URL:
-            <input type="text" value={this.state.mqttBrokerUrl} onChange={this.handleMqttChange} />
+            MQTT Broker URL: {mqttOk}
+            <input type="text" value={this.state.mqttBrokerUrl} placeholder="ws://mqtt-broker:port" onChange={this.handleMqttChange} />
           </label>
-          {mqttOk}
           <br/>
           <label>
-            Domoticz server IP:
-            <input type="text" value={this.state.domoticzUrl} onChange={this.handleDomoticzChange} />
+            Domoticz server URL:
+            <input type="text" value={this.state.domoticzUrl} placeholder="http://domoticz-server:port" onChange={this.handleDomoticzChange} />
           </label>
-          <input type="submit" value="Save" />
+          <br /><input type="submit" value="Apply &amp; Save" />
         </form>
-        <button onClick={this.props.onExit} style={welcome ? {display: 'none'} : {}}>Back</button>
       </div>
     );
   }

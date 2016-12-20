@@ -1,7 +1,24 @@
+.SettingsView {
+  margin: 50px 20px;
+}
+
 .Status {
   color: red;
 }
 
 .Status.OK {
   color: green;
+}
+
+.SettingsView input[type=text] {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.SettingsView input[type=submit] {
+  font-size: 20px;
+  margin-left: 0;
 }

@@ -1,0 +1,65 @@
+.WeatherWidget, .weatherData {
+  display: flex;
+  height: 100%;
+  color: #808080;
+  font-weight: lighter;
+}
+
+.weatherData {
+  width: 50%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.weatherData:only-child {
+  width: 100%;
+  align-items: center;
+}
+
+.weatherImage {
+  width: 50%;
+  min-width: 95px;
+  min-height: 95px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.weather1 {
+  background-image: url('../images/1.png');
+}
+
+.weather2 {
+  background-image: url('../images/2.png');
+}
+
+.weather3 {
+  background-image: url('../images/3.png');
+}
+
+.weather4 {
+  background-image: url('../images/4.png');
+}
+
+.weatherData > div:first-child {
+  font-size: 28px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.weatherData > div {
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+
+.temp::after {
+  content: "°";
+}
+
+.baro::after {
+  content: " hPa";
+}
+
+.hum::after {
+  content: "% hum.";
+}

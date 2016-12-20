@@ -46,6 +46,10 @@
   line-height: 40px;
 }
 
+.appbar i.selected {
+  color: #ffbc00;
+}
+
 .appbar button {
   margin: 4px;
   background: transparent;
@@ -59,11 +63,22 @@
 }
 
 .appbar i.settings {
-  color: #808080;
   transition: transform .3s ease-in-out, color .3s linear;
 }
 
 .appbar.open i.settings {
-  color: #666;
   transform: rotate(-120deg);
+}
+
+.addDevices {
+  margin: 50px 20px;
+}
+
+.addDevices i {
+  color: #666;
+  vertical-align: middle;
+}
+
+.addDevices aside {
+  font-size: .8em;
 }

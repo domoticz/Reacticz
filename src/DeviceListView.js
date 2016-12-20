@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import JSONClientSingleton from './util/JSONClientSingleton'
 
-//import './SettingsView.css';
+import './DeviceListView.css';
 
 class DeviceListView extends Component {
 
@@ -76,9 +76,8 @@ class DeviceListView extends Component {
     };
 
     return (
-      <div className="Devices">
-        <button onClick={this.props.onExit}>Back</button>
-        <span> Select the devices to show in the dashboard </span>
+      <div className="DeviceListView">
+        <span>Tick the devices to show in the dashboard</span>
         {sections}
       </div>
     );

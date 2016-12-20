@@ -3,7 +3,10 @@
 }
 
 .url {
+  margin: 20px 0;
   width: 100%;
+  font-size: 16px;
+  font-family: monospace;
 }
 
 .exportOptions {
