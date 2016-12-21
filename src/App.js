@@ -37,6 +37,7 @@ class App extends Component {
         domoticzUrl: '' //http://192.168.0.6:8080
       },
       mqttConnected: false,
+      lastMqttMessage: null,
       whitelist: [],
       devices: {},
       layout: []
@@ -89,7 +90,8 @@ class App extends Component {
           const devices = Object.assign({}, this.state.devices);
           devices['d|' + opt_data.idx] = opt_data;
           this.setState({devices: devices});
-          this.requestScenesStatus();
+          // Update scene status (with a little debounce check).
+          this.requestScenesStatus(true /* opt_throttle */);
         }
         this.render();
         break;
@@ -159,8 +161,10 @@ class App extends Component {
     return this.state.whitelist.some((id) => (id[0] === 's' || id[0] === 'g'));
   }
 
-  requestScenesStatus = () => {
-    this.json.getAllScenes((data) => {
+  requestScenesStatus = (opt_throttle = false) => {
+    const getScenes = opt_throttle ?
+        this.json.getAllScenesThrottled : this.json.getAllScenes;
+    getScenes((data) => {
       if (data.status !== "OK") {
         alert("Unable to get scenes status.");
         return;

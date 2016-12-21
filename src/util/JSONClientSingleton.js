@@ -15,6 +15,7 @@ class JSONClientSingleton {
     if (singletonInstance) {
       return singletonInstance;
     }
+    this.throttleTimeout_ = null;
     singletonInstance = this;
     return singletonInstance;
   }
@@ -27,9 +28,18 @@ class JSONClientSingleton {
     this.get(GET_ALL_DEVICES, callback);
   }
 
-  getAllScenes(callback) {
+  getAllScenesThrottled = (callback) => {
+    if (this.throttleTimeout_) {
+      return;
+    }
+    this.getAllScenes(callback);
+    this.throttleTimeout_ = global.setTimeout(
+      () => { this.throttleTimeout_ = null }, 500);
+  }
+
+  getAllScenes = (callback) => {
     this.get(GET_ALL_SCENES, callback);
-  };
+  }
 
   objectToQuery(data) {
     const keyvals = [];

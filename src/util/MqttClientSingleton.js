@@ -21,6 +21,7 @@ class MqttClientSingleton {
     this.client = null;
     this.isConnected = false;
     this.eventHandler = function(type, opt_data) {};
+    this.lastMessageTs_ = null;
     singletonInstance = this;
     return singletonInstance;
   }
@@ -44,25 +45,22 @@ class MqttClientSingleton {
       return;
     }
     // Register the listeners.
-    const self = this;
-    this.client.on('connect', function () {
+    this.client.on('connect', () => {
       console.log('connected to mqtt broker');
-      self.client.subscribe(TOPIC_OUT);
-      self.setConnected_(true);
+      this.client.subscribe(TOPIC_OUT);
+      this.setConnected_(true);
     });
-    this.client.on('message', function (topic, message) {
-      // message is Buffer
-      const data = JSON.parse(message.toString())
-      //console.debug('got message', data);
-      self.eventHandler('message', data);
+    this.client.on('message', (topic, message) => {
+      const data = JSON.parse(message.toString());
+      this.lastMessageTs_ = Date.now();
+      this.eventHandler('message', data);
     });
-    this.client.on('error', function (error) {
+    this.client.on('error', (error) => {
       console.debug('mqtt client error:', error);
-      self.eventHandler('error', error);
+      this.eventHandler('error', error);
     });
-    this.client.on('close', function () {
-      console.log('closed');
-      self.setConnected_(false);
+    this.client.on('close', () => {
+      this.setConnected_(false);
     });
   }
 
