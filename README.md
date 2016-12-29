@@ -22,6 +22,10 @@ If you want to build this project yourself, use the commands below. These are pr
 
 In the project directory, you can run:
 
+### `npm install`
+
+Downloads and installs the required dependencies.
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
