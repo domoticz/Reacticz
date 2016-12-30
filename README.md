@@ -6,7 +6,9 @@ A [Domoticz](http://www.domoticz.com) dashboard as a static web app, using [MQTT
 
 Have a Domoticz home automation server with MQTT gateway? Open [this page](http://reacticz.t0m.fr) and start building your custom dashboard!
 
-The widgets are all draggable and resizeable. See sample screenshots [here](#supported-widgets).
+![reacticz](https://cloud.githubusercontent.com/assets/1903597/21564032/c2789068-ce88-11e6-8531-7a6f689e505c.png)
+
+All widgets are draggable and resizeable. See more screenshots [here](#supported-widgets).
 
 ## Requirements
 
@@ -92,6 +94,10 @@ The following device types are currently supported on Reacticz dashboard:
 ## Credits
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+The dashboard grid is handled by [React-grid-layout](https://github.com/STRML/react-grid-layout).
+
+Reacticz communicates with Domoticz thanks to the [MQTT.js](https://github.com/mqttjs/MQTT.js) and [axios](https://github.com/mzabriskie/axios) packages.
 
 Weather widget icons are based on [Kevin Aguilar's Material Design Weather Icon Set](https://material.uplabs.com/posts/material-design-weather-icon-set).
 
