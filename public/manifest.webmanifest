@@ -5,16 +5,14 @@
   "display": "standalone",
   "background_color": "#fff",
   "description": "Domoticz dashboard in a static web app",
-  {
-   "icons": [{
-        "src": "icon/icon_64.png",
-        "sizes": "64x64"
-      }, {
-        "src": "icon/icon_256.png",
-        "sizes": "256x256"
-      }, {
-        "src": "icon/icon_1024.png",
-        "sizes": "1024x1024"
-      }]
-  }
+  "icons": [{
+      "src": "icon/icon_64.png",
+      "sizes": "64x64"
+    }, {
+      "src": "icon/icon_256.png",
+      "sizes": "256x256"
+    }, {
+      "src": "icon/icon_1024.png",
+      "sizes": "1024x1024"
+  }]
 }
