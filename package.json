@@ -9,7 +9,7 @@
   "homepage": "http://reacticz.t0m.fr",
   "devDependencies": {
     "gh-pages": "^0.12.0",
-    "react-scripts": "0.7.0"
+    "react-scripts": ">=0.7.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
