@@ -249,8 +249,8 @@ class App extends Component {
           return (
             <div className="addDevices">
               <h2>Welcome to your Reacticz dashboard!</h2>
-              <p>Your dashboard is currently empty. Open the menu at the top right (<i className="material-icons">settings</i>) and go to the devices list screen (<i className="material-icons">playlist_add_check</i>) to select the widgets you want to add.</p>
-              <p>Then come back here (<i className="material-icons">home</i>) and unlock the layout (<i className="material-icons">lock</i>) to drag and resize the widgets however you like.</p>
+              <p>Your dashboard is currently empty. Open the menu at the top right (<svg className='icon'><use xlinkHref="#settings" /></svg>) and go to the devices list screen (<svg className='icon'><use xlinkHref="#playlist-add-check" /></svg>) to select the widgets you want to add.</p>
+              <p>Then come back here (<svg className='icon'><use xlinkHref="#home" /></svg>) and unlock the layout (<svg className='icon'><use xlinkHref="#lock" /></svg>) to drag and resize the widgets however you like.</p>
               <p>That's it!</p>
               <aside>Note: this is a work in progress, only a limited number of device types are currently supported.</aside>
             </div>
@@ -306,12 +306,24 @@ class App extends Component {
     return (
       <div className="App">
         <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={{display: shouldConfigure ? 'none' : ''}}>
-           <button key='toggle' onClick={this.toggleMenu}><i className="material-icons settings">settings</i></button>
-           {currentView !== View.DASHBOARD && <button onClick={this.toMainView}><i className="material-icons">home</i></button>}
-           {currentView === View.DASHBOARD && <button onClick={this.toggleLayoutEdit}><i className="material-icons selected">{this.state.layoutLocked ? 'lock' : 'lock_open'}</i></button>}
-           <button onClick={this.toggleDeviceList}><i className={'material-icons' + (currentView === View.DEVICE_LIST ? ' selected' : '')}>playlist_add_check</i></button>
-           <button onClick={this.toggleSettings}><i className={'material-icons' + (currentView === View.SERVER_SETTINGS ? ' selected' : '')}>router</i></button>
-           <button onClick={this.toggleAbout}><i className={'material-icons' + (currentView === View.ABOUT ? ' selected' : '')}>info_outline</i></button>
+          <button key='toggle' title='Menu' onClick={this.toggleMenu}>
+            <svg className="icon"><use xlinkHref="#settings" /></svg>
+          </button>
+          {currentView !== View.DASHBOARD &&
+               <button onClick={this.toMainView} title='Home'>
+               <svg className='icon'><use xlinkHref="#home" /></svg></button>}
+          {currentView === View.DASHBOARD &&
+               <button onClick={this.toggleLayoutEdit} title='Layout lock'>
+               <svg className={'icon' + (currentView === View.DASHBOARD ? ' selected' : '')}><use xlinkHref={this.state.layoutLocked ? '#lock' : '#lock-open'} /></svg></button>}
+          <button onClick={this.toggleDeviceList} title='Device selection'>
+            <svg className={'icon' + (currentView === View.DEVICE_LIST ? ' selected' : '')}><use xlinkHref='#playlist-add-check' /></svg>
+          </button>
+          <button onClick={this.toggleSettings} title='Server settings'>
+            <svg className={'icon' + (currentView === View.SERVER_SETTINGS ? ' selected' : '')}><use xlinkHref='#router' /></svg>
+          </button>
+          <button onClick={this.toggleAbout} title='About'>
+            <svg className={'icon' + (currentView === View.ABOUT ? ' selected' : '')}><use xlinkHref='#info-outline' /></svg>
+          </button>
         </div>
         {view}
       </div>

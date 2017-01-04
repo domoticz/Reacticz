@@ -35,19 +35,21 @@
   right: 0;
   position: fixed;
   background-color: transparent;
-  transform: translateX(calc(100% - 52px));
+  transform: translate3d(calc(100% - 52px), 0, 0);
   transition: transform .3s ease-in-out, background-color .3s linear;
   z-index: 2;
+  will-change: transform;
 }
 
-.appbar i {
-  color: #666;
-  font-size: 35px;
-  line-height: 40px;
+.icon {
+  width: 34px;
+  height: 34px;
+  fill: #666;
+  vertical-align: middle;
 }
 
-.appbar i.selected {
-  color: #ffbc00;
+.icon.selected {
+  fill: #ffbc00;
 }
 
 .appbar button {
@@ -59,14 +61,14 @@
 
 .appbar.open {
   background-color: rgba(255, 255, 255, .85);
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
 }
 
-.appbar i.settings {
+.appbar button:first-child {
   transition: transform .3s ease-in-out, color .3s linear;
 }
 
-.appbar.open i.settings {
+.appbar.open button:first-child {
   transform: rotate(-120deg);
 }
 
@@ -81,4 +83,9 @@
 
 .addDevices aside {
   font-size: .8em;
+}
+
+.addDevices .icon {
+  width: 24px;
+  height: 24px;
 }

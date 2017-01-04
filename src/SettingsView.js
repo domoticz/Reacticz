@@ -21,7 +21,6 @@ class SettingsView extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.debug('submit', this.state);
     this.props.onChange(this.state);
   }
 
