@@ -6,8 +6,8 @@ class SettingsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mqttBrokerUrl: props.config.mqttBrokerUrl,
-      domoticzUrl: props.config.domoticzUrl,
+      mqttBrokerUrl: props.config ? props.config.mqttBrokerUrl : '',
+      domoticzUrl: props.config ? props.config.domoticzUrl : '',
     };
   }
 
@@ -25,7 +25,7 @@ class SettingsView extends Component {
   }
 
   render() {
-    const welcome = this.props.config.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
+    const welcome = this.state.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
     const mqttOk = this.props.status ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
     return (
       <div className="SettingsView">

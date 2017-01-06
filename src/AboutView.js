@@ -32,7 +32,7 @@ class AboutView extends Component {
 
   generateExportUrl = () => {
     const params = {
-      s: this.props.appState.serverConfig
+      s: this.props.appState && this.props.appState.serverConfig
     };
     if (this.state.exportWhitelist) {
       params.w = this.props.appState.whitelist;

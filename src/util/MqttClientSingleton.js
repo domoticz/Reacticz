@@ -21,7 +21,6 @@ class MqttClientSingleton {
     this.client = null;
     this.isConnected = false;
     this.eventHandler = function(type, opt_data) {};
-    this.lastMessageTs_ = null;
     singletonInstance = this;
     return singletonInstance;
   }
@@ -52,7 +51,6 @@ class MqttClientSingleton {
     });
     this.client.on('message', (topic, message) => {
       const data = JSON.parse(message.toString());
-      this.lastMessageTs_ = Date.now();
       this.eventHandler('message', data);
     });
     this.client.on('error', (error) => {

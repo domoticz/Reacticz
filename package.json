@@ -8,7 +8,10 @@
   },
   "homepage": "http://reacticz.t0m.fr",
   "devDependencies": {
+    "axios-mock-adapter": "^1.7.1",
+    "enzyme": "^2.7.0",
     "gh-pages": "^0.12.0",
+    "react-addons-test-utils": "^15.4.1",
     "react-scripts": ">=0.7.0"
   },
   "dependencies": {

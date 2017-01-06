@@ -57,7 +57,7 @@ class JSONClientSingleton {
     }
   }) {
     if (!this.serverUrl) {
-      alert('Server URL is not set, please check the settings');
+      console.log('Server URL is not set, please check the settings');
       return;
     }
     axios.get(this.serverUrl+ '/json.htm?' + this.objectToQuery(queryData)).then(response => {
