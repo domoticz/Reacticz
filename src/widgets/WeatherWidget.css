@@ -7,6 +7,7 @@
 
 .weatherData {
   width: 50%;
+  padding: 5px 0;
   flex-direction: column;
   justify-content: center;
 }
@@ -41,13 +42,15 @@
   background-image: url('../images/4.png');
 }
 
-.weatherData > div:first-child {
+.weatherData > div:nth-child(2) {
   font-size: 28px;
   margin-left: 10px;
   margin-bottom: 5px;
 }
 
 .weatherData > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-left: 10px;
   margin-bottom: 3px;
 }

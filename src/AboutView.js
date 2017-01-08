@@ -48,9 +48,6 @@ class AboutView extends Component {
       params.l = lightLayout;
     }
     const url = document.location.href.split("#")[0] + '#' + LZString.compressToEncodedURIComponent(JSON.stringify(params));
-    console.log(url.length);
-    console.log(url);
-    console.debug(JSON.parse(LZString.decompressFromEncodedURIComponent(url.split('#')[1])));
     return url;
   }
 
@@ -67,8 +64,8 @@ class AboutView extends Component {
       <div className="AboutView">
         <h1>Reacticz</h1>
         <img src={icon} alt="Reacticz logo"/>
-        <p>Minimalistic Domoticz dashboard</p>
-        <p>This is a work in progress!</p>
+        <p>A minimalistic Domoticz dashboard</p>
+        <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/t0mg/reacticz" target="_blank">GitHub repository</a>.</p>
         <section>
           <h2>Export settings</h2>
           <p>To clone your settings to another device, share the URL below.</p>

@@ -4,8 +4,7 @@ import App from './App';
 
 it('renders without crashing', () => {
   const wrapper = mount(<App />);
-  const welcome = <span>Welcome to Reacticz, please setup your server config to proceed</span>;
-  expect(wrapper.contains(welcome)).toEqual(true);
+  expect(wrapper.contains(welcomeMessage)).toEqual(true);
 });
 
 it('reads config from localstorage', () => {

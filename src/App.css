@@ -53,9 +53,10 @@
 }
 
 .appbar button {
-  margin: 4px;
   background: transparent;
   border: none;
+  cursor: pointer;
+  margin: 4px;
   outline: none;
 }
 

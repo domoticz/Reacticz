@@ -25,7 +25,7 @@ class SettingsView extends Component {
   }
 
   render() {
-    const welcome = this.state.mqttBrokerUrl ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
+    const welcome = (this.props.config && this.props.config.mqttBrokerUrl) ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
     const mqttOk = this.props.status ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
     return (
       <div className="SettingsView">

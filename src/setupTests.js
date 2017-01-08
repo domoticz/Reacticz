@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import JSONClientSingleton from './util/JSONClientSingleton';
@@ -31,3 +33,6 @@ axiosMock.onGet().reply(function(config) {
       return [404];
   }
 });
+
+// The welcome message when there is no config. Used in multiple tests.
+global.welcomeMessage = <span>Welcome to Reacticz, please setup your server config to proceed</span>;
