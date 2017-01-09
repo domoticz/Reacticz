@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LZString from 'lz-string'
 import icon from '../public/icon/icon_64.png';
+import appInfo from '../package.json';
 //import QRCanvas from 'qrcanvas-react';
 
 import './AboutView.css';
@@ -64,6 +65,7 @@ class AboutView extends Component {
       <div className="AboutView">
         <h1>Reacticz</h1>
         <img src={icon} alt="Reacticz logo"/>
+        <p>v{appInfo.version}</p>
         <p>A minimalistic Domoticz dashboard</p>
         <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/t0mg/reacticz" target="_blank">GitHub repository</a>.</p>
         <section>
