@@ -8,13 +8,10 @@ class SceneWidget extends Component {
     const scene = this.props.scene;
     switch (scene.Type) {
       case "Group" :
-        return <SwitchOnOff isScene="true" idx={scene.idx} label={scene.Name}
-            valueText={scene.Status} readOnly={this.props.readOnly}
-            onChange={this.props.onSceneChange} />;
       case "Scene" :
         return <SwitchOnOff isScene="true" idx={scene.idx} label={scene.Name}
             valueText={scene.Status} readOnly={this.props.readOnly}
-            onChange={this.props.onSceneChange} pushButton="true" />;
+            onChange={this.props.onSceneChange} pushButton={scene.Type === "Scene"}/>;
        default:
          break;
     }
@@ -24,20 +21,3 @@ class SceneWidget extends Component {
 }
 
 export default SceneWidget
-
-/*
-
-{"Description":"",
-"Favorite":0,
-"LastUpdate":"2016-12-20 12:52:34",
-"Name":"Tout fermer",
-"OffAction":"",
-"OnAction":"",
-"Protected":false,
-"Status":"Mixed",
-"Timers":"false",
-"Type":"Scene",
-"UsedByCamera":false,
-"idx":"2"}
-
-*/
