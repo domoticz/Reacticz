@@ -4,7 +4,7 @@ import JSONClientSingleton from '../util/JSONClientSingleton'
 import './SwitchRGBW.css';
 import './SwitchOnOff.css';
 
-class SwitchBlinds extends Component {
+class SwitchRGBW extends Component {
 
   constructor(props) {
     super(props);
@@ -56,4 +56,4 @@ class SwitchBlinds extends Component {
 
 }
 
-export default SwitchBlinds
+export default SwitchRGBW
