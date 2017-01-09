@@ -3,10 +3,13 @@ import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
+import SwitchSelector from './SwitchSelector'
 import WeatherWidget from './WeatherWidget'
 import '../App.css';
 
 class DeviceWidget extends Component {
+
+
 
   render() {
     const device = this.props.device;
@@ -20,6 +23,8 @@ class DeviceWidget extends Component {
           return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
         }
         return <SwitchDimmer idx={device.idx} label={device.name} value={device.svalue1} readOnly={this.props.readOnly} />;
+      case "Selector" :
+        return <SwitchSelector idx={device.idx} label={device.name} value={device.svalue1} levels={device.LevelNames.split('|')} useButtons={device.SelectorStyle === "0"} readOnly={this.props.readOnly} />;
       default:
         break;
     }
