@@ -56,7 +56,7 @@ class DeviceListView extends Component {
     const list = devices.map(function(device) {
       const id = this.getUid(device);
       return (
-        <li key={id}><label>{device.Name}<input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/></label></li>
+        <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
       );
     }, this);
     return (
