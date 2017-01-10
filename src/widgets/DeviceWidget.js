@@ -9,7 +9,12 @@ import '../App.css';
 
 class DeviceWidget extends Component {
 
-
+  componentWillMount() {
+    // For now, only fetch device details for basic Dimmer type.
+    if (this.props.device.switchType === "Dimmer" && this.props.device.stype !== "RGBW" && !this.props.deviceSpec) {
+      this.props.requestDeviceSpec();
+    }
+  }
 
   render() {
     const device = this.props.device;
@@ -22,7 +27,7 @@ class DeviceWidget extends Component {
         if (device.stype === "RGBW") {
           return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
         }
-        return <SwitchDimmer idx={device.idx} label={device.name} value={device.svalue1} readOnly={this.props.readOnly} />;
+        return <SwitchDimmer device={device} idx={device.idx} label={device.name} deviceSpec={this.props.deviceSpec} value={device.svalue1} readOnly={this.props.readOnly} />;
       case "Selector" :
         return <SwitchSelector idx={device.idx} label={device.name} value={device.svalue1} levels={device.LevelNames.split('|')} useButtons={device.SelectorStyle === "0"} readOnly={this.props.readOnly} />;
       default:

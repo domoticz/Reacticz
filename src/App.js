@@ -33,13 +33,14 @@ class App extends Component {
       currentView: View.DASHBOARD,
       layoutLocked: true,
       serverConfig: {
-        mqttBrokerUrl: '', //ws://192.168.0.2:9001
-        domoticzUrl: '' //http://192.168.0.6:8080
+        mqttBrokerUrl: '',
+        domoticzUrl: ''
       },
       mqttConnected: false,
       lastMqttMessage: null,
       whitelist: [],
       devices: {},
+      deviceSpecs: {},
       layout: []
     };
     this.store = new LocalStorage();
@@ -161,6 +162,19 @@ class App extends Component {
     return this.state.whitelist.some((id) => (id[0] === 's' || id[0] === 'g'));
   }
 
+  requestDeviceSpec = (id) => {
+    const explodedId = id.split('|');
+    if (explodedId[0] !== 'd') {
+      // Not a device type.
+      return;
+    }
+    const deviceSpecs = Object.assign({}, this.state.deviceSpecs);
+    this.json.get({type: 'devices', rid: explodedId[1] }, (data) =>{
+      deviceSpecs[id] = data.result[0];
+      this.setState({deviceSpecs: deviceSpecs});
+    });
+  }
+
   requestScenesStatus = (opt_throttle = false) => {
     const getScenes = opt_throttle ?
         this.json.getAllScenesThrottled : this.json.getAllScenes;
@@ -261,7 +275,7 @@ class App extends Component {
           const device = this.state.devices[deviceId];
           if (!device) {
             // Device not available
-            return (<div key={deviceId} className="gridItem centered"><LoadingWidget/></div>);
+            return (<div key={deviceId} className="gridItem"><LoadingWidget/></div>);
           }
           let widget = '';
           if (device.Type === 'Group' || device.Type === 'Scene') {
@@ -274,7 +288,9 @@ class App extends Component {
           widget = <DeviceWidget
               readOnly={!this.state.layoutLocked}
               key={'item'+ deviceId}
-              device={device} />
+              device={device}
+              requestDeviceSpec={() => this.requestDeviceSpec(deviceId)}
+              deviceSpec={this.state.deviceSpecs[deviceId]} />
           }
           return (
             <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}>

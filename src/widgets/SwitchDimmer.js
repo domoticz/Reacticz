@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LoadingWidget from './LoadingWidget'
 import JSONClientSingleton from '../util/JSONClientSingleton'
 import './SwitchDimmer.css'
 
@@ -34,8 +35,12 @@ class SwitchDimmer extends Component {
   }
 
   render() {
-    const targetPct = this.state.localValue / 15 * 100;
-    const currentPct = this.props.value / 15 * 100;
+    if (!this.props.deviceSpec) {
+      return <LoadingWidget />
+    }
+    const maxDimLevel = this.props.deviceSpec['MaxDimLevel'] || 100;
+    const targetPct = this.state.localValue / maxDimLevel * 100;
+    const currentPct = this.props.value / maxDimLevel * 100;
     return (
       <div>
         <div className="dimmerContainer">
@@ -47,8 +52,8 @@ class SwitchDimmer extends Component {
           <p>{this.props.label}</p>
         </div>
         <div className="bar" style={{transform: 'translateX(' + targetPct + '%)'}}></div>
-        <div className="centered" style={{position: 'absolute', top: 0}}>
-          <input className="slider" type="range" min="0" max="15" step="1" value={this.state.localValue} onChange={this.onChange} />
+        <div style={{width: '100%', height: '100%', position: 'absolute', top: 0}}>
+          <input className="slider" type="range" min="0" max={maxDimLevel} step="1" value={this.state.localValue} onChange={this.onChange} />
         </div>
       </div>
     );
