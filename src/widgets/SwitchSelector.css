@@ -37,6 +37,10 @@
   -moz-appearance: none;
 }
 
+.selector select[disabled] {
+  pointer-events: none;
+}
+
 .carret {
   font-style: normal;
   color: #808080;
