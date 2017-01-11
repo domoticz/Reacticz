@@ -21,6 +21,7 @@ Example
 */
 
 import React, { Component } from 'react';
+import LoadingWidget from './LoadingWidget'
 import MqttClientSingleton from '../util/MqttClientSingleton'
 import './SwitchSelector.css';
 import './SwitchOnOff.css';
@@ -46,9 +47,15 @@ class SwitchSelector extends Component {
   }
 
   render() {
+    if (!this.props.deviceSpec) {
+      return <LoadingWidget />
+    }
     const list = this.props.levels.map(function(level, index) {
       const levelValue = index * 10;
       const selected = parseInt(this.props.value, 10) === levelValue;
+      if (index === 0 && this.props.deviceSpec["LevelOffHidden"] === true) {
+        return null;
+      }
       if (this.props.useButtons) {
         return (
           <button key={index + '-' + level} className={'switch' + (selected ? ' On' : '')} value={levelValue} onClick={this.handleSelect}>{level}</button>

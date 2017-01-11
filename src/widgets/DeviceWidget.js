@@ -11,8 +11,20 @@ class DeviceWidget extends Component {
 
   componentWillMount() {
     // For now, only fetch device details for basic Dimmer type.
-    if (this.props.device.switchType === "Dimmer" && this.props.device.stype !== "RGBW" && !this.props.deviceSpec) {
-      this.props.requestDeviceSpec();
+    if (this.props.deviceSpec) {
+      return;
+    }
+    switch (this.props.device.switchType) {
+      case "Selector":
+        this.props.requestDeviceSpec();
+        break;
+      case "Dimmer":
+        if (this.props.device.stype !== "RGBW") {
+          this.props.requestDeviceSpec();
+        }
+        break;
+      default:
+        break;
     }
   }
 
@@ -20,16 +32,27 @@ class DeviceWidget extends Component {
     const device = this.props.device;
     switch (device.switchType) {
       case "On/Off" :
-        return <SwitchOnOff idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
+        return <SwitchOnOff idx={device.idx} label={device.name}
+            value={device.nvalue} readOnly={this.props.readOnly} />;
       case "Blinds" :
-        return <SwitchBlinds idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
+        return <SwitchBlinds idx={device.idx} label={device.name}
+            value={device.nvalue} readOnly={this.props.readOnly} />;
       case "Dimmer" :
         if (device.stype === "RGBW") {
-          return <SwitchRGBW idx={device.idx} label={device.name} value={device.nvalue} readOnly={this.props.readOnly} />;
+          return <SwitchRGBW idx={device.idx} label={device.name}
+              value={device.nvalue} readOnly={this.props.readOnly} />;
         }
-        return <SwitchDimmer device={device} idx={device.idx} label={device.name} deviceSpec={this.props.deviceSpec} value={device.svalue1} readOnly={this.props.readOnly} />;
+        return <SwitchDimmer idx={device.idx} label={device.name}
+            device={device}
+            deviceSpec={this.props.deviceSpec}
+            value={device.svalue1} readOnly={this.props.readOnly} />;
       case "Selector" :
-        return <SwitchSelector idx={device.idx} label={device.name} value={device.svalue1} levels={device.LevelNames.split('|')} useButtons={device.SelectorStyle === "0"} readOnly={this.props.readOnly} />;
+        return <SwitchSelector idx={device.idx} label={device.name}
+            deviceSpec={this.props.deviceSpec}
+            value={device.svalue1}
+            levels={device.LevelNames.split('|')}
+            useButtons={device.SelectorStyle === "0"}
+            readOnly={this.props.readOnly} />;
       default:
         break;
     }

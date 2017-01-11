@@ -168,8 +168,8 @@ class App extends Component {
       // Not a device type.
       return;
     }
-    const deviceSpecs = Object.assign({}, this.state.deviceSpecs);
     this.json.get({type: 'devices', rid: explodedId[1] }, (data) =>{
+      const deviceSpecs = Object.assign({}, this.state.deviceSpecs);
       deviceSpecs[id] = data.result[0];
       this.setState({deviceSpecs: deviceSpecs});
     });
@@ -184,15 +184,15 @@ class App extends Component {
         return;
       }
       const scenes = data.result;
+      const devices = Object.assign({}, this.state.devices);
       for (let i = 0; i < scenes.length; i++) {
         const scene = scenes[i];
-        const devices = Object.assign({}, this.state.devices);
         const fullId = (scene.Type === 'Group' ? 'g' : 's') + '|' + scene.idx;
         if (this.state.whitelist.indexOf(fullId) >= 0) {
           devices[fullId] = scene;
         }
-        this.setState({devices: devices});
       }
+      this.setState({devices: devices});
     });
   }
 
