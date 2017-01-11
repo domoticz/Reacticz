@@ -92,7 +92,9 @@ class App extends Component {
           devices['d|' + opt_data.idx] = opt_data;
           this.setState({devices: devices});
           // Update scene status (with a little debounce check).
-          this.requestScenesStatus(true /* opt_throttle */);
+          if (this.hasWhitelistedScenes()) {
+            this.requestScenesStatus(true /* opt_throttle */);
+          }
         }
         this.render();
         break;

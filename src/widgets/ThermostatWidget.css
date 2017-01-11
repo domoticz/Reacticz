@@ -1,0 +1,59 @@
+.thermostat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.thermostat .controls {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  flex: 1;
+}
+
+.thermostat h2 {
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: lighter;
+  color: #808080;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.thermostat .controls div,
+.thermostat button {
+  padding: 10px;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.thermostat .controls div {
+  flex: 2;
+  color: #808080;
+  font-size: 28px;
+  font-weight: lighter;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.thermostat .controls div::after {
+  content: '°';
+}
+
+button.minus {
+  font-size: 28px;
+  color: blue;
+}
+
+button.plus {
+  font-size: 28px;
+  color: red;
+}

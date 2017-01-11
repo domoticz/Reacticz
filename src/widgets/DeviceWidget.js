@@ -4,13 +4,14 @@ import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
+import ThermostatWidget from './ThermostatWidget'
 import WeatherWidget from './WeatherWidget'
 import '../App.css';
 
 class DeviceWidget extends Component {
 
   componentWillMount() {
-    // For now, only fetch device details for basic Dimmer type.
+    // Request device specs for widgets that need it.
     if (this.props.deviceSpec) {
       return;
     }
@@ -61,6 +62,10 @@ class DeviceWidget extends Component {
       case "Temp + Humidity" :
       case "Temp + Humidity + Baro" :
         return <WeatherWidget device={device} hidePressure="true" />;
+      case "Thermostat" :
+      case "Heating" :
+        return <ThermostatWidget idx={device.idx} label={device.name}
+            value={device.svalue1} readOnly={this.props.readOnly} />
       default:
         break;
     }
