@@ -19,8 +19,8 @@
 
 .bar {
   box-sizing: border-box;
-  border-right: 5px solid rgba(255, 255, 255, 0.8);
-  transition: transform .3s ease-out;
+  border-right: 3px solid #808080;
+  transition: transform .3s ease-out, opacity .3s linear;
 }
 
 .dimmerContainer, .dimmerProgressContent {

@@ -10,7 +10,9 @@ class SwitchDimmer extends Component {
     this.json = new JSONClientSingleton();
     this.state = {
       localValue: this.props.value,
-      timeoutId: null
+      debounceTimeoutId: null,
+      fadeTimeoutId: null,
+      showBar: false
     }
   }
 
@@ -18,9 +20,16 @@ class SwitchDimmer extends Component {
     if (this.props.readOnly) {
       return
     }
+    this.setState({showBar: true});
     this.setState({localValue: parseInt(event.target.value, 10)});
-    global.clearTimeout(this.state.timeoutId);
-    this.setState({timeoutId: global.setTimeout(this.sendValue, 200)});
+    global.clearTimeout(this.state.debounceTimeoutId);
+    this.setState({debounceTimeoutId: global.setTimeout(this.sendValue, 200)});
+    global.clearTimeout(this.state.fadeTimeoutId);
+    this.setState({fadeTimeoutId: global.setTimeout(this.fadeBar, 1000)});
+  }
+
+  fadeBar = () => {
+    this.setState({showBar: false});
   }
 
   sendValue = () => {
@@ -51,7 +60,7 @@ class SwitchDimmer extends Component {
           </div>
           <p>{this.props.label}</p>
         </div>
-        <div className="bar" style={{transform: 'translateX(' + targetPct + '%)'}}></div>
+        <div className="bar" style={{transform: 'translateX(' + targetPct + '%)', opacity: this.state.showBar ? 1 : 0}}></div>
         <div style={{width: '100%', height: '100%', position: 'absolute', top: 0}}>
           <input className="slider" type="range" min="0" max={maxDimLevel} step="1" value={this.state.localValue} onChange={this.onChange} />
         </div>
