@@ -62,16 +62,18 @@ class SwitchSelector extends Component {
         );
       }
       return (
-        <option key={index + '-' + level} value={levelValue}>{selected ? this.props.label + (index > 0 ? ' (' + level + ')' : '') : level}</option>
+        <option key={index + '-' + level} value={levelValue}>{level}</option>
       );
     }, this);
     if (this.props.useButtons) {
-      return (<section className="selector">{list}</section>);
+      return (<div className="selector"><h2>{this.props.label}</h2><section>{list}</section></div>);
     }
     return (<div className={'selector' + (this.props.value !== '0' ? ' On' : '')}>
+        <h2>{this.props.label}</h2>
+        <div>
         <i className="carret">▼</i>
         <select disabled={this.props.readOnly} value={this.props.value} onChange={this.handleSelect}>{list}</select>
-        </div>);
+        </div></div>);
   }
 }
 
