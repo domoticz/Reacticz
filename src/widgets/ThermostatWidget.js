@@ -46,7 +46,7 @@ class ThermostatWidget extends Component {
         <h2>{this.props.label}</h2>
         <div className="controls">
           <button className="switch minus" onClick={this.decreaseSetpoint}>-</button>
-          <div>{this.props.value}</div>
+          <div>{Number(this.props.value).toFixed(1)}</div>
           <button className="switch plus" onClick={this.increaseSetpoint}>+</button>
         </div>
       </div>
