@@ -39,10 +39,33 @@ class SwitchOnOff extends Component {
     }
   }
 
+  getBackgroundStyle() {
+    const theme = this.props.theme;
+    if (!theme) {
+      return;
+    }
+    const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
+    if (this.props.pushButton) {
+      return gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
+    }
+    if (this.props.valueText === "Mixed") {
+      return gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
+    }
+    if (this.props.valueText === "Off" || this.props.value === 0) {
+      return theme.buttonOff;
+    }
+    return theme.buttonOn;
+  }
+
   render() {
     const valueText = this.props.valueText || (this.props.value === 0 ? 'Off' : 'On');
+    const theme = this.props.theme;
+    const style = theme ? {
+      background: this.getBackgroundStyle(),
+      color: valueText === "Mixed" ? theme.textMixed : valueText === "Off" ? theme.textOff : theme.textOn
+    } : {};
     return (
-      <button className={'switch ' + (this.props.pushButton ? 'Push' : valueText)} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
+      <button className={'switch ' + (this.props.pushButton ? 'Push' : valueText)} style={style} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
     );
   }
 

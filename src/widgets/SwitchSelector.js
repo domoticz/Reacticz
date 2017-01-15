@@ -50,6 +50,22 @@ class SwitchSelector extends Component {
     if (!this.props.deviceSpec) {
       return <LoadingWidget />
     }
+    const theme = this.props.theme;
+    const style = theme ? {
+      backgroundColor: this.props.readOnly ? '' : theme.background,
+      color: theme.text
+    } : {};
+    const buttonStyleOff = theme ? {
+      background: theme.buttonOff,
+      color: theme.textOff
+    } : {};
+    const buttonStyleOn = theme ? {
+      background: theme.buttonOn,
+      color: theme.textOn
+    } : {};
+    const carretStyle = theme ? {
+      color: this.props.value === '0' ? theme.textOff : theme.textOn
+    } : {};
     const list = this.props.levels.map(function(level, index) {
       const levelValue = index * 10;
       const selected = parseInt(this.props.value, 10) === levelValue;
@@ -58,7 +74,11 @@ class SwitchSelector extends Component {
       }
       if (this.props.useButtons) {
         return (
-          <button key={index + '-' + level} className={'switch' + (selected ? ' On' : '')} value={levelValue} onClick={this.handleSelect}>{level}</button>
+          <button key={index + '-' + level}
+                  className={'switch' + (selected ? ' On' : '')}
+                  style={selected ? buttonStyleOn : buttonStyleOff}
+                  value={levelValue} onClick={this.handleSelect}>{level}
+          </button>
         );
       }
       return (
@@ -66,13 +86,13 @@ class SwitchSelector extends Component {
       );
     }, this);
     if (this.props.useButtons) {
-      return (<div className="selector"><h2>{this.props.label}</h2><section>{list}</section></div>);
+      return (<div className="selector" style={style}><h2>{this.props.label}</h2><section>{list}</section></div>);
     }
-    return (<div className={'selector' + (this.props.value !== '0' ? ' On' : '')}>
+    return (<div className={'selector' + (this.props.value !== '0' ? ' On' : '')} style={style}>
         <h2>{this.props.label}</h2>
         <div>
-        <i className="carret">▼</i>
-        <select disabled={this.props.readOnly} value={this.props.value} onChange={this.handleSelect}>{list}</select>
+        <i className="carret" style={carretStyle}>▼</i>
+        <select disabled={this.props.readOnly} value={this.props.value} style={this.props.value === '0' ? buttonStyleOff : buttonStyleOn} onChange={this.handleSelect}>{list}</select>
         </div></div>);
   }
 }

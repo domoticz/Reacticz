@@ -24,6 +24,20 @@ const View = {
   ABOUT: 4
 }
 
+const Theme = {
+  ORIGINAL : {
+    background: 'white',
+    buttonMixed: '#808080',
+    buttonOff: '#eee',
+    buttonOn: '#ffbc00',
+    menuButton: '#666',
+    text: '#808080',
+    textMixed: '#808080',
+    textOff: '#808080',
+    textOn: 'white'
+  }
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -41,7 +55,8 @@ class App extends Component {
       whitelist: [],
       devices: {},
       deviceSpecs: {},
-      layout: []
+      layout: [],
+      theme: Theme.ORIGINAL
     };
     this.store = new LocalStorage();
     this.mqtt = new MqttClientSingleton();
@@ -231,15 +246,17 @@ class App extends Component {
   cleanupLayout(list) {
     // Clear layout items for devices that are no longer present.
     const ids = [];
+    let maxY = -1;
     const updatedLayout = this.state.layout.filter(function(deviceLayout) {
       ids.push(deviceLayout.i);
+      maxY = Math.max(deviceLayout.y, maxY);
       return list.indexOf(deviceLayout.i) >= 0;
     }, this);
     // Add missing layouts
     for (let i = 0; i < list.length; i++) {
       const deviceId = list[i];
       if (ids.indexOf(deviceId) < 0) {
-        updatedLayout.push({x: 0, y: i, w: 2, h: 1, i: deviceId})
+        updatedLayout.push({x: 0, y: ++maxY, w: 2, h: 1, i: deviceId})
       }
     };
     this.setState({layout: updatedLayout});
@@ -277,7 +294,7 @@ class App extends Component {
           const device = this.state.devices[deviceId];
           if (!device) {
             // Device not available
-            return (<div key={deviceId} className="gridItem"><LoadingWidget/></div>);
+            return (<div key={deviceId} className="gridItem"><LoadingWidget theme={this.state.theme}/></div>);
           }
           let widget = '';
           if (device.Type === 'Group' || device.Type === 'Scene') {
@@ -285,14 +302,17 @@ class App extends Component {
                 readOnly={!this.state.layoutLocked}
                 key={'item'+ deviceId}
                 scene={device}
-                onSceneChange={this.requestScenesStatus} />
+                onSceneChange={this.requestScenesStatus}
+                theme={this.state.theme} />
           } else {
           widget = <DeviceWidget
+              className="widget"
               readOnly={!this.state.layoutLocked}
               key={'item'+ deviceId}
               device={device}
               requestDeviceSpec={() => this.requestDeviceSpec(deviceId)}
-              deviceSpec={this.state.deviceSpecs[deviceId]} />
+              deviceSpec={this.state.deviceSpecs[deviceId]}
+              theme={this.state.theme} />
           }
           return (
             <div key={deviceId} className={this.state.layoutLocked ? 'gridItem':'gridItem resizeable'}>
@@ -307,6 +327,7 @@ class App extends Component {
                 onResizeStop={this.onLayoutChange}
                 isDraggable={!this.state.layoutLocked}
                 isResizable={!this.state.layoutLocked}
+                verticalCompact={false}
                 breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                 cols={{lg: 12, md: 10, sm: 8, xs: 6, xxs: 4}}
                 className="layout"

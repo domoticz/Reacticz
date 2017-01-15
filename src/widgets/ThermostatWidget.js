@@ -41,13 +41,23 @@ class ThermostatWidget extends Component {
   }
 
   render() {
+    const theme = this.props.theme;
+    const style = theme ? {
+      backgroundColor: this.props.readOnly ? '' : theme.background,
+      color: theme.text
+    } : {};
+    const buttonStyle = theme ? {
+      backgroundColor: theme.buttonOff
+    } : {};
     return (
-      <div className="thermostat">
+      <div className="thermostat" style={style}>
         <h2>{this.props.label}</h2>
         <div className="controls">
-          <button className="switch minus" onClick={this.decreaseSetpoint}>-</button>
+          <button className="switch minus" style={buttonStyle}
+                  onClick={this.decreaseSetpoint}>-</button>
           <div>{Number(this.props.value).toFixed(1)}</div>
-          <button className="switch plus" onClick={this.increaseSetpoint}>+</button>
+          <button className="switch plus" style={buttonStyle}
+                  onClick={this.increaseSetpoint}>+</button>
         </div>
       </div>
     );

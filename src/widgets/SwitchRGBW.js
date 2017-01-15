@@ -44,11 +44,16 @@ class SwitchRGBW extends Component {
   }
 
   render() {
+    const theme = this.props.theme;
+    const buttonStyle = theme ? {
+      background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,
+      color: this.props.value === 0 ? theme.textOff : theme.textOn
+    } : {};
     const value = this.props.value === 0 ? 'Off' : 'On';
     return (
       <div className="SwitchRGBW">
         <div className="unknown" style={{opacity: this.state.color ? 0 : 1}}>?</div>
-        <button onClick={this.toggle} className={'switch ' + value}>{this.props.label}</button>
+        <button onClick={this.toggle} className={'switch ' + value} style={buttonStyle}>{this.props.label}</button>
         <input type="color" value={this.state.color ? this.state.color : '#000000'} onChange={this.changeColor}/>
       </div>
     );

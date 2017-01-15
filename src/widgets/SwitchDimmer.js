@@ -47,14 +47,24 @@ class SwitchDimmer extends Component {
     if (!this.props.deviceSpec) {
       return <LoadingWidget />
     }
+    const theme = this.props.theme;
+    const progressStyle = theme ? {
+      backgroundColor: theme.buttonOn,
+      color: theme.textOn
+    } : {};
+    const containerStyle = theme ? {
+      backgroundColor: theme.buttonOff,
+      color: theme.textOff
+    } : {};
     const maxDimLevel = this.props.deviceSpec['MaxDimLevel'] || 100;
     const targetPct = this.state.localValue / maxDimLevel * 100;
     const currentPct = this.props.value / maxDimLevel * 100;
+    progressStyle.transform = 'translateX(' + (100 - currentPct) + '%)';
     return (
       <div>
-        <div className="dimmerContainer">
+        <div className="dimmerContainer" style={containerStyle}>
           <div className="dimmerProgress" style={{transform: 'translateX(' + currentPct + '%)'}}>
-            <div className="dimmerProgressContent" style={{transform: 'translateX(' + (100 - currentPct) + '%)'}}>
+            <div className="dimmerProgressContent" style={progressStyle}>
               <p>{this.props.label}</p>
             </div>
           </div>

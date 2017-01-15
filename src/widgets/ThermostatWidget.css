@@ -17,7 +17,6 @@
   margin: 0;
   font-size: 16px;
   font-weight: lighter;
-  color: #808080;
   text-align: center;
   white-space: nowrap;
   box-sizing: border-box;
@@ -36,7 +35,6 @@
 
 .thermostat .controls div {
   flex: 2;
-  color: #808080;
   font-size: 28px;
   font-weight: lighter;
   text-align: center;
@@ -48,12 +46,14 @@
   content: '°';
 }
 
-button.minus {
+.thermostat button {
   font-size: 28px;
+}
+
+button.minus {
   color: blue;
 }
 
 button.plus {
-  font-size: 28px;
   color: red;
 }

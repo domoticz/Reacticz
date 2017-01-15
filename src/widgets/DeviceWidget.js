@@ -43,18 +43,17 @@ class DeviceWidget extends Component {
       case "Dimmer" :
         if (device.stype === "RGBW") {
           return <SwitchRGBW idx={device.idx} label={device.name}
-              value={device.nvalue} readOnly={this.props.readOnly} />;
+              value={device.nvalue} {...this.props} />;
         }
         return <SwitchDimmer idx={device.idx} label={device.name}
             device={device}
             value={device.svalue1} {...this.props} />;
       case "Selector" :
         return <SwitchSelector idx={device.idx} label={device.name}
-            deviceSpec={this.props.deviceSpec}
             value={device.svalue1}
             levels={device.LevelNames.split('|')}
             useButtons={device.SelectorStyle === "0"}
-            readOnly={this.props.readOnly} />;
+            {...this.props} />;
       default:
         break;
     }
@@ -66,7 +65,7 @@ class DeviceWidget extends Component {
       case "Thermostat" :
       case "Heating" :
         return <ThermostatWidget idx={device.idx} label={device.name}
-            value={device.svalue1} readOnly={this.props.readOnly} />
+            value={device.svalue1} {...this.props} />
       default:
         break;
     }
