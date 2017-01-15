@@ -34,10 +34,12 @@ class DeviceWidget extends Component {
     switch (device.switchType) {
       case "On/Off" :
         return <SwitchOnOff idx={device.idx} label={device.name}
-            value={device.nvalue} readOnly={this.props.readOnly} />;
+            value={device.nvalue} {...this.props} />;
       case "Blinds" :
+      case "Blinds Inverted" :
         return <SwitchBlinds idx={device.idx} label={device.name}
-            value={device.nvalue} readOnly={this.props.readOnly} />;
+            value={device.nvalue} readOnly={this.props.readOnly}
+            inverted={device.switchType==="Blinds Inverted"} />;
       case "Dimmer" :
         if (device.stype === "RGBW") {
           return <SwitchRGBW idx={device.idx} label={device.name}
@@ -45,8 +47,7 @@ class DeviceWidget extends Component {
         }
         return <SwitchDimmer idx={device.idx} label={device.name}
             device={device}
-            deviceSpec={this.props.deviceSpec}
-            value={device.svalue1} readOnly={this.props.readOnly} />;
+            value={device.svalue1} {...this.props} />;
       case "Selector" :
         return <SwitchSelector idx={device.idx} label={device.name}
             deviceSpec={this.props.deviceSpec}
@@ -61,7 +62,7 @@ class DeviceWidget extends Component {
       case "Temp" :
       case "Temp + Humidity" :
       case "Temp + Humidity + Baro" :
-        return <WeatherWidget device={device} hidePressure="true" />;
+        return <WeatherWidget hidePressure="true" {...this.props} />;
       case "Thermostat" :
       case "Heating" :
         return <ThermostatWidget idx={device.idx} label={device.name}

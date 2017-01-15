@@ -44,12 +44,14 @@ class SwitchBlinds extends Component {
   }
 
   render() {
+    const isOpen = this.props.inverted ? this.props.value === 3 : this.props.value === 1;
+    const isClosed = this.props.inverted ? this.props.value === 1 : this.props.value === 3;
     return (
       <div className="SwitchBlinds">
         <h3>{this.props.label}</h3>
-        <button onClick={this.open} className={'blindsOpen' + (this.props.value === 1 ? ' selected' : '')}>Open</button>
+        <button onClick={this.props.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')}>Open</button>
         <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')}>Stop</button>
-        <button onClick={this.close} className={'blindsClose' + (this.props.value === 3 ? ' selected' : '')}>Close</button>
+        <button onClick={this.props.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')}>Close</button>
       </div>
     );
   }
