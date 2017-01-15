@@ -231,15 +231,17 @@ class App extends Component {
   cleanupLayout(list) {
     // Clear layout items for devices that are no longer present.
     const ids = [];
+    let maxY = -1;
     const updatedLayout = this.state.layout.filter(function(deviceLayout) {
       ids.push(deviceLayout.i);
+      maxY = Math.max(deviceLayout.y, maxY);
       return list.indexOf(deviceLayout.i) >= 0;
     }, this);
     // Add missing layouts
     for (let i = 0; i < list.length; i++) {
       const deviceId = list[i];
       if (ids.indexOf(deviceId) < 0) {
-        updatedLayout.push({x: 0, y: i, w: 2, h: 1, i: deviceId})
+        updatedLayout.push({x: 0, y: ++maxY, w: 2, h: 1, i: deviceId})
       }
     };
     this.setState({layout: updatedLayout});
@@ -307,6 +309,7 @@ class App extends Component {
                 onResizeStop={this.onLayoutChange}
                 isDraggable={!this.state.layoutLocked}
                 isResizable={!this.state.layoutLocked}
+                verticalCompact={false}
                 breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                 cols={{lg: 12, md: 10, sm: 8, xs: 6, xxs: 4}}
                 className="layout"
