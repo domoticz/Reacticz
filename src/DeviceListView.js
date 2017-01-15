@@ -8,6 +8,7 @@ class DeviceListView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      deviceTypes: [],
       devices: {}
     };
     this.json = new JSONClientSingleton();
@@ -29,14 +30,16 @@ class DeviceListView extends Component {
   componentDidMount() {
     this.json.getAllDevices((data) => {
       const devices = {};
+      const deviceTypes = [];
       for (let i = 0 ; i < data.result.length; i++) {
         const deviceType = data.result[i]['Type'];
         if (!devices[deviceType]) {
           devices[deviceType] = [];
+          deviceTypes.push(deviceType);
         }
         devices[deviceType].push(data.result[i]);
       }
-      this.setState({devices: devices});
+      this.setState({deviceTypes: deviceTypes.sort(), devices: devices});
     });
   }
 
@@ -53,12 +56,13 @@ class DeviceListView extends Component {
 
   renderDeviceTypeSection(type) {
     const devices = this.state.devices[type];
-    const list = devices.map(function(device) {
-      const id = this.getUid(device);
-      return (
-        <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
-      );
-    }, this);
+    const list = devices.sort((a, b) => b.Name >= a.Name ? -1 : 1).map(
+        function(device) {
+          const id = this.getUid(device);
+          return (
+            <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
+          );
+        }, this);
     return (
       <section key={type}>
         <h2>{type}</h2>
@@ -69,10 +73,8 @@ class DeviceListView extends Component {
 
   render() {
     const sections = [];
-    for (const type in this.state.devices) {
-      if ({}.hasOwnProperty.call(this.state.devices, type)) {
-        sections.push(this.renderDeviceTypeSection(type));
-      }
+    for (let i = 0; i < this.state.deviceTypes.length; i++) {
+      sections.push(this.renderDeviceTypeSection(this.state.deviceTypes[i]));
     };
 
     return (
