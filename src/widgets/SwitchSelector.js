@@ -53,7 +53,7 @@ class SwitchSelector extends Component {
       if (this.props.useButtons) {
         return (
           <button key={index + '-' + level}
-                  className={'switch' + (selected ? ' On' : '')}
+                  className="switch"
                   style={selected ? buttonStyleOn : buttonStyleOff}
                   value={levelValue} onClick={this.handleSelect}>{level}
           </button>
@@ -66,7 +66,7 @@ class SwitchSelector extends Component {
     if (this.props.useButtons) {
       return (<div className="selector" style={style}><h2>{this.props.label}</h2><section>{list}</section></div>);
     }
-    return (<div className={'selector' + (this.props.value !== '0' ? ' On' : '')} style={style}>
+    return (<div className="selector" style={style}>
         <h2>{this.props.label}</h2>
         <div>
         <i className="carret" style={carretStyle}>▼</i>
