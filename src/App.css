@@ -80,3 +80,7 @@
   width: 24px;
   height: 24px;
 }
+
+pre {
+  white-space: pre-line;
+}
