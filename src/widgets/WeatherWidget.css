@@ -1,7 +1,6 @@
 .WeatherWidget, .weatherData {
   display: flex;
   height: 100%;
-  color: #808080;
   font-weight: lighter;
 }
 

@@ -55,7 +55,6 @@
   font-weight: 100;
   text-align-last: center;
   border: none;
-  background: #eee;
   border-radius: 0;
   outline: none;
   transition: color .2s ease-out, background .2s ease-out;
@@ -69,7 +68,6 @@
 
 .carret {
   font-style: normal;
-  color: #808080;
   position: absolute;
   right: 3%;
   padding-right: 5px;
@@ -78,23 +76,9 @@
   transition: color .2s ease-out;
 }
 
-.On .carret {
-  color: white;
-}
-
-.selector.On select {
-  color: white;
-  background: #ffbc00;
-}
-
 .selectorContainer h2 {
   position: absolute;
-  color: #808080;
   text-align: center;
   width: 100%;
   pointer-events: none;
-}
-
-.selectorContainer.On h2 {
-  color: white;
 }

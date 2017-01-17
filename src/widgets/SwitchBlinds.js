@@ -46,12 +46,32 @@ class SwitchBlinds extends Component {
   render() {
     const isOpen = this.props.inverted ? this.props.value === 3 : this.props.value === 1;
     const isClosed = this.props.inverted ? this.props.value === 1 : this.props.value === 3;
+    const theme = this.props.theme;
+    const gradient = 'linear-gradient(to bottom, _a, _a 50%, _b 50%, _b)';
+    const style = theme ? {
+      backgroundColor: this.props.readOnly ? '' : theme.background,
+      color: theme.text
+    } : {};
+    const buttonStyleOpen = theme ? {
+      color: isOpen ? theme.blindTextOn : theme.blindTextOff,
+      background: theme.blindOpen
+    } : {};
+    const buttonStyleStop = theme ? {
+      color: this.props.value === 0 ? theme.blindTextOn : theme.blindTextOff,
+      background: theme.buttonOff
+    } : {};
+    const buttonStyleClose = theme ? {
+      color: isClosed ? theme.blindTextOn : theme.blindTextOff,
+      background: gradient.replace(/_a/g, theme.blindClosed).replace(/_b/g, theme.buttonMixed)
+    } : {};
     return (
-      <div className="SwitchBlinds">
-        <h3>{this.props.label}</h3>
-        <button onClick={this.props.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')}>Open</button>
-        <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')}>Stop</button>
-        <button onClick={this.props.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')}>Close</button>
+      <div className="SwitchBlinds" style={style}>
+        <h2>{this.props.label}</h2>
+        <section>
+          <button onClick={this.props.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}>Open</button>
+          <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')} style={buttonStyleStop}>Stop</button>
+          <button onClick={this.props.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}>Close</button>
+        </section>
       </div>
     );
   }

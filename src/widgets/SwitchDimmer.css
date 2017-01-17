@@ -19,7 +19,7 @@
 
 .bar {
   box-sizing: border-box;
-  border-right: 3px solid #808080;
+  border-right: 3px solid #4a4a4a;
   transition: transform .3s ease-out, opacity .3s linear;
 }
 
@@ -30,15 +30,12 @@
 }
 
 .dimmerContainer {
-  background: #eee;
   font-size: 20px;
   font-weight: lighter;
-  color: #808080;
 }
 
 .dimmerProgressContent {
   position: relative;
-  background: #ffbc00;
   color: white;
 }
 

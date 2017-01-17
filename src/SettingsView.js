@@ -30,7 +30,7 @@ class SettingsView extends Component {
     return (
       <div className="SettingsView">
         {welcome}
-        <h2>Settings</h2>
+        <h2>Server Settings</h2>
         <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled.</p>
         <form onSubmit={this.handleSubmit}>
           <label>

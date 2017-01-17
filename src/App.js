@@ -12,30 +12,18 @@ import LocalStorage from './util/LocalStorage'
 import MqttClientSingleton from './util/MqttClientSingleton'
 import SceneWidget from './widgets/SceneWidget'
 import SettingsView from './SettingsView'
+import Themes from './Themes'
 
 import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css'
 import '../node_modules/react-resizable/css/styles.css'
+
 
 const View = {
   DASHBOARD: 1,
   DEVICE_LIST: 2,
   SERVER_SETTINGS: 3,
   ABOUT: 4
-}
-
-const Theme = {
-  ORIGINAL : {
-    background: 'white',
-    buttonMixed: '#808080',
-    buttonOff: '#eee',
-    buttonOn: '#ffbc00',
-    menuButton: '#666',
-    text: '#808080',
-    textMixed: '#808080',
-    textOff: '#808080',
-    textOn: 'white'
-  }
 }
 
 class App extends Component {
@@ -56,7 +44,8 @@ class App extends Component {
       devices: {},
       deviceSpecs: {},
       layout: [],
-      theme: Theme.ORIGINAL
+      themeId: 'Default',
+      theme: {}
     };
     this.store = new LocalStorage();
     this.mqtt = new MqttClientSingleton();
@@ -66,9 +55,12 @@ class App extends Component {
 
   componentWillMount() {
     const storedServerConfig = this.store.read('serverConfig');
+    const themeId = this.store.read('themeId') || this.state.themeId;
     this.setState({
       whitelist: this.store.read('whitelist') || [],
-      layout: this.store.read('layout') || []
+      layout: this.store.read('layout') || [],
+      themeId: themeId,
+      theme: Themes[themeId] || {}
     });
     if (storedServerConfig) {
       this.setState({serverConfig: storedServerConfig});
@@ -130,6 +122,7 @@ class App extends Component {
         config.s && this.handleServerConfigChange(config.s);
         config.w && this.handleDeviceListChange(config.w);
         config.l && this.setState({layout: config.l});
+        config.t && this.handleThemeChange(config.t);
       } catch (e) {
         alert('Sorry, something went wrong. The configuration could not be read.');
       }
@@ -141,6 +134,14 @@ class App extends Component {
     this.setState({serverConfig: config});
     this.store.write('serverConfig', config);
     this.connectClients(config);
+  }
+
+  handleThemeChange = (themeId) => {
+    const theme = Themes[themeId];
+    if (theme) {
+      this.setState({themeId: themeId, theme: theme});
+      this.store.write('themeId', themeId);
+    }
   }
 
   handleDeviceListChange = (list) => {
@@ -160,7 +161,7 @@ class App extends Component {
         this.requestDeviceStatus(list[i]);
       }
     }
-    if (this.hasWhitelistedScenes()) {
+    if (this.hasWhitelistedScenes(list)) {
       this.requestScenesStatus();
     }
   }
@@ -175,8 +176,9 @@ class App extends Component {
     this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
   }
 
-  hasWhitelistedScenes() {
-    return this.state.whitelist.some((id) => (id[0] === 's' || id[0] === 'g'));
+  hasWhitelistedScenes(opt_list) {
+    const list = opt_list || this.state.whitelist;
+    return list.some((id) => (id[0] === 's' || id[0] === 'g'));
   }
 
   requestDeviceSpec = (id) => {
@@ -272,7 +274,7 @@ class App extends Component {
     const view = opt_forceView || this.state.currentView;
     switch (view) {
       case View.ABOUT:
-        return (<AboutView appState={this.state} />);
+        return (<AboutView appState={this.state} themes={Themes} onThemeChange={this.handleThemeChange} />);
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onChange={this.handleServerConfigChange}></SettingsView>);
       case View.DEVICE_LIST:

@@ -47,7 +47,8 @@ class ThermostatWidget extends Component {
       color: theme.text
     } : {};
     const buttonStyle = theme ? {
-      backgroundColor: theme.buttonOff
+      backgroundColor: theme.buttonOff,
+      color: theme.textOff
     } : {};
     return (
       <div className="thermostat" style={style}>

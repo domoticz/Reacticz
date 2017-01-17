@@ -38,8 +38,8 @@ class DeviceWidget extends Component {
       case "Blinds" :
       case "Blinds Inverted" :
         return <SwitchBlinds idx={device.idx} label={device.name}
-            value={device.nvalue} readOnly={this.props.readOnly}
-            inverted={device.switchType==="Blinds Inverted"} />;
+            value={device.nvalue}
+            inverted={device.switchType==="Blinds Inverted"} {...this.props} />;
       case "Dimmer" :
         if (device.stype === "RGBW") {
           return <SwitchRGBW idx={device.idx} label={device.name}

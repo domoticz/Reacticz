@@ -48,12 +48,5 @@
 
 .thermostat button {
   font-size: 28px;
-}
-
-button.minus {
-  color: blue;
-}
-
-button.plus {
-  color: red;
+  line-height: 28px;
 }

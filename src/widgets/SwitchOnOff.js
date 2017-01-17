@@ -39,33 +39,36 @@ class SwitchOnOff extends Component {
     }
   }
 
-  getBackgroundStyle() {
+  getButtonStyle() {
     const theme = this.props.theme;
     if (!theme) {
-      return;
+      return {};
+    }
+    const style = {
+      color: theme.textOn,
+      background: theme.buttonOn
     }
     const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
     if (this.props.pushButton) {
-      return gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
+      style.color = theme.textMixed;
+      style.background = gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
+      return style;
     }
     if (this.props.valueText === "Mixed") {
-      return gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
+      style.color = theme.textMixed;
+      style.background = gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
     }
     if (this.props.valueText === "Off" || this.props.value === 0) {
-      return theme.buttonOff;
+      style.color = theme.textOff;
+      style.background =  theme.buttonOff;
     }
-    return theme.buttonOn;
+    return style;
   }
 
   render() {
     const valueText = this.props.valueText || (this.props.value === 0 ? 'Off' : 'On');
-    const theme = this.props.theme;
-    const style = theme ? {
-      background: this.getBackgroundStyle(),
-      color: valueText === "Mixed" ? theme.textMixed : valueText === "Off" ? theme.textOff : theme.textOn
-    } : {};
     return (
-      <button className={'switch ' + (this.props.pushButton ? 'Push' : valueText)} style={style} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
+      <button className="switch" style={this.getButtonStyle()} onClick={this.handleClick} title={valueText}>{this.props.label}</button>
     );
   }
 

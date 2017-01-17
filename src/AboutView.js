@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LZString from 'lz-string'
+import ThemeSelector from './ThemeSelector'
 import icon from '../public/icon/icon_64.png';
 import appInfo from '../package.json';
 //import QRCanvas from 'qrcanvas-react';
@@ -33,7 +34,8 @@ class AboutView extends Component {
 
   generateExportUrl = () => {
     const params = {
-      s: this.props.appState && this.props.appState.serverConfig
+      s: this.props.appState && this.props.appState.serverConfig,
+      t: this.props.appState && this.props.appState.themeId
     };
     if (this.state.exportWhitelist) {
       params.w = this.props.appState.whitelist;
@@ -67,6 +69,7 @@ class AboutView extends Component {
         <img src={icon} alt="Reacticz logo"/>
         <p>v{appInfo.version}</p>
         <p>A minimalistic Domoticz dashboard</p>
+        <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
         <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/t0mg/reacticz" target="_blank">GitHub repository</a>.</p>
         <section>
           <h2>Export settings</h2>

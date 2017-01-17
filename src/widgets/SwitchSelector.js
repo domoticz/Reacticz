@@ -1,25 +1,3 @@
-/*
-Example
-
-{"Battery":255,
-"LevelActions":"|||",
-"LevelNames":"Off|Level1|Level2|Level3",
-"LevelOffHidden":"false",
-"RSSI":12,
-"SelectorStyle":"1",    1 for drop down, 0 for buttons
-"description":"",
-"dtype":"Light/Switch",
-"id":"00000000",
-"idx":128,
-"name":"selector test",
-"nvalue":0,
-"stype":"Selector Switch",
-"svalue1":"0",
-"switchType":"Selector",
-"unit":1}
-
-*/
-
 import React, { Component } from 'react';
 import LoadingWidget from './LoadingWidget'
 import MqttClientSingleton from '../util/MqttClientSingleton'
