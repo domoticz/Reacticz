@@ -6,6 +6,7 @@ import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
 import ThermostatWidget from './ThermostatWidget'
 import WeatherWidget from './WeatherWidget'
+import './DeviceWidget.css';
 import '../App.css';
 
 class DeviceWidget extends Component {
@@ -69,7 +70,7 @@ class DeviceWidget extends Component {
       default:
         break;
     }
-    return <div><h3>Unsupported type: {device.switchType}</h3><pre>{JSON.stringify(device)}</pre></div>;
+    return <div className="Unsupported"><h2>Unsupported type: {device.switchType || device.stype}</h2><textarea disabled>{JSON.stringify(device)}</textarea></div>;
   }
 
 }

@@ -1,0 +1,33 @@
+.Unsupported {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffc46c,
+    #ffc46c 20px,
+    transparent 20px,
+    transparent 40px
+  );
+  padding: 5px;
+}
+
+.Unsupported h2 {
+  padding: 5px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: lighter;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.Unsupported textarea {
+  resize: none;
+  flex: 1;
+}
