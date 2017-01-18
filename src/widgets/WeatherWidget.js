@@ -14,14 +14,13 @@ class WeatherWidget extends Component {
 
   getProperties() {
     const device = this.props.device;
-    const temp = Number(device.svalue1).toFixed(1);
     switch (device.dtype) {
       case "Temp" :
-        return { temp: temp };
+        return { temp: device.svalue1 };
       case "Temp + Humidity" :
-        return { temp: temp, hum: device.svalue2 };
+        return { temp: device.svalue1, hum: device.svalue2 };
       case "Temp + Humidity + Baro" :
-        return { temp: temp, hum: device.svalue2, baro: this.props.hidePressure ? null : device.svalue4, forecast: device.svalue5 };
+        return { temp: device.svalue1, hum: device.svalue2, baro: this.props.hidePressure ? null : device.svalue4, forecast: device.svalue5 };
       default:}
   }
 
