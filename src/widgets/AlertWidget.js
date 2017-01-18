@@ -6,7 +6,7 @@ class AlertWidget extends Component {
   render() {
     const theme = this.props.theme;
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: theme.background,
       color: theme.text
     } : {};
     return (
