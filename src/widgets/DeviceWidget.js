@@ -77,7 +77,7 @@ class DeviceWidget extends Component {
       default:
         break;
     }
-    return <div className="Unsupported"><h2>Unsupported type: {device.switchType || device.stype}</h2><textarea disabled>{JSON.stringify(device)}</textarea></div>;
+    return <div className="Unsupported"><h2>Unsupported type: {device.switchType || device.stype}</h2><textarea>{JSON.stringify(device)}</textarea></div>;
   }
 
 }
