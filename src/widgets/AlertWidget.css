@@ -1,0 +1,48 @@
+.AlertWidget {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.AlertWidget section {
+  flex: 2;
+  padding: 10px;
+}
+
+.AlertWidget svg {
+  flex: 1;
+  height: 100%;
+}
+
+.AlertWidget h2,
+.AlertWidget div {
+  font-weight: lighter;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AlertWidget h2 {
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.level0 {
+  fill: gray;
+}
+
+.level1 {
+  fill: green;
+}
+
+.level2 {
+  fill: #ffe01c;
+}
+
+.level3 {
+  fill: orange;
+}
+
+.level4 {
+  fill: #e80a0a;
+}
+

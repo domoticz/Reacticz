@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AlertWidget from './AlertWidget'
 import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
@@ -67,6 +68,12 @@ class DeviceWidget extends Component {
       case "Heating" :
         return <ThermostatWidget idx={device.idx} label={device.name}
             value={device.svalue1} {...this.props} />
+      case "General" :
+        if (device.stype === "Alert") {
+          return <AlertWidget idx={device.idx} label={device.name}
+              value={device.svalue1} level={device.nvalue} {...this.props} />
+        }
+        break;
       default:
         break;
     }
