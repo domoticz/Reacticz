@@ -1,0 +1,46 @@
+.PercentWidget {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.PercentWidget svg {
+  height: 100%;
+}
+
+.PercentWidget h2,
+.PercentWidget div {
+  font-weight: lighter;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.PercentWidget h2 {
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.PercentWidget h2:after {
+  content: '%';
+}
+
+.PercentWidget .doughnut {
+  transform: rotate(-90deg);
+}
+
+.PercentWidget .doughnut circle {
+  stroke-dashoffset: 0;
+  stroke-dasharray: 565.48;
+  stroke-width: 40px;
+  fill: transparent;
+  transition: stroke-dashoffset .3s ease-out;
+}
+
+.PercentWidget .doughnut .bar {
+  stroke-dashoffset: 565.487;
+  transform: translateZ(0);
+}
+
+.PercentWidget section {
+  padding: 10px;
+}

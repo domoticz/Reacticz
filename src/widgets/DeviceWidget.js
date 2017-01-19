@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
+import PercentWidget from './PercentWidget'
 import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
@@ -69,15 +70,21 @@ class DeviceWidget extends Component {
         return <ThermostatWidget idx={device.idx} label={device.name}
             value={device.svalue1} {...this.props} />
       case "General" :
-        if (device.stype === "Alert") {
-          return <AlertWidget idx={device.idx} label={device.name}
-              value={device.svalue1} level={device.nvalue} {...this.props} />
+        switch (device.stype) {
+          case "Alert" :
+            return <AlertWidget idx={device.idx} label={device.name}
+                value={device.svalue1} level={device.nvalue} {...this.props} />
+          case "Percentage" :
+            return <PercentWidget idx={device.idx} label={device.name}
+                value={device.svalue1} {...this.props} />
+          default:
+            break;
         }
         break;
       default:
         break;
     }
-    return <div className="Unsupported"><h2>Unsupported type: {device.switchType || device.stype}</h2><textarea>{JSON.stringify(device)}</textarea></div>;
+    return <div className="Unsupported"><h2>Unsupported type: {device.switchType || device.stype}</h2><textarea defaultValue={JSON.stringify(device)}></textarea></div>;
   }
 
 }
