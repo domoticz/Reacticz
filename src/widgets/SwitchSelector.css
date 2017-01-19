@@ -37,6 +37,7 @@
 .selector button {
   flex: 1;
   margin: 0 5px;
+  height: auto;
 }
 
 .selector button:first-child {
@@ -47,9 +48,12 @@
   margin-right: 0;
 }
 
+.selector .selectContainer {
+  display: flex;
+}
+
 .selector select {
   width: 100%;
-  height: 100%;
   padding: 0 30px 0 10px;
   font-size: 20px;
   font-weight: 100;

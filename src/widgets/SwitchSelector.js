@@ -68,7 +68,7 @@ class SwitchSelector extends Component {
     }
     return (<div className="selector" style={style}>
         <h2>{this.props.label}</h2>
-        <div>
+        <div className="selectContainer">
         <i className="carret" style={carretStyle}>▼</i>
         <select disabled={this.props.readOnly} value={this.props.value} style={this.props.value === '0' ? buttonStyleOff : buttonStyleOn} onChange={this.handleSelect}>{list}</select>
         </div></div>);
