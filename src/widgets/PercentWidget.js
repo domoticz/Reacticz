@@ -12,6 +12,7 @@ class PercentWidget extends Component {
   }
 
   render() {
+    const dashArray = Math.PI * this.radius * 2;
     const dashOffset = ((100 - Number(this.props.value)) / 100) * Math.PI *
        (this.radius * 2);
     const theme = this.props.theme;
@@ -20,10 +21,12 @@ class PercentWidget extends Component {
       color: theme.text
     } : {};
     const circleStyle = theme ? {
-      stroke: theme.buttonOff
+      stroke: theme.buttonOff,
+      strokeDasharray: dashArray
     } : {};
     const barStyle = theme ? {
       stroke: theme.buttonOn,
+      strokeDasharray: dashArray,
       strokeDashoffset: dashOffset
     } : {};
     return (
