@@ -14,7 +14,6 @@
 .slider {
   opacity: 0;
   pointer-events: all;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 .bar, .dimmerProgress {
