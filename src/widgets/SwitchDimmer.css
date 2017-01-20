@@ -7,10 +7,14 @@
   height: 100%;
   overflow: hidden;
   transition: transform .3s ease-out;
+  pointer-events: none;
+  user-select: none;
 }
 
 .slider {
   opacity: 0;
+  pointer-events: all;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 .bar, .dimmerProgress {

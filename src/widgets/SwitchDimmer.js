@@ -3,6 +3,8 @@ import LoadingWidget from './LoadingWidget'
 import JSONClientSingleton from '../util/JSONClientSingleton'
 import './SwitchDimmer.css'
 
+const HORIZONTAL_THRESHOLD_RAD = 0.8;
+
 class SwitchDimmer extends Component {
 
   constructor(props) {
@@ -14,31 +16,89 @@ class SwitchDimmer extends Component {
       fadeTimeoutId: null,
       showBar: false
     }
+    this.touchTarget = null;
+    this.touchStartData = null;
   }
 
-  onChange = (event) => {
-    if (this.props.readOnly) {
-      return
+  onClick = (event) => {
+    var rect = this.touchTarget.getBoundingClientRect();
+    let value = (event.pageX - rect.left) / rect.width;
+    // Make off and max slightly larger touch targets.
+    if (value <= 0.1) {
+      this.sendOff();
+      return;
+    } else if (value >= 0.9) {
+      value = 1;
     }
+    const targetValue = Math.round(value * (this.props.deviceSpec['MaxDimLevel'] || 100));
     this.setState({showBar: true});
-    this.setState({localValue: parseInt(event.target.value, 10)});
-    global.clearTimeout(this.state.debounceTimeoutId);
-    this.setState({debounceTimeoutId: global.setTimeout(this.sendValue, 200)});
+    this.setState({localValue: parseInt(targetValue, 10)});
+    this.sendValue(targetValue);
     global.clearTimeout(this.state.fadeTimeoutId);
     this.setState({fadeTimeoutId: global.setTimeout(this.fadeBar, 1000)});
+  }
+
+  onTouchStart = (event) => {
+    this.touchStartData = {
+      x: event.touches[0].pageX,
+      y: event.touches[0].pageY,
+      rect: this.touchTarget.getBoundingClientRect()
+    };
+  }
+
+  onTouchMove = (event) => {
+    if (this.props.readOnly) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    const angle = Math.atan2(
+        touch.pageY - this.touchStartData.y,
+        touch.pageX - this.touchStartData.x);
+    const isVertical =
+        (Math.abs(Math.abs(angle) - Math.PI / 2)) <= HORIZONTAL_THRESHOLD_RAD;
+
+    if (isVertical) {
+      return;
+    }
+
+    const pct = (touch.pageX - this.touchStartData.rect.left) /
+        this.touchStartData.rect.width;
+    const max = (this.props.deviceSpec['MaxDimLevel'] || 100);
+    const targetValue = Math.min(max, Math.max(Math.round(pct * max), 0));
+
+    if (this.state.localValue !== targetValue) {
+      this.setState({showBar: true});
+      this.setState({localValue: parseInt(targetValue, 10)});
+      global.clearTimeout(this.state.debounceTimeoutId);
+      this.setState(
+          {debounceTimeoutId: global.setTimeout(this.sendValue, 200)});
+      global.clearTimeout(this.state.fadeTimeoutId);
+      this.setState({fadeTimeoutId: global.setTimeout(this.fadeBar, 1000)});
+    }
   }
 
   fadeBar = () => {
     this.setState({showBar: false});
   }
 
-  sendValue = () => {
+  sendValue = (opt_targetValue) => {
     const message = {
-      type: "command",
-      param: "switchlight",
+      type: 'command',
+      param: 'switchlight',
       idx: this.props.idx,
-      switchcmd: "Set Level",
-      level: this.state.localValue + 1
+      switchcmd: 'Set Level',
+      level: (opt_targetValue || this.state.localValue) + 1
+    };
+    this.json.get(message);
+  }
+
+  sendOff = () => {
+    const message = {
+      type: 'command',
+      param: 'switchlight',
+      idx: this.props.idx,
+      switchcmd: 'Off'
     };
     this.json.get(message);
   }
@@ -72,12 +132,13 @@ class SwitchDimmer extends Component {
         </div>
         <div className="bar" style={{transform: 'translateX(' + targetPct + '%)', opacity: this.state.showBar ? 1 : 0}}></div>
         <div style={{width: '100%', height: '100%', position: 'absolute', top: 0}}>
-          <input className="slider" type="range" min="0" max={maxDimLevel} step="1" value={this.state.localValue} onChange={this.onChange} />
+          <div className="slider" ref={(div) => { this.touchTarget = div; }}
+              onClick={this.onClick} onTouchStart={this.onTouchStart}
+              onTouchMove={this.onTouchMove}></div>
         </div>
       </div>
     );
   }
-
 }
 
 export default SwitchDimmer
