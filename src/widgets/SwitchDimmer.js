@@ -33,7 +33,8 @@ class SwitchDimmer extends Component {
     const targetValue = Math.round(value * (this.props.deviceSpec['MaxDimLevel'] || 100));
     this.setState({showBar: true});
     this.setState({localValue: parseInt(targetValue, 10)});
-    this.sendValue(targetValue);
+    global.clearTimeout(this.state.debounceTimeoutId);
+    this.setState({debounceTimeoutId: global.setTimeout(this.sendValue, 200)});
     global.clearTimeout(this.state.fadeTimeoutId);
     this.setState({fadeTimeoutId: global.setTimeout(this.fadeBar, 1000)});
   }
