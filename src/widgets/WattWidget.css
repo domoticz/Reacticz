@@ -1,0 +1,15 @@
+.WattWidget .watt:after {
+  content: ' W';
+}
+
+.WattWidget .kwh:after {
+  content: ' kWh';
+}
+
+.WattWidget svg {
+  flex: 1;
+}
+
+.WattWidget section {
+  flex: 2;
+}

@@ -8,6 +8,7 @@ import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
 import TextWidget from './TextWidget'
 import ThermostatWidget from './ThermostatWidget'
+import WattWidget from './WattWidget'
 import WeatherWidget from './WeatherWidget'
 import './DeviceWidget.css';
 import '../App.css';
@@ -36,9 +37,6 @@ class DeviceWidget extends Component {
   render() {
     const device = this.props.device;
     switch (device.switchType) {
-      case "On/Off" :
-        return <SwitchOnOff idx={device.idx} label={device.name}
-            value={device.nvalue} {...this.props} />;
       case "Blinds" :
       case "Blinds Inverted" :
         return <SwitchBlinds idx={device.idx} label={device.name}
@@ -52,6 +50,9 @@ class DeviceWidget extends Component {
         return <SwitchDimmer idx={device.idx} label={device.name}
             device={device}
             value={device.svalue1} {...this.props} />;
+      case "On/Off" :
+        return <SwitchOnOff idx={device.idx} label={device.name}
+            value={device.nvalue} {...this.props} />;
       case "Selector" :
         return <SwitchSelector idx={device.idx} label={device.name}
             value={device.svalue1}
@@ -62,25 +63,37 @@ class DeviceWidget extends Component {
         break;
     }
     switch (device.dtype) {
+      case "General" :
+        switch (device.stype) {
+          case "Alert" :
+            return <AlertWidget label={device.name} value={device.svalue1}
+                level={device.nvalue} {...this.props} />
+          case "Percentage" :
+            return <PercentWidget label={device.name} value={device.svalue1}
+                {...this.props} />
+          case "Text" :
+            return <TextWidget label={device.name} value={device.svalue1}
+                {...this.props} />
+          case "kWh" :
+            return <WattWidget label={device.name} powerValue={device.svalue1}
+                energyValue={device.svalue2} {...this.props} />
+          default:
+            break;
+        }
+        break;
+      case "Heating" :
+      case "Thermostat" :
+        return <ThermostatWidget idx={device.idx} label={device.name}
+            value={device.svalue1} {...this.props} />
       case "Temp" :
       case "Temp + Humidity" :
       case "Temp + Humidity + Baro" :
         return <WeatherWidget hidePressure="true" {...this.props} />;
-      case "Thermostat" :
-      case "Heating" :
-        return <ThermostatWidget idx={device.idx} label={device.name}
-            value={device.svalue1} {...this.props} />
-      case "General" :
+      case "Usage" :
         switch (device.stype) {
-          case "Alert" :
-            return <AlertWidget idx={device.idx} label={device.name}
-                value={device.svalue1} level={device.nvalue} {...this.props} />
-          case "Percentage" :
-            return <PercentWidget idx={device.idx} label={device.name}
-                value={device.svalue1} {...this.props} />
-          case "Text" :
-            return <TextWidget idx={device.idx} label={device.name}
-                value={device.svalue1} {...this.props} />
+          case "Electric" :
+            return <WattWidget label={device.name} powerValue={device.svalue1}
+                {...this.props} />
           default:
             break;
         }
