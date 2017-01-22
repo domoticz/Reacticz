@@ -35,6 +35,7 @@
 .dimmerContainer {
   font-size: 20px;
   font-weight: lighter;
+  text-align: center;
 }
 
 .dimmerProgressContent {
