@@ -1,0 +1,25 @@
+.TextWidget {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.TextWidget h2,
+.TextWidget div {
+  font-weight: lighter;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.TextWidget h2 {
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.TextWidget section {
+  padding: 10px;
+}
+
+.TextWidget svg {
+  height: 100%;
+}

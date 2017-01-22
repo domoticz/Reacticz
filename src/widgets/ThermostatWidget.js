@@ -5,7 +5,6 @@
 */
 
 import React, { Component } from 'react';
-//import MqttClientSingleton from '../util/MqttClientSingleton'
 import JSONClientSingleton from '../util/JSONClientSingleton'
 import './ThermostatWidget.css';
 
@@ -14,7 +13,6 @@ class ThermostatWidget extends Component {
   constructor(props) {
     super(props);
     this.json = new JSONClientSingleton();
-    //this.mqtt = new MqttClientSingleton();
   }
 
   decreaseSetpoint = () => {
@@ -29,7 +27,6 @@ class ThermostatWidget extends Component {
     if (this.props.readOnly) {
       return
     }
-    //type=command&param=udevice&idx=131&nvalue=0&svalue=20.5
     const message = {
       type: 'command',
       param: 'udevice',

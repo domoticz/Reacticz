@@ -6,6 +6,7 @@ import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
+import TextWidget from './TextWidget'
 import ThermostatWidget from './ThermostatWidget'
 import WeatherWidget from './WeatherWidget'
 import './DeviceWidget.css';
@@ -76,6 +77,9 @@ class DeviceWidget extends Component {
                 value={device.svalue1} level={device.nvalue} {...this.props} />
           case "Percentage" :
             return <PercentWidget idx={device.idx} label={device.name}
+                value={device.svalue1} {...this.props} />
+          case "Text" :
+            return <TextWidget idx={device.idx} label={device.name}
                 value={device.svalue1} {...this.props} />
           default:
             break;
