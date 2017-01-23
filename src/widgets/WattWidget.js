@@ -19,7 +19,7 @@ class WattWidget extends Component {
           <div>{this.props.label}</div>
           <h2 className="watt">{Number(this.props.powerValue).toFixed(1)}</h2>
           {this.props.energyValue &&
-              <div className="kwh">{Number(this.props.energyValue).toFixed(1)}
+              <div className="kwh">{Number(this.props.energyValue/1000).toFixed(3)}
               </div>}
         </section>
       </div>
