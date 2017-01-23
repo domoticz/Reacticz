@@ -22,8 +22,17 @@ class LoadingWidget extends Component {
   }
 
   render() {
+    const theme = this.props.theme;
+    const style = theme ? {
+      backgroundColor: this.props.readOnly ? '' : theme.background,
+      color: theme.text
+    } : {};
     return (
-      <div className="loadingMessage">{this.state.failed ? 'Offline ?' : 'Loading...'}</div>
+      <div className="loadingMessage" style={style}>
+        {this.state.failed ? 'Offline ?' : 'Loading...'}
+        {this.state.failed && <button
+            onClick={this.props.onRemove}>Remove</button>}
+      </div>
     );
   }
 

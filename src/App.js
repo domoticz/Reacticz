@@ -166,6 +166,14 @@ class App extends Component {
     }
   }
 
+  removeDevice = (id) => {
+    if (confirm('Remove this widget ?')) {
+      const whitelist = this.state.whitelist.slice(0);
+      whitelist.splice(whitelist.indexOf(id), 1);
+      this.handleDeviceListChange(whitelist);
+    }
+  }
+
   requestDeviceStatus = (id) => {
     const explodedId = id.split('|');
     if (explodedId[0] !== 'd') {
@@ -173,7 +181,7 @@ class App extends Component {
       return;
     }
     const idx = parseInt(id.split('|')[1], 10);
-    this.mqtt.publish({"command": "getdeviceinfo", "idx": idx });
+    this.mqtt.publish({'command': 'getdeviceinfo', 'idx': idx });
   }
 
   hasWhitelistedScenes(opt_list) {
@@ -296,7 +304,9 @@ class App extends Component {
           const device = this.state.devices[deviceId];
           if (!device) {
             // Device not available
-            return (<div key={deviceId} className="gridItem"><LoadingWidget theme={this.state.theme}/></div>);
+            return (<div key={deviceId} className="gridItem">
+                <LoadingWidget onRemove={() => this.removeDevice(deviceId)}
+                    theme={this.state.theme}/></div>);
           }
           let widget = '';
           if (device.Type === 'Group' || device.Type === 'Scene') {
