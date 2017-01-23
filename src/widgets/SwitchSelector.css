@@ -40,6 +40,12 @@
   height: auto;
 }
 
+@media (max-width: 414px) {
+	.selector button {
+		font-size: 16px;
+	}
+}
+
 .selector button:first-child {
   margin-left: 0;
 }
