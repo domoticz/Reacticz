@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FloorplanSelector from './FloorplanSelector'
 import JSONClientSingleton from './util/JSONClientSingleton'
 
 import './DeviceListView.css';
@@ -23,6 +24,7 @@ class DeviceListView extends Component {
       // Remove device
       const result = this.props.idxWhitelist.slice(0);
       result.splice(this.props.idxWhitelist.indexOf(checkboxEl.value), 1);
+      console.log(result);
       this.props.onWhitelistChange(result);
     }
   }
@@ -80,6 +82,8 @@ class DeviceListView extends Component {
     return (
       <div className="DeviceListView">
         <span>Tick the devices to show in the dashboard</span>
+        <FloorplanSelector needConfirm={this.props.idxWhitelist.length > 0}
+            onWhitelistChange={this.props.onWhitelistChange}/>
         {sections}
       </div>
     );

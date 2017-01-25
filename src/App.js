@@ -120,9 +120,9 @@ class App extends Component {
       try {
         const config = JSON.parse(LZString.decompressFromEncodedURIComponent(param));
         config.s && this.handleServerConfigChange(config.s);
-        config.w && this.handleDeviceListChange(config.w);
-        config.l && this.setState({layout: config.l});
         config.t && this.handleThemeChange(config.t);
+        this.handleDeviceListChange(config.w || []);
+        this.setState({layout: config.l || []});
       } catch (e) {
         alert('Sorry, something went wrong. The configuration could not be read.');
       }
