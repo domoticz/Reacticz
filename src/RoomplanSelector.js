@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import JSONClientSingleton from './util/JSONClientSingleton'
 
-class FloorplanSelector extends Component {
+class RoomplanSelector extends Component {
 
   constructor(props) {
     super(props);
@@ -70,9 +70,11 @@ class FloorplanSelector extends Component {
       return;
     }
     if (this.props.needConfirm &&
-      !confirm('Replace current selection with the devices of this Room ?')) {
-      return false;
+      !confirm('Replace current selection with the devices of this room ?')) {
+      return;
     }
+    // Force-reset layout.
+    this.props.onWhitelistChange([]);
     const message = {
       type: 'command',
       param: 'getplandevices',
@@ -92,7 +94,7 @@ class FloorplanSelector extends Component {
   render() {
     const options = [];
     if (this.state.idx.length) {
-      options.push(<option key='nofp' value='none'>preselect by Room plan</option>);
+      options.push(<option key='nofp' value='none'>select by room plan</option>);
       for (let i = 0; i < this.state.idx.length; i++) {
         const id = this.state.idx[i];
         options.push(
@@ -102,11 +104,11 @@ class FloorplanSelector extends Component {
     }
     return (
       <span>
-        {options.length ? <span>, or <select onChange={this.handleSelect}>{options}</select></span> : ''}
+        {options.length ? <span>, or <select value="none" onChange={this.handleSelect}>{options}</select></span> : ''}
       </span>
     );
   }
 
 }
 
-export default FloorplanSelector
+export default RoomplanSelector
