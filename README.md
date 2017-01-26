@@ -56,7 +56,9 @@ When opening Reacticz for the first time on a new device, you will be redirected
 
 All configuration settings are stored on your web browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) only and are not shared with the rest of the world. When using the dashboard, your browser uses MQTT (via websockets) and JSON to talk directly to your Domoticz server through your local network, there is no external third party involved. 
 
-In other words it is safe to use the [public server](http://reacticz.t0m.fr). Disclaimer: on the public server some very basic, anonymous Google analytics are collected (such as number of users, time spent or country location), but personal configuration or dashboard actions are *not* tracked. If you [make your own build](#running-building-testing) of Reacticz the analytics code will not be inserted.
+In other words it is safe to use the [public server](http://reacticz.t0m.fr). 
+
+**Disclaimer:** on the public server some very basic, anonymous Google Analytics are collected (such as number of visitors, time spent, or country location), but personal configuration or dashboard actions are **not** tracked. If you [make your own build](#running-building-testing) of Reacticz, the analytics code will not be inserted.
 
 ## Customizing the dashboard
 
