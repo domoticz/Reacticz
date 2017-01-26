@@ -8,7 +8,7 @@ Have a Domoticz home automation server with MQTT gateway? Open [this page](http:
 
 ![reacticz](https://cloud.githubusercontent.com/assets/1903597/21564032/c2789068-ce88-11e6-8531-7a6f689e505c.png)
 
-All widgets are draggable and resizeable. See more screenshots [here](#supported-widgets).
+All widgets are draggable and resizeable. See more screenshots [on the wiki](https://github.com/t0mg/reacticz/wiki/Supported-devices).
 
 ## Requirements
 
