@@ -54,7 +54,9 @@ When opening Reacticz for the first time on a new device, you will be redirected
 
 ### Note on personal data
 
-All configuration settings are stored on your web browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) only and are not shared with the rest of the world. When using the dashboard, your browser uses MQTT and JSON to talk directly to your Domoticz server through your local network, there is no third party involved.
+All configuration settings are stored on your web browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) only and are not shared with the rest of the world. When using the dashboard, your browser uses MQTT (via websockets) and JSON to talk directly to your Domoticz server through your local network, there is no external third party involved. 
+
+In other words it is safe to use the [public server](http://reacticz.t0m.fr). Disclaimer: on the public server some very basic, anonymous Google analytics are collected (such as number of users, time spent or country location), but personal configuration or dashboard actions are *not* tracked. If you [make your own build](#running-building-testing) of Reacticz the analytics code will not be inserted.
 
 ## Customizing the dashboard
 
@@ -64,11 +66,17 @@ To add widgets to your dashboard you must choose them from a list of all availab
 
 Unfold the menu bar (cog icon on the top right corner) and click the list-like icon to go to the Device selection screen. All your Domoticz devices should show up there. Tick the checkbox next to the devices you want to appear in your dashboard. Once you're done, click the Home icon in the menu to get back to the home screen and start [organizing your widgets](#organizing-the-widgets).
 
+If you have room plans configured in Domoticz, you can also use the selector to automatically check all the devices corresponding to a given room plan.
+
 ### Organizing the widgets
 
 On the home screen, open the menu bar and click the padlock icon to unlock your dashboard layout and enter edit mode. When the padlock is unlocked, all widgets become draggable and resizable (and can no longer be clicked). Organize them to your liking and click the padlock again to lock the layout and return to normal use.
 
 Just like the [server configuration](#configuration), the layout is stored locally on your browser, and will be restored every time you open Reacticz on this device.
+
+### Theming options
+
+It is possible to change the color theme of Reacticz by using the selector in the information page.
 
 ## Sharing your configuration
 
@@ -76,22 +84,7 @@ The information page (last icon in the menu bar) provides a special link that le
 
 ## Supported widgets
 
-The following device types are currently supported on Reacticz dashboard:
-
-- Scenes<br>
-![scene](https://cloud.githubusercontent.com/assets/1903597/21553174/3c9381fa-ce07-11e6-8c7b-e1a80b1073fe.png)
-- Groups<br>
-![group](https://cloud.githubusercontent.com/assets/1903597/21552972/93fd8c6c-ce05-11e6-845d-2b53c8f54f02.gif)
-- Weather + Humidity + Baro<br>
-![weather](https://cloud.githubusercontent.com/assets/1903597/21553236/94acbbf4-ce07-11e6-9b05-058c7365c22e.png)
-- On/Off switches<br>
-![switch](https://cloud.githubusercontent.com/assets/1903597/21552964/8e6b1710-ce05-11e6-8ed0-cc42b2665cca.gif)
-- Dimmer switches<br>
-![dimmer](https://cloud.githubusercontent.com/assets/1903597/21552962/8a9941d4-ce05-11e6-92d5-65ca7f9d1df1.gif)
-- RGBW switches<br>
-![rgbw](https://cloud.githubusercontent.com/assets/1903597/21552958/8699516e-ce05-11e6-8659-10839f1f6e8e.gif)
-- Blinds<br>
-![blinds](https://cloud.githubusercontent.com/assets/1903597/21553177/3ef9b77a-ce07-11e6-8ad2-aebd19d1bd96.png)
+See the [dedicated wiki page](https://github.com/t0mg/reacticz/wiki/Supported-devices) for a list of currently supported devices.
 
 ## Credits
 
