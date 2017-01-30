@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
+import GenericWidget from './GenericWidget';
 import './WattWidget.css';
-import './TextWidget.css';
 
 class WattWidget extends Component {
 
   render() {
-    const theme = this.props.theme;
-    const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
-      color: theme.text,
-      fill: Number(this.props.powerValue) > 0 ?
-          theme.buttonOn : theme.buttonOff
-    } : {};
     return (
-      <div className="TextWidget WattWidget" style={style}>
-        <svg><use xlinkHref='#power' /></svg>
-        <section>
-          <div>{this.props.label}</div>
-          <h2 className="watt">{Number(this.props.powerValue).toFixed(1)}</h2>
-          {this.props.energyValue &&
-              <div className="kwh">{Number(this.props.energyValue/1000).toFixed(3)}
-              </div>}
-        </section>
-      </div>
+      <GenericWidget class="WattWidget" icon="power"
+          isOn={Number(this.props.powerValue) > 0 }
+          value1={Number(this.props.powerValue).toFixed(1)}
+          value2={Number(this.props.energyValue/1000).toFixed(3)}
+          {...this.props} />
     );
   }
 

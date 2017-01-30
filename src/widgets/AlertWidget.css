@@ -1,28 +1,20 @@
-.AlertWidget section {
-  flex: 2;
-}
-
-.AlertWidget svg {
-  flex: 1;
-}
-
-.level0 {
+.AlertWidget.level0 {
   fill: gray;
 }
 
-.level1 {
+.AlertWidget.level1 {
   fill: green;
 }
 
-.level2 {
+.AlertWidget.level2 {
   fill: #ffe01c;
 }
 
-.level3 {
+.AlertWidget.level3 {
   fill: orange;
 }
 
-.level4 {
+.AlertWidget.level4 {
   fill: #e80a0a;
 }
 

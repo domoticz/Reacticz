@@ -1,25 +1,33 @@
-.TextWidget {
+.GenericWidget {
   display: flex;
   height: 100%;
   align-items: center;
 }
 
-.TextWidget h2,
-.TextWidget div {
+.GenericWidget h2,
+.GenericWidget div {
   font-weight: lighter;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.TextWidget h2 {
+.GenericWidget h2 {
   margin: 5px 0;
   font-size: 20px;
 }
 
-.TextWidget section {
+.GenericWidget section {
   padding: 10px;
 }
 
-.TextWidget svg {
+.GenericWidget svg {
   height: 100%;
+}
+
+.GenericWidget svg {
+  flex: 1;
+}
+
+.GenericWidget section {
+  flex: 2;
 }
