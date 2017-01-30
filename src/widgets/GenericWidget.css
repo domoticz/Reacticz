@@ -18,16 +18,10 @@
 
 .GenericWidget section {
   padding: 10px;
+  flex: 2;
 }
 
 .GenericWidget svg {
   height: 100%;
-}
-
-.GenericWidget svg {
   flex: 1;
-}
-
-.GenericWidget section {
-  flex: 2;
 }
