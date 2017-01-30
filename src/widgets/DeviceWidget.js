@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
+import ContactWidget from './ContactWidget'
 import MediaPlayer from './MediaPlayer'
 import PercentWidget from './PercentWidget'
 import SwitchOnOff from './SwitchOnOff'
@@ -65,6 +66,9 @@ class DeviceWidget extends Component {
             levels={device.LevelNames.split('|')}
             useButtons={device.SelectorStyle === "0"}
             {...this.props} />;
+      case "Contact" :
+        return <ContactWidget label={device.name} value={device.svalue1}
+            {...this.props} />
       default:
         break;
     }
