@@ -30,7 +30,7 @@ const Themes = {
     textOn: 'white'
   },
     'Light Blue' : {
-    background: '#99CCFF',
+    background: 'white',
     blindClosed: '#5d5d5d',
     blindOpen: '#303F9F',
     blindTextOff: 'white',
@@ -45,7 +45,7 @@ const Themes = {
     textOn: 'black'
   },
     'Light Green' : {
-    background: '#66FF99',
+    background: 'white',
     blindClosed: '#5d5d5d',
     blindOpen: '#303F9F',
     blindTextOff: 'white',
