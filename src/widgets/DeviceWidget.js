@@ -12,6 +12,7 @@ import TextWidget from './TextWidget'
 import ThermostatWidget from './ThermostatWidget'
 import WattWidget from './WattWidget'
 import WeatherWidget from './WeatherWidget'
+import WindWidget from './WindWidget'
 import './DeviceWidget.css';
 import '../App.css';
 
@@ -108,6 +109,11 @@ class DeviceWidget extends Component {
             break;
         }
         break;
+      case "Wind" :
+        return <WindWidget idx={device.idx} label={device.name}
+            direction={device.svalue2}
+            speed={device.svalue3}
+            {...this.props} />;
       default:
         break;
     }

@@ -1,0 +1,3 @@
+.WindWidget .value2:after {
+  content: ' km/h';
+}
