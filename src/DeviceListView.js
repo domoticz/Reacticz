@@ -82,7 +82,8 @@ class DeviceListView extends Component {
     return (
       <div className="DeviceListView">
         <span>Tick the devices to show in the dashboard</span>
-        <RoomplanSelector needConfirm={this.props.idxWhitelist.length > 0}
+        <RoomplanSelector needConfirm={this.props.idxWhitelist &&
+            this.props.idxWhitelist.length > 0}
             onWhitelistChange={this.props.onWhitelistChange}/>
         {sections}
       </div>

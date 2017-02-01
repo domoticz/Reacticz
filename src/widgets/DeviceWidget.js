@@ -114,7 +114,7 @@ class DeviceWidget extends Component {
             bearing={Number(device.svalue1)}
             direction={device.svalue2}
             speed={Number(device.svalue3)}
-            {...this.props} />;
+            {...this.props} />
       default:
         break;
     }
