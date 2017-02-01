@@ -111,8 +111,9 @@ class DeviceWidget extends Component {
         break;
       case "Wind" :
         return <WindWidget idx={device.idx} label={device.name}
+            bearing={Number(device.svalue1)}
             direction={device.svalue2}
-            speed={device.svalue3}
+            speed={Number(device.svalue3)}
             {...this.props} />;
       default:
         break;
