@@ -96,6 +96,16 @@ class DeviceWidget extends Component {
       case "Thermostat" :
         return <ThermostatWidget idx={device.idx} label={device.name}
             value={device.svalue1} {...this.props} />
+      case "P1 Smart Meter" :
+        switch (device.stype) {
+          case "Energy" :
+            return <WattWidget label={device.name} powerValue={device.svalue5}
+            prodValue={device.svalue6}
+            {...this.props} />
+          default:
+            break;
+        }
+        break;
       case "Temp" :
       case "Humidity" :
       case "Temp + Humidity" :

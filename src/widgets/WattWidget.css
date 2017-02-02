@@ -5,3 +5,7 @@
 .WattWidget .value2:after {
   content: ' kWh';
 }
+
+.WattWidget.withProd .value2:after {
+  content: ' W (prod)';
+}
