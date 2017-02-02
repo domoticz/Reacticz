@@ -16,10 +16,10 @@ class WeatherWidget extends Component {
     const device = this.props.device;
     const temp = Number(device.svalue1).toFixed(1);
     switch (device.dtype) {
-      case "Temp" :
-        return { temp: temp };
       case "Humidity" :
         return { humonly: device.nvalue, humstat: device.svalue1 };
+      case "Temp" :
+        return { temp: temp };
       case "Temp + Humidity" :
         return { temp: temp, hum: device.svalue2 };
       case "Temp + Humidity + Baro" :
@@ -37,14 +37,14 @@ class WeatherWidget extends Component {
     } : {};
     return (
       <div className="WeatherWidget">
-        {params.forecast && <div className={'weatherImage weather' + params.forecast}></div>}
+        {params.forecast !== undefined && <div className={'weatherImage weather' + params.forecast}></div>}
         <div className={'weatherData'} style={style}>
           <div className="name">{this.props.device.name}</div>
-          {params.temp && <div className="temp">{params.temp}</div>}
-          {params.baro && <div className="baro">{params.baro}</div>}
-          {params.hum && <div className="hum">{params.hum}</div>}
+          {params.temp !== undefined && <div className="temp">{params.temp}</div>}
+          {params.baro !== undefined && <div className="baro">{params.baro}</div>}
+          {params.hum !== undefined && <div className="hum">{params.hum}</div>}
           {params.humonly !== undefined && <div className="humonly">{params.humonly}</div>}
-		  {params.humstat !== undefined && <div className="humstat">{humidityStatus}</div>}
+		      {params.humstat !== undefined && <div className="humstat">{humidityStatus}</div>}
         </div>
       </div>
     );
