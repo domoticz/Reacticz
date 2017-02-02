@@ -97,6 +97,7 @@ class DeviceWidget extends Component {
         return <ThermostatWidget idx={device.idx} label={device.name}
             value={device.svalue1} {...this.props} />
       case "Temp" :
+      case "Humidity" :
       case "Temp + Humidity" :
       case "Temp + Humidity + Baro" :
         return <WeatherWidget hidePressure="true" {...this.props} />;

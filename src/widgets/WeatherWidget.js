@@ -18,6 +18,8 @@ class WeatherWidget extends Component {
     switch (device.dtype) {
       case "Temp" :
         return { temp: temp };
+      case "Humidity" :
+        return { humonly: device.nvalue, humstat: device.svalue1 };
       case "Temp + Humidity" :
         return { temp: temp, hum: device.svalue2 };
       case "Temp + Humidity + Baro" :
@@ -28,6 +30,7 @@ class WeatherWidget extends Component {
   render() {
     const params = this.getProperties();
     const theme = this.props.theme;
+    const humidityStatus = ((params.humstat === "0") ? 'Normal' : (params.humstat === "1") ? 'Comfortable' : (params.humstat === "2") ? 'Dry' : 'Wet');
     const style = theme ? {
       backgroundColor: this.props.readOnly ? '' : theme.background,
       color: theme.text
@@ -40,6 +43,8 @@ class WeatherWidget extends Component {
           {params.temp && <div className="temp">{params.temp}</div>}
           {params.baro && <div className="baro">{params.baro}</div>}
           {params.hum && <div className="hum">{params.hum}</div>}
+          {params.humonly !== undefined && <div className="humonly">{params.humonly}</div>}
+		  {params.humstat !== undefined && <div className="humstat">{humidityStatus}</div>}
         </div>
       </div>
     );

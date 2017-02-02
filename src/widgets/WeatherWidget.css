@@ -65,3 +65,7 @@
 .hum::after {
   content: "% hum.";
 }
+
+.humonly::after {
+  content: "%";
+}
