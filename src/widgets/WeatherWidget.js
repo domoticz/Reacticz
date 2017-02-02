@@ -23,7 +23,7 @@ class WeatherWidget extends Component {
       case "Temp + Humidity" :
         return { temp: temp, hum: device.svalue2 };
       case "Temp + Humidity + Baro" :
-        return { temp: temp, hum: device.svalue2, baro: this.props.hidePressure ? null : device.svalue4, forecast: device.svalue5 };
+        return { temp: temp, hum: device.svalue2, baro: this.props.hidePressure ? undefined : device.svalue4, forecast: device.svalue5 };
       default:}
   }
 
