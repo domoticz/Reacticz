@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
 import ContactWidget from './ContactWidget'
+import GasWidget from './GasWidget'
 import MediaPlayer from './MediaPlayer'
 import PercentWidget from './PercentWidget'
 import SwitchOnOff from './SwitchOnOff'
@@ -100,8 +101,11 @@ class DeviceWidget extends Component {
         switch (device.stype) {
           case "Energy" :
             return <WattWidget label={device.name} powerValue={device.svalue5}
-            prodValue={device.svalue6}
-            {...this.props} />
+                prodValue={device.svalue6}
+                {...this.props} />
+          case "Gas" :
+            return <GasWidget label={device.name} usage={device.svalue1}
+                {...this.props} />
           default:
             break;
         }
