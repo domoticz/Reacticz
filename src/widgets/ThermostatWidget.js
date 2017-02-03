@@ -48,7 +48,7 @@ class ThermostatWidget extends Component {
       color: theme.textOff
     } : {};
     return (
-      <div className="thermostat" style={style}>
+      <div className="ThermostatWidget" style={style}>
         <h2>{this.props.label}</h2>
         <div className="controls">
           <button className="switch minus" style={buttonStyle}

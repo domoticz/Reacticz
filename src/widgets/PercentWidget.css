@@ -1,5 +1,5 @@
 
-.PercentWidget h2:after {
+.PercentWidget h2::after {
   content: '%';
 }
 

@@ -1,7 +1,7 @@
-.RainWidget h2:after {
+.RainWidget .value1::after {
   content: ' mm';
 }
 
-.RainWidget .value2:after {
+.RainWidget .value2::after {
   content: ' mm/h';
 }

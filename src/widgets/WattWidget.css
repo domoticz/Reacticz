@@ -1,11 +1,11 @@
-.WattWidget h2:after {
+.WattWidget .value1::after {
   content: ' W';
 }
 
-.WattWidget .value2:after {
+.WattWidget .value2::after {
   content: ' kWh';
 }
 
-.WattWidget.withProd .value2:after {
+.WattWidget.withProd .value2::after {
   content: ' W (prod)';
 }

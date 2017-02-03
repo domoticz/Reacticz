@@ -1,17 +1,17 @@
-.thermostat {
+.ThermostatWidget {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.thermostat .controls {
+.ThermostatWidget .controls {
   display: flex;
   margin: 0;
   align-items: center;
   flex: 1;
 }
 
-.thermostat h2 {
+.ThermostatWidget h2 {
   width: 100%;
   padding: 10px;
   margin: 0;
@@ -26,14 +26,14 @@
   z-index: 1;
 }
 
-.thermostat .controls div,
-.thermostat button {
+.ThermostatWidget .controls div,
+.ThermostatWidget button {
   padding: 10px;
   flex: 1;
   box-sizing: border-box;
 }
 
-.thermostat .controls div {
+.ThermostatWidget .controls div {
   flex: 2;
   font-size: 28px;
   font-weight: lighter;
@@ -42,11 +42,11 @@
   overflow: hidden;
 }
 
-.thermostat .controls div::after {
+.ThermostatWidget .controls div::after {
   content: '°';
 }
 
-.thermostat button {
+.ThermostatWidget button {
   font-size: 28px;
   line-height: 28px;
 }

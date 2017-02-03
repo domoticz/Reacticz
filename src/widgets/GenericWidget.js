@@ -17,7 +17,7 @@ class GenericWidget extends Component {
         {this.props.children}
         <section>
           <div>{this.props.label}</div>
-          <h2>{this.props.value1}</h2>
+          <h2 className="value1">{this.props.value1}</h2>
           {this.props.value2 !== undefined &&
               <div className="value2">{this.props.value2}</div>}
         </section>

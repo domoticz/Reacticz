@@ -1,0 +1,3 @@
+.GasWidget .value1::after {
+  content: ' m3';
+}
