@@ -35,4 +35,4 @@ axiosMock.onGet().reply(function(config) {
 });
 
 // The welcome message when there is no config. Used in multiple tests.
-global.welcomeMessage = <span>Welcome to Reacticz, please setup your server config to proceed</span>;
+global.welcomeMessage = <p>Please setup your server config to proceed.</p>;

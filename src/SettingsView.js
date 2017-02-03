@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './SettingsView.css';
+import icon from '../public/icon/icon_64.png';
 
 class SettingsView extends Component {
 
@@ -25,13 +26,20 @@ class SettingsView extends Component {
   }
 
   render() {
-    const welcome = (this.props.config && this.props.config.mqttBrokerUrl) ? '' :  <span>Welcome to Reacticz, please setup your server config to proceed</span>;
+    const welcome = (this.props.config && this.props.config.mqttBrokerUrl) ? '' :
+        <div>
+          <h1>Reacticz</h1>
+          <img src={icon} alt="Reacticz logo"/>
+          <p>Welcome to Reacticz, the minimalistic <a href="http://www.domoticz.com" target="_blank">Domoticz</a> dashboard!<br/>
+          Documentation is available on  <a href="https://github.com/t0mg/reacticz#reacticz" target="_blank">GitHub</a>.</p>
+          <p>Please setup your server config to proceed.</p>
+        </div>;
     const mqttOk = this.props.status ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
     return (
       <div className="SettingsView">
         {welcome}
         <h2>Server Settings</h2>
-        <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled.</p>
+        <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled (see <a href="https://github.com/t0mg/reacticz#requirements" target="_blank">requirements</a>).</p>
         <form onSubmit={this.handleSubmit}>
           <label>
             MQTT Broker URL: {mqttOk}
