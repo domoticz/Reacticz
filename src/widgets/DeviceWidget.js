@@ -4,6 +4,7 @@ import ContactWidget from './ContactWidget'
 import GasWidget from './GasWidget'
 import MediaPlayer from './MediaPlayer'
 import PercentWidget from './PercentWidget'
+import RainWidget from './RainWidget'
 import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
@@ -129,6 +130,11 @@ class DeviceWidget extends Component {
             bearing={Number(device.svalue1)}
             direction={device.svalue2}
             speed={Number(device.svalue3)}
+            {...this.props} />
+      case "Rain" :
+        return <RainWidget label={device.name}
+            rain={Number(device.nvalue)}
+            rate={Number(device.svalue1)}
             {...this.props} />
       default:
         break;
