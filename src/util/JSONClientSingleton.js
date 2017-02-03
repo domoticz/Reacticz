@@ -16,6 +16,7 @@ class JSONClientSingleton {
       return singletonInstance;
     }
     this.throttleTimeout_ = null;
+    this.debounceErrors_ = false;
     singletonInstance = this;
     return singletonInstance;
   }
@@ -63,7 +64,11 @@ class JSONClientSingleton {
     axios.get(this.serverUrl+ '/json.htm?' + this.objectToQuery(queryData)).then(response => {
       opt_callback(response.data);
     }).catch(error => {
-      alert('Unable to reach Domoticz server, check the settings and make sure Domoticz is online');
+      if (!this.debounceErrors_) {
+        alert('Unable to reach Domoticz server.\n\nPlease check your Domoticz server URL in the settings and make sure Domoticz is online.');
+        window.setTimeout(() => (this.debounceErrors_ = false), 3000);
+        this.debounceErrors_ = true;
+      }
       console.debug('Unable to reach Domoticz', error);
     });
   }

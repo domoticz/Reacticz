@@ -39,7 +39,7 @@ class MqttClientSingleton {
     try {
       this.client = mqtt.connect(brokerUrl);
     } catch(e) {
-      alert('Connexion to MQTT broker failed.\nPlease make sure the URL is correct and that it accepts WebSocket protocol');
+      alert('Connexion to MQTT broker failed.\n\nPlease make sure the URL is correct and that it accepts WebSocket protocol.');
       console.debug('connexion failed', e);
       return;
     }
