@@ -39,6 +39,9 @@ class RoomplanSelector extends Component {
         alert("Unable to get scenes status.");
         return;
       }
+      if (!data.result) {
+        return;
+      }
       const scenes = data.result;
       const sceneIds = [];
       for (let i = 0; i < scenes.length; i++) {
