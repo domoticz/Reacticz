@@ -13,31 +13,45 @@ class ThermostatWidget extends Component {
   constructor(props) {
     super(props);
     this.json = new JSONClientSingleton();
+    this.state = {
+      targetValue: parseFloat(this.props.value, 10),
+      throttleId: null
+    };
   }
 
   decreaseSetpoint = () => {
-    this.updateSetpoint(parseFloat(this.props.value, 10) - 0.5);
+    this.updateSetpoint(this.state.targetValue - .5);
   }
 
   increaseSetpoint = () => {
-    this.updateSetpoint(parseFloat(this.props.value, 10) + 0.5);
+    this.updateSetpoint(this.state.targetValue + .5);
   }
 
   updateSetpoint(value) {
     if (this.props.readOnly) {
       return
     }
+    window.clearTimeout(this.state.throttleId);
+    this.setState({
+      targetValue:value,
+      throttleId: window.setTimeout(() => this.emitSetpointUpdate(), 1000)
+    });
+  }
+
+  emitSetpointUpdate() {
     const message = {
       type: 'command',
       param: 'udevice',
       idx: this.props.idx,
       nvalue: 0,
-      svalue: value
+      svalue: this.state.targetValue
     };
     this.json.get(message);
   }
 
   render() {
+    const updating = this.state.targetValue !==
+        parseFloat(this.props.value, 10);
     const theme = this.props.theme;
     const style = theme ? {
       backgroundColor: this.props.readOnly ? '' : theme.background,
@@ -53,7 +67,8 @@ class ThermostatWidget extends Component {
         <div className="controls">
           <button className="switch minus" style={buttonStyle}
                   onClick={this.decreaseSetpoint}>-</button>
-          <div>{Number(this.props.value).toFixed(1)}</div>
+          <div className={updating ? 'blink' : ''}>
+            {Number(this.state.targetValue).toFixed(1)}</div>
           <button className="switch plus" style={buttonStyle}
                   onClick={this.increaseSetpoint}>+</button>
         </div>
