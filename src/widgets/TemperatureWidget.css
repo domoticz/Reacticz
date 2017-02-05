@@ -1,0 +1,11 @@
+.TemperatureWidget .temp::after {
+  content: '°';
+}
+
+.TemperatureWidget .hum::after {
+  content: '% hum.';
+}
+
+.TemperatureWidget .humonly::after {
+  content: '%';
+}

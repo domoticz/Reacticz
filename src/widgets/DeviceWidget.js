@@ -11,6 +11,7 @@ import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
 import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
+import TemperatureWidget from './TemperatureWidget'
 import TextWidget from './TextWidget'
 import ThermostatWidget from './ThermostatWidget'
 import WattWidget from './WattWidget'
@@ -137,8 +138,19 @@ class DeviceWidget extends Component {
         return <MeterWidget label={device.name} value={value} unit={unit}
             {...this.props} />
       case 'Temp' :
+        return <TemperatureWidget label={device.name}
+            temp={Number(device.svalue1).toFixed(1)}
+            {...this.props} />
       case 'Humidity' :
+        return <TemperatureWidget label={device.name}
+            humonly={Number(device.nvalue)}
+            humstat={Number(device.svalue1)}
+            {...this.props} />
       case 'Temp + Humidity' :
+        return <TemperatureWidget label={device.name}
+            temp={Number(device.svalue1).toFixed(1)}
+            hum={Number(device.svalue2)}
+            {...this.props} />
       case 'Temp + Humidity + Baro' :
         return <WeatherWidget hidePressure='true' {...this.props} />;
       case 'Usage' :
@@ -158,8 +170,8 @@ class DeviceWidget extends Component {
             {...this.props} />
       case 'Rain' :
         return <RainWidget label={device.name}
-            rain={Number(device.nvalue)}
-            rate={Number(device.svalue1)}
+            rain={Number(device.svalue2).toFixed(1)}
+            rate={Number(device.svalue1 / 100 ).toFixed(1)}
             {...this.props} />
       default :
         break;

@@ -6,7 +6,7 @@ class RainWidget extends Component {
 
   render() {
     return (
-      <GenericWidget class="RainWidget" icon="cloud"
+      <GenericWidget class="RainWidget" icon="rain"
           isOn={this.props.rain > 0}
           value1={this.props.rain}
           value2={this.props.rate}

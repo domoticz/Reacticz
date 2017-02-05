@@ -55,17 +55,17 @@
 }
 
 .temp::after {
-  content: "°";
+  content: '°';
 }
 
 .baro::after {
-  content: " hPa";
+  content: ' hPa';
 }
 
 .hum::after {
-  content: "% hum.";
+  content: '% hum.';
 }
 
 .humonly::after {
-  content: "%";
+  content: '%';
 }
