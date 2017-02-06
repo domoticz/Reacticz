@@ -24,7 +24,13 @@ If you only want to use Reacticz without modifying it, you can simply use the [p
 
 If you want to build this project yourself, for example to host your own instance of Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-**Important note:** by default, Reacticz builds assuming it will be hosted at the root of the server (like the [public server](http://reacticz.t0m.fr) does). If you host Reacticz on a subpath of your server, you'll need to change the `homepage` property in `package.json` to make sure it matches the url where your build will be deployed (or relative paths might break). For example **if you want to deploy to a `reacticz` directory in your Domoticz `www` directory, the homepage property should be set as follows `"homepage": "http://localhost:8080/reacticz",`.**
+####Important note
+By default, Reacticz builds assuming it will be hosted at the root of the server (like the [public server](http://reacticz.t0m.fr) does). If you host Reacticz on a subpath of your server, you'll need to change the `homepage` property in `package.json` to make sure it matches the url where your build will be deployed (or relative paths might break). 
+
+For example, **if you want to deploy to a `reacticz` directory in your Domoticz `www` directory, the homepage property should be set as follows:**
+```js
+"homepage": "http://localhost:8080/reacticz",
+```
 
 In the project directory, you can run:
 
