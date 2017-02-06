@@ -31,7 +31,7 @@ For example, **if you want to deploy to a `reacticz` directory in your Domoticz 
 ```js
 "homepage": "http://localhost:8080/reacticz",
 ```
-
+--
 In the project directory, you can run:
 
 ### `npm install`
