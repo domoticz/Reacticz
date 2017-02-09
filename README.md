@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/t0mg/reacticz.svg?branch=master)](https://travis-ci.org/t0mg/reacticz)
+
 # Reacticz
 
 A [Domoticz](http://www.domoticz.com) dashboard as a static web app, using [MQTT](http://mqtt.org) and [React](https://facebook.github.io/react/).
