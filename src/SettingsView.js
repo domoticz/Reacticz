@@ -12,15 +12,13 @@ class SettingsView extends Component {
     };
   }
 
-  handleMqttChange = (event) => {
-    this.setState({mqttBrokerUrl: event.target.value});
+  handleChange = event => {
+    const newPartialState = {};
+    newPartialState[event.target.name] = event.target.value;
+    this.setState(newPartialState);
   }
 
-  handleDomoticzChange = (event) => {
-    this.setState({domoticzUrl: event.target.value});
-  }
-
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     this.props.onChange(this.state);
   }
@@ -43,12 +41,12 @@ class SettingsView extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             MQTT Broker URL: {mqttOk}
-            <input type="text" value={this.state.mqttBrokerUrl} placeholder="ws://mqtt-broker:port" onChange={this.handleMqttChange} />
+            <input type="text" value={this.state.mqttBrokerUrl} name="mqttBrokerUrl" placeholder="ws://mqtt-broker:port" onChange={this.handleChange} />
           </label>
           <br/>
           <label>
             Domoticz server URL:
-            <input type="text" value={this.state.domoticzUrl} placeholder="http://domoticz-server:port" onChange={this.handleDomoticzChange} />
+            <input type="text" value={this.state.domoticzUrl} name="domoticzUrl" placeholder="http://domoticz-server:port" onChange={this.handleChange} />
           </label>
           <br /><input type="submit" value="Apply &amp; Save" />
         </form>
