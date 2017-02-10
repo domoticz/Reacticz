@@ -10,7 +10,13 @@
   color: green;
 }
 
-.SettingsView input[type=text] {
+.SettingsView fieldset {
+  border: 1px solid #d3d3d3;
+  max-width: 480px;
+  padding: 5px 10px;
+}
+
+.SettingsView input[type=text], input[type=password]  {
   display: block;
   width: 100%;
   max-width: 500px;

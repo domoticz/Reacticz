@@ -17,12 +17,32 @@ class JSONClientSingleton {
     }
     this.throttleTimeout_ = null;
     this.debounceErrors_ = false;
+    this.isConnected = false;
+    this.eventHandler = function(type, opt_data) {};
     singletonInstance = this;
     return singletonInstance;
   }
+  
+  setEventHandler(eventHandler) {
+    this.eventHandler = eventHandler;
+  }
 
-  setServerUrl(url) {
-    this.serverUrl = url;
+  setServerUrl(url, opt_login, opt_password) {
+    this.serverUrl = url;  
+    this.axiosConfig = {};
+    if (opt_login && opt_password) {
+      this.axiosConfig.auth = {
+        username: opt_login,
+        password: opt_password
+      };
+    }
+
+    // Check if connection is ok with parameters
+    axios.head(this.serverUrl+ '/json.htm', this.axiosConfig).then(response => {
+      this.setConnected_(true);
+    }).catch(error => {
+      this.setConnected_(false);
+    });
   }
 
   getAllDevices(callback) {
@@ -61,7 +81,7 @@ class JSONClientSingleton {
       console.log('Server URL is not set, please check the settings');
       return;
     }
-    axios.get(this.serverUrl+ '/json.htm?' + this.objectToQuery(queryData)).then(response => {
+    axios.get(this.serverUrl+ '/json.htm?' + this.objectToQuery(queryData), this.axiosConfig).then(response => {
       opt_callback(response.data);
     }).catch(error => {
       if (!this.debounceErrors_) {
@@ -71,6 +91,11 @@ class JSONClientSingleton {
       }
       console.debug('Unable to reach Domoticz', error);
     });
+  }
+  
+  setConnected_(isConnected) {
+    this.isConnected = isConnected;
+    this.eventHandler('connected', this.isConnected);
   }
 
 }

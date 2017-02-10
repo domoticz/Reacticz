@@ -29,7 +29,7 @@ class MqttClientSingleton {
     this.eventHandler = eventHandler;
   }
 
-  connect(brokerUrl) {
+  connect(brokerUrl, opt_login, opt_password) {
     if (this.client) {
       this.close();
     }
@@ -37,7 +37,14 @@ class MqttClientSingleton {
       return;
     }
     try {
-      this.client = mqtt.connect(brokerUrl);
+      this.mqttConfig = {};
+      if (opt_login  && opt_password) {
+        this.mqttConfig = {
+          username: opt_login,
+          password: opt_password
+        };
+      }
+      this.client = mqtt.connect(brokerUrl, this.mqttConfig);
     } catch(e) {
       alert('Connexion to MQTT broker failed.\n\nPlease make sure the URL is correct and that it accepts WebSocket protocol.');
       console.debug('connexion failed', e);

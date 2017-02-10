@@ -36,9 +36,14 @@ class App extends Component {
       layoutLocked: true,
       serverConfig: {
         mqttBrokerUrl: '',
-        domoticzUrl: ''
+        mqttLogin: '',
+        mqttPassword: '',
+        domoticzUrl: '',
+        domoticzLogin: '',
+        domoticzPassword: ''
       },
       mqttConnected: false,
+      domoticzConnected: false,
       lastMqttMessage: null,
       whitelist: [],
       devices: {},
@@ -49,8 +54,9 @@ class App extends Component {
     };
     this.store = new LocalStorage();
     this.mqtt = new MqttClientSingleton();
-    this.json = new JSONClientSingleton();
     this.mqtt.setEventHandler(this.mqttEventHandler);
+    this.json = new JSONClientSingleton();
+    this.json.setEventHandler(this.domoticzEventHandler);
   }
 
   componentWillMount() {
@@ -76,8 +82,8 @@ class App extends Component {
   }
 
   connectClients(config) {
-    this.mqtt.connect(config.mqttBrokerUrl);
-    this.json.setServerUrl(config.domoticzUrl);
+    this.mqtt.connect(config.mqttBrokerUrl, config.mqttLogin, config.mqttPassword);
+    this.json.setServerUrl(config.domoticzUrl, config.domoticzLogin, config.domoticzPassword);
   }
 
   mqttEventHandler = (eventType, opt_data = null) => {
@@ -107,6 +113,17 @@ class App extends Component {
         break;
       default:
         console.debug('unknow event type from MqttClientSingleton', eventType);
+        break;
+    }
+  }
+  
+  domoticzEventHandler = (eventType, opt_data = null) => {
+    switch (eventType) {
+      case 'connected':
+        this.setState({domoticzConnected: !!opt_data});
+        break;
+      default:
+        console.debug('unknow event type from JSONClientSingleton', eventType);
         break;
     }
   }
@@ -284,9 +301,9 @@ class App extends Component {
       case View.ABOUT:
         return (<AboutView appState={this.state} themes={Themes} onThemeChange={this.handleThemeChange} />);
       case View.SERVER_SETTINGS:
-        return (<SettingsView config={this.state.serverConfig} status={this.state.mqttConnected} onChange={this.handleServerConfigChange}></SettingsView>);
+        return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange}></SettingsView>);
       case View.DEVICE_LIST:
-        return (<DeviceListView domoticzUrl={this.state.serverConfig.domoticzUrl} onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
+        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
       default:
         if (this.state.whitelist.length === 0) {
           return (
