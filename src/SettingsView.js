@@ -22,7 +22,7 @@ class SettingsView extends Component {
   handleChange = event => {
     let target = event.target;
     const newPartialState = {};
-    newPartialState[event.target.name] = target.type === "checkbox" ?
+    newPartialState[target.name] = target.type === "checkbox" ?
         target.checked : target.value;
     this.setState(newPartialState);
   }
