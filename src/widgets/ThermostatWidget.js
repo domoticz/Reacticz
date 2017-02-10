@@ -8,28 +8,31 @@ class ThermostatWidget extends Component {
     super(props);
     this.json = new JSONClientSingleton();
     this.state = {
-      initiatedUpdate: false,
+      settingValue: false,
       targetValue: parseFloat(this.props.value, 10),
       throttleId: null
     };
   }
 
   decreaseSetpoint = () => {
-    this.updateSetpoint(this.state.targetValue - .5);
+    this.updateSetpoint(-0.5);
   }
 
   increaseSetpoint = () => {
-    this.updateSetpoint(this.state.targetValue + .5);
+    this.updateSetpoint(0.5);
   }
 
-  updateSetpoint(value) {
+  updateSetpoint(delta) {
     if (this.props.readOnly) {
       return
     }
     window.clearTimeout(this.state.throttleId);
+    let targetValue = this.state.settingValue ? this.state.targetValue :
+        parseFloat(this.props.value);
+    targetValue += delta;
     this.setState({
-      initiatedUpdate: true,
-      targetValue:value,
+      settingValue: true,
+      targetValue: targetValue,
       throttleId: window.setTimeout(() => this.emitSetpointUpdate(), 1000)
     });
   }
@@ -42,11 +45,13 @@ class ThermostatWidget extends Component {
       nvalue: 0,
       svalue: this.state.targetValue
     };
-    this.json.get(message, () => this.setState({initiatedUpdate: false}));
+    this.json.get(message, () => {
+      this.setState({settingValue: false})
+    });
   }
 
   render() {
-    const updating = this.state.initiatedUpdate ?
+    const updating = this.state.settingValue ?
         this.state.targetValue !== parseFloat(this.props.value, 10) : false
     const displayValue = updating ? Number(this.state.targetValue).toFixed(1) :
         parseFloat(this.props.value, 10);
