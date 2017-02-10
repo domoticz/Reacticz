@@ -62,7 +62,7 @@ class DeviceWidget extends Component {
         }
         return <SwitchDimmer idx={device.idx} label={device.name}
             device={device}
-            value={device.svalue1} {...this.props} />;
+            value={device.nvalue === 0 ? 0 : device.svalue1} {...this.props} />;
       case 'Media Player' :
         return <MediaPlayer idx={device.idx} label={device.name}
             value={device.nvalue}
