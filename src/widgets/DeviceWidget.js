@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
 import ContactWidget from './ContactWidget'
 import GasWidget from './GasWidget'
+import LuxWidget from './LuxWidget'
 import MediaPlayer from './MediaPlayer'
 import MeterWidget from './MeterWidget'
+import MotionSensorWidget from './MotionSensorWidget'
 import PercentWidget from './PercentWidget'
 import RainWidget from './RainWidget'
 import SwitchOnOff from './SwitchOnOff'
@@ -15,6 +17,7 @@ import TemperatureWidget from './TemperatureWidget'
 import TextWidget from './TextWidget'
 import ThermostatWidget from './ThermostatWidget'
 import WattWidget from './WattWidget'
+import WeatherInfoWidget from './WeatherInfoWidget'
 import WeatherWidget from './WeatherWidget'
 import WindWidget from './WindWidget'
 import './DeviceWidget.css';
@@ -74,6 +77,9 @@ class DeviceWidget extends Component {
       case 'Contact' :
         return <ContactWidget label={device.name} value={device.svalue1}
             {...this.props} />
+      case 'Motion Sensor' :
+        return <MotionSensorWidget label={device.name} value={Number(device.nvalue)}
+            {...this.props} />
       default :
         break;
     }
@@ -92,6 +98,12 @@ class DeviceWidget extends Component {
           case 'kWh' :
             return <WattWidget label={device.name} powerValue={device.svalue1}
                 energyValue={device.svalue2} {...this.props} />
+          case 'Visibility' :
+            return <WeatherInfoWidget label={device.name} visibility={Number(device.svalue1)}
+                {...this.props} />
+          case 'Solar Radiation' :
+            return <WeatherInfoWidget label={device.name} radiation={Number(device.svalue1)}
+                {...this.props} />
           default :
             break;
         }
@@ -172,6 +184,14 @@ class DeviceWidget extends Component {
         return <RainWidget label={device.name}
             rain={Number(device.svalue2).toFixed(1)}
             rate={Number(device.svalue1 / 100 ).toFixed(1)}
+            {...this.props} />
+      case 'UV' :
+        return <WeatherInfoWidget label={device.name}
+            uv={Number(device.svalue1)}
+            {...this.props} />
+      case 'Lux' :
+        return <LuxWidget label={device.name}
+            lux={Number(device.svalue1)}
             {...this.props} />
       default :
         break;

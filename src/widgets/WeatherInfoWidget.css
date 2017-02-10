@@ -1,0 +1,11 @@
+.WeatherInfoWidget .visibility::after {
+  content: ' km';
+}
+
+.WeatherInfoWidget .radiation::after {
+  content: ' watt/m2';
+}
+
+.WeatherInfoWidget .uv::after {
+  content: ' uvi';
+}
