@@ -92,11 +92,11 @@ class SettingsView extends Component {
 
     return (
       <div className="SettingsView">
-        {!(this.props.config && this.props.config.mqttBrokerUrl) && this.renderWelcomeMsg()}
+        {!(this.props.config && this.props.config.mqttBrokerUrl && this.props.config.domoticzUrl) && this.renderWelcomeMsg()}
         <h2>Server Settings</h2>
         <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled (see <a href="https://github.com/t0mg/reacticz#requirements" target="_blank">requirements</a>).</p>
         <form onSubmit={this.handleSubmit}>
-          <h3>MQTT {mqttOk}</h3>
+          <h3>MQTT {this.props.config.mqttBrokerUrl && mqttOk}</h3>
           <label>
             Broker URL:
             <input type="text" value={this.state.mqttBrokerUrl} name="mqttBrokerUrl" placeholder="ws://mqtt-broker:port" onChange={this.handleChange} />
@@ -108,7 +108,7 @@ class SettingsView extends Component {
           <br/>
           {this.state.mqttAuthChecked && this.renderMqttAuthForm()}
           <br/>
-          <h3>Domoticz {domoticzOk}</h3>
+          <h3>Domoticz {this.props.config.domoticzUrl && domoticzOk}</h3>
           <label>
             Server URL:
             <input type="text" value={this.state.domoticzUrl} name="domoticzUrl" placeholder="http://domoticz-server:port" onChange={this.handleChange} />
