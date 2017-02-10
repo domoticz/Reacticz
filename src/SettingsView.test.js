@@ -9,6 +9,6 @@ it('renders without crashing & shows welcome message', () => {
 });
 
 it('only shows the welcome message if there is no existing config', () => {
-  const wrapper = mount(<SettingsView config={{mqttBrokerUrl: 'ws://dummy'}}/>);
+  const wrapper = mount(<SettingsView config={{mqttBrokerUrl: 'ws://dummy', domoticzUrl: 'http://foobar'}}/>);
   expect(wrapper.contains(welcomeMessage)).toEqual(false);
 });
