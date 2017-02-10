@@ -21,6 +21,9 @@ class SwitchDimmer extends Component {
   }
 
   onClick = (event) => {
+    if (this.props.readOnly) {
+      return
+    }
     var rect = this.touchTarget.getBoundingClientRect();
     let value = (event.pageX - rect.left) / rect.width;
     // Make off and max slightly larger touch targets.

@@ -97,7 +97,7 @@ class SettingsView extends Component {
           <h3>MQTT {this.props.config && this.props.config.mqttBrokerUrl && mqttOk}</h3>
           <label>
             Broker URL:
-            <input type="text" value={this.state.mqttBrokerUrl} name="mqttBrokerUrl" placeholder="ws://mqtt-broker:port" onChange={this.handleChange} />
+            <input type="url" value={this.state.mqttBrokerUrl} name="mqttBrokerUrl" placeholder="ws://mqtt-broker:port" onChange={this.handleChange} />
           </label>
           <label>
             <input type="checkbox" name="mqttAuthChecked" onChange={this.handleChange}
@@ -109,7 +109,7 @@ class SettingsView extends Component {
           <h3>Domoticz {this.props.config && this.props.config.domoticzUrl && domoticzOk}</h3>
           <label>
             Server URL:
-            <input type="text" value={this.state.domoticzUrl} name="domoticzUrl" placeholder="http://domoticz-server:port" onChange={this.handleChange} />
+            <input type="url" value={this.state.domoticzUrl} name="domoticzUrl" placeholder="http://domoticz-server:port" onChange={this.handleChange} />
           </label>
           <label>
             <input type="checkbox" name="domoticzAuthChecked" onChange={this.handleChange}

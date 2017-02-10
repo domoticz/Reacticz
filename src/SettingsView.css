@@ -23,7 +23,7 @@
   align-items: center
 }
 
-.SettingsView input[type=text], input[type=password]  {
+.SettingsView input[type=text], input[type=password], input[type=url]  {
   display: block;
   width: 100%;
   max-width: 500px;
