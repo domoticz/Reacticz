@@ -47,7 +47,7 @@ class MqttClientSingleton {
       this.client = mqtt.connect(brokerUrl, this.mqttConfig);
     } catch(e) {
       alert('Connexion to MQTT broker failed.\n\nPlease make sure the URL is correct and that it accepts WebSocket protocol.');
-      console.debug('connexion failed', e);
+      console.log('connexion failed', e);
       return;
     }
     // Register the listeners.
@@ -61,7 +61,7 @@ class MqttClientSingleton {
       this.eventHandler('message', data);
     });
     this.client.on('error', (error) => {
-      console.debug('mqtt client error:', error);
+      console.log('mqtt client error:', error);
       this.eventHandler('error', error);
     });
     this.client.on('close', () => {
@@ -77,7 +77,7 @@ class MqttClientSingleton {
 
   publish(data) {
     if (!this.isConnected) {
-      console.debug('Cannot publish message, client is not connected', data);
+      console.log('Cannot publish message, client is not connected', data);
       return;
     }
     this.client.publish(TOPIC_IN, JSON.stringify(data), {qos: 2});

@@ -22,13 +22,13 @@ class JSONClientSingleton {
     singletonInstance = this;
     return singletonInstance;
   }
-  
+
   setEventHandler(eventHandler) {
     this.eventHandler = eventHandler;
   }
 
   setServerUrl(url, opt_login, opt_password) {
-    this.serverUrl = url;  
+    this.serverUrl = url;
     this.axiosConfig = {};
     if (opt_login && opt_password) {
       this.axiosConfig.auth = {
@@ -74,7 +74,7 @@ class JSONClientSingleton {
 
   get(queryData, opt_callback = function(data) {
     if (data.status !== 'OK') {
-      console.debug('JSON query failed', queryData);
+      console.log('JSON query failed', queryData);
     }
   }) {
     if (!this.serverUrl) {
@@ -89,10 +89,10 @@ class JSONClientSingleton {
         window.setTimeout(() => (this.debounceErrors_ = false), 3000);
         this.debounceErrors_ = true;
       }
-      console.debug('Unable to reach Domoticz', error);
+      console.log('Unable to reach Domoticz', error);
     });
   }
-  
+
   setConnected_(isConnected) {
     this.isConnected = isConnected;
     this.eventHandler('connected', this.isConnected);

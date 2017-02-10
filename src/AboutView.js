@@ -46,8 +46,6 @@ class AboutView extends Component {
         delete lightLayout[i].moved;
         delete lightLayout[i].static;
       }
-      console.debug('lightLayout', lightLayout);
-
       params.l = lightLayout;
     }
     const url = document.location.href.split("#")[0] + '#' + LZString.compressToEncodedURIComponent(JSON.stringify(params));

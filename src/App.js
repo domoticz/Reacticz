@@ -112,18 +112,18 @@ class App extends Component {
         this.render();
         break;
       default:
-        console.debug('unknow event type from MqttClientSingleton', eventType);
+        console.log('unknown event type from MqttClientSingleton', eventType);
         break;
     }
   }
-  
+
   domoticzEventHandler = (eventType, opt_data = null) => {
     switch (eventType) {
       case 'connected':
         this.setState({domoticzConnected: !!opt_data});
         break;
       default:
-        console.debug('unknow event type from JSONClientSingleton', eventType);
+        console.log('unknown event type from JSONClientSingleton', eventType);
         break;
     }
   }
