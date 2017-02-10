@@ -20,28 +20,26 @@ class SettingsView extends Component {
   }
 
   handleChange = event => {
+    let target = event.target;
     const newPartialState = {};
-    newPartialState[event.target.name] = event.target.value;
+    newPartialState[event.target.name] = target.type === "checkbox" ?
+        target.checked : target.value;
     this.setState(newPartialState);
-  }
-
-  handleMqttAuthCheckbox = event => {
-    if (this.state.mqttAuthChecked) {
-      this.setState({mqttLogin: '', mqttPassword: ''});
-    }
-    this.setState({mqttAuthChecked: !this.state.mqttAuthChecked});
-  }
-
-  handleDomoticzAuthCheckbox = event => {
-    if (this.state.domoticzAuthChecked) {
-      this.setState({domoticzLogin: '', domoticzPassword: ''});
-    }
-    this.setState({domoticzAuthChecked: !this.state.domoticzAuthChecked});
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onChange(this.state);
+    const state = Object.assign({}, this.state);
+    if (!state.mqttAuthChecked) {
+      state.mqttLogin = '';
+      state.mqttPassword = '';
+    }
+    if (!state.domoticzAuthChecked) {
+      state.domoticzLogin = '';
+      state.domoticzPassword = '';
+    }
+    this.setState(state);
+    this.props.onChange(state);
   }
 
   renderWelcomeMsg = () => {
@@ -102,7 +100,7 @@ class SettingsView extends Component {
             <input type="text" value={this.state.mqttBrokerUrl} name="mqttBrokerUrl" placeholder="ws://mqtt-broker:port" onChange={this.handleChange} />
           </label>
           <label>
-            <input type="checkbox" onChange={this.handleMqttAuthCheckbox}
+            <input type="checkbox" name="mqttAuthChecked" onChange={this.handleChange}
                 checked={this.state.mqttAuthChecked} /> use authentication
           </label>
           <br/>
@@ -114,7 +112,7 @@ class SettingsView extends Component {
             <input type="text" value={this.state.domoticzUrl} name="domoticzUrl" placeholder="http://domoticz-server:port" onChange={this.handleChange} />
           </label>
           <label>
-            <input type="checkbox" onChange={this.handleDomoticzAuthCheckbox}
+            <input type="checkbox" name="domoticzAuthChecked" onChange={this.handleChange}
                 checked={this.state.domoticzAuthChecked} /> use authentication
           </label>
           <br/>
