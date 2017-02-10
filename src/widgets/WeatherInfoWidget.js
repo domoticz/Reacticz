@@ -21,12 +21,12 @@ class WeatherInfoWidget extends Component {
         {...this.props} />
       );
     }
-      return (
-      <GenericWidget class="WeatherInfoWidget" icon="sunglasses"
-        isOn={this.props.uv > 0}
-        value1={<div className="uv">{this.props.uv}</div>}
-        {...this.props} />
-      );
+    return (
+    <GenericWidget class="WeatherInfoWidget" icon="sunglasses"
+      isOn={this.props.uv > 0}
+      value1={<div className="uv">{this.props.uv}</div>}
+      {...this.props} />
+    );
   }
 }
 

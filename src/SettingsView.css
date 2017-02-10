@@ -4,6 +4,7 @@
 
 .Status {
   color: red;
+  font-weight: normal;
 }
 
 .Status.OK {
@@ -11,9 +12,15 @@
 }
 
 .SettingsView fieldset {
-  border: 1px solid #d3d3d3;
   max-width: 480px;
   padding: 5px 10px;
+  margin-top: 5px;
+  border: 1px solid #d3d3d3;
+}
+
+.SettingsView fieldset label {
+  display: flex;
+  align-items: center
 }
 
 .SettingsView input[type=text], input[type=password]  {

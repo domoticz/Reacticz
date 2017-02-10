@@ -52,6 +52,9 @@ class DeviceWidget extends Component {
         return <SwitchBlinds idx={device.idx} label={device.name}
             value={device.nvalue}
             inverted={device.switchType==='Blinds Inverted'} {...this.props} />;
+      case 'Contact' :
+        return <ContactWidget label={device.name} value={device.svalue1}
+            {...this.props} />
       case 'Dimmer' :
         if (device.stype === 'RGBW') {
           return <SwitchRGBW idx={device.idx} label={device.name}
@@ -60,26 +63,23 @@ class DeviceWidget extends Component {
         return <SwitchDimmer idx={device.idx} label={device.name}
             device={device}
             value={device.svalue1} {...this.props} />;
-      case 'On/Off' :
-        return <SwitchOnOff idx={device.idx} label={device.name}
-            value={device.nvalue} {...this.props} />;
       case 'Media Player' :
         return <MediaPlayer idx={device.idx} label={device.name}
             value={device.nvalue}
             playing={device.svalue1}
             {...this.props} />;
+      case 'Motion Sensor' :
+        return <MotionSensorWidget label={device.name} value={Number(device.nvalue)}
+            {...this.props} />
+      case 'On/Off' :
+        return <SwitchOnOff idx={device.idx} label={device.name}
+            value={device.nvalue} {...this.props} />;
       case 'Selector' :
         return <SwitchSelector idx={device.idx} label={device.name}
             value={device.svalue1}
             levels={device.LevelNames.split('|')}
             useButtons={device.SelectorStyle === '0'}
             {...this.props} />;
-      case 'Contact' :
-        return <ContactWidget label={device.name} value={device.svalue1}
-            {...this.props} />
-      case 'Motion Sensor' :
-        return <MotionSensorWidget label={device.name} value={Number(device.nvalue)}
-            {...this.props} />
       default :
         break;
     }
@@ -89,20 +89,20 @@ class DeviceWidget extends Component {
           case 'Alert' :
             return <AlertWidget label={device.name} value={device.svalue1}
                 level={device.nvalue} {...this.props} />
+          case 'kWh' :
+            return <WattWidget label={device.name} powerValue={device.svalue1}
+                energyValue={device.svalue2} {...this.props} />
           case 'Percentage' :
             return <PercentWidget label={device.name} value={device.svalue1}
+                {...this.props} />
+          case 'Solar Radiation' :
+            return <WeatherInfoWidget label={device.name} radiation={Number(device.svalue1)}
                 {...this.props} />
           case 'Text' :
             return <TextWidget label={device.name} value={device.svalue1}
                 {...this.props} />
-          case 'kWh' :
-            return <WattWidget label={device.name} powerValue={device.svalue1}
-                energyValue={device.svalue2} {...this.props} />
           case 'Visibility' :
             return <WeatherInfoWidget label={device.name} visibility={Number(device.svalue1)}
-                {...this.props} />
-          case 'Solar Radiation' :
-            return <WeatherInfoWidget label={device.name} radiation={Number(device.svalue1)}
                 {...this.props} />
           default :
             break;
@@ -125,6 +125,20 @@ class DeviceWidget extends Component {
             break;
         }
         break;
+      case 'Humidity' :
+        return <TemperatureWidget label={device.name}
+            humonly={Number(device.nvalue)}
+            humstat={Number(device.svalue1)}
+            {...this.props} />
+      case 'Lux' :
+        return <LuxWidget label={device.name}
+            lux={Number(device.svalue1)}
+            {...this.props} />
+      case 'Rain' :
+        return <RainWidget label={device.name}
+            rain={Number(device.svalue2).toFixed(1)}
+            rate={Number(device.svalue1 / 100 ).toFixed(1)}
+            {...this.props} />
       case 'RFXMeter' :
         let unit, value = Number(device.svalue1);
         switch (device.meterType) {
@@ -153,11 +167,6 @@ class DeviceWidget extends Component {
         return <TemperatureWidget label={device.name}
             temp={Number(device.svalue1).toFixed(1)}
             {...this.props} />
-      case 'Humidity' :
-        return <TemperatureWidget label={device.name}
-            humonly={Number(device.nvalue)}
-            humstat={Number(device.svalue1)}
-            {...this.props} />
       case 'Temp + Humidity' :
         return <TemperatureWidget label={device.name}
             temp={Number(device.svalue1).toFixed(1)}
@@ -174,24 +183,15 @@ class DeviceWidget extends Component {
             break;
         }
         break;
+      case 'UV' :
+        return <WeatherInfoWidget label={device.name}
+            uv={Number(device.svalue1)}
+            {...this.props} />
       case 'Wind' :
         return <WindWidget idx={device.idx} label={device.name}
             bearing={Number(device.svalue1)}
             direction={device.svalue2}
             speed={Number(device.svalue3)}
-            {...this.props} />
-      case 'Rain' :
-        return <RainWidget label={device.name}
-            rain={Number(device.svalue2).toFixed(1)}
-            rate={Number(device.svalue1 / 100 ).toFixed(1)}
-            {...this.props} />
-      case 'UV' :
-        return <WeatherInfoWidget label={device.name}
-            uv={Number(device.svalue1)}
-            {...this.props} />
-      case 'Lux' :
-        return <LuxWidget label={device.name}
-            lux={Number(device.svalue1)}
             {...this.props} />
       default :
         break;

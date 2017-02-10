@@ -1,3 +1,20 @@
 .DeviceListView {
   margin: 50px 20px;
 }
+
+.DeviceListView ul {
+  padding-left: 10px;
+}
+
+.DeviceListView li {
+  list-style-type: none;
+  margin: 5px 0;
+}
+
+.DeviceListView input {
+  margin-right: 5px;
+}
+
+.DeviceListView label {
+  cursor: pointer;
+}

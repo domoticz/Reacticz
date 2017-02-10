@@ -67,7 +67,7 @@ class DeviceListView extends Component {
         }, this);
     return (
       <section key={type}>
-        <h2>{type}</h2>
+        <h3>{type}</h3>
         <ul>{list}</ul>
       </section>
     )
