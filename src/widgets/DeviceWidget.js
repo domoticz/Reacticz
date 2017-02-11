@@ -75,6 +75,12 @@ class DeviceWidget extends Component {
       case 'On/Off' :
         return <SwitchOnOff idx={device.idx} label={device.name}
             value={device.nvalue} {...this.props} />;
+      case 'Push Off Button' :
+        return <SwitchOnOff idx={device.idx} label={device.name}
+            pushOff={true} value={device.nvalue} {...this.props} />
+      case 'Push On Button' :
+        return <SwitchOnOff idx={device.idx} label={device.name}
+            pushOn={true} value={device.nvalue} {...this.props} />
       case 'Selector' :
         return <SwitchSelector idx={device.idx} label={device.name}
             value={device.svalue1}

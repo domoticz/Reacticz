@@ -14,13 +14,23 @@ class SwitchOnOff extends Component {
     }
   }
 
+  getPushCommand = () => {
+    if (this.props.pushOn) {
+      return 'On'
+    } else if (this.props.pushOff) {
+      return 'Off'
+    }
+    const isOn = this.props.isScene ? this.props.valueText === 'On' :
+        this.props.value === 1;
+    return isOn ? 'Off' : 'On';
+  }
+
   handleClick = (event) => {
     if (this.props.readOnly) {
       return
     }
+    const command = this.getPushCommand();
     if (this.props.isScene) {
-      const command = this.props.pushButton ? 'On' :
-          (this.props.valueText === 'On' ? 'Off' : 'On');
       const message = {
         type: 'command',
         param: 'switchscene',
@@ -32,7 +42,7 @@ class SwitchOnOff extends Component {
       const message = {
         command: 'switchlight',
         idx: this.props.idx,
-        switchcmd: this.props.value === 0 ? 'On' : 'Off',
+        switchcmd: command,
         level: 100
       };
       this.mqtt.publish(message);
@@ -49,7 +59,7 @@ class SwitchOnOff extends Component {
       background: theme.buttonOn
     }
     const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
-    if (this.props.pushButton) {
+    if (this.props.pushOn && this.props.isScene) {
       style.color = theme.textMixed;
       style.background = gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
       return style;

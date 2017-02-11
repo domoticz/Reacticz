@@ -9,8 +9,8 @@ class SceneWidget extends Component {
     switch (scene.Type) {
       case "Group" :
       case "Scene" :
-        return <SwitchOnOff isScene="true" idx={scene.idx} label={scene.Name}
-            valueText={scene.Status} pushButton={scene.Type === "Scene"}
+        return <SwitchOnOff isScene={true} idx={scene.idx} label={scene.Name}
+            valueText={scene.Status} pushOn={scene.Type === "Scene"}
             {...this.props}/>;
        default:
          break;
