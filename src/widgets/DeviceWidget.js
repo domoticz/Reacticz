@@ -49,9 +49,10 @@ class DeviceWidget extends Component {
     switch (device.switchType) {
       case 'Blinds' :
       case 'Blinds Inverted' :
+      case 'Venetian Blinds EU' :
+      case 'Venetian Blinds US' :
         return <SwitchBlinds idx={device.idx} label={device.name}
-            value={device.nvalue}
-            inverted={device.switchType==='Blinds Inverted'} {...this.props} />;
+            value={device.nvalue} type={device.switchType} {...this.props} />;
       case 'Contact' :
         return <ContactWidget label={device.name} value={device.svalue1}
             {...this.props} />

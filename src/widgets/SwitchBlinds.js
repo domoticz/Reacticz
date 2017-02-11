@@ -10,6 +10,27 @@ class SwitchBlinds extends Component {
     super(props);
     this.mqtt = new MqttClientSingleton();
     this.json = new JSONClientSingleton();
+    // nvalue for normal Blinds switch type.
+    this.valueOpen = 1;
+    this.valueClosed = 3;
+    this.inverted = false;
+    switch (this.props.type) {
+      case 'Blinds Inverted' :
+        this.inverted = true;
+        this.valueOpen = 3;
+        this.valueClosed = 1;
+        break;
+      case 'Venetian Blinds EU' :
+        this.valueOpen = 17;
+        this.valueClosed = 18;
+        break;
+      case 'Venetian Blinds US' :
+        this.valueOpen = 15;
+        this.valueClosed = 16;
+        break;
+      default:
+        break;
+    }
   }
 
   open = () => {
@@ -17,8 +38,8 @@ class SwitchBlinds extends Component {
   }
 
   stop = () => {
-    // Stop command isnt's working via MQTT, so we switch back to JSON.
-    this.sendValue("Stop", true);
+    // Stop command isnt's working via MQTT, so we fall back to JSON.
+    this.sendValue("Stop", true /* opt_useJSON */);
   }
 
   close = () => {
@@ -44,8 +65,8 @@ class SwitchBlinds extends Component {
   }
 
   render() {
-    const isOpen = this.props.inverted ? this.props.value === 3 : this.props.value === 1;
-    const isClosed = this.props.inverted ? this.props.value === 1 : this.props.value === 3;
+    const isOpen = this.props.value === this.valueOpen;
+    const isClosed = this.props.value === this.valueClosed;
     const theme = this.props.theme;
     const gradient = 'linear-gradient(to bottom, _a, _a 50%, _b 50%, _b)';
     const style = theme ? {
@@ -68,9 +89,9 @@ class SwitchBlinds extends Component {
       <div className="SwitchBlinds" style={style}>
         <h2>{this.props.label}</h2>
         <section>
-          <button onClick={this.props.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}>Open</button>
+          <button onClick={this.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}>Open</button>
           <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')} style={buttonStyleStop}>Stop</button>
-          <button onClick={this.props.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}>Close</button>
+          <button onClick={this.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}>Close</button>
         </section>
       </div>
     );
