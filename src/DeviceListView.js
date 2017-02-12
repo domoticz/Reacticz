@@ -24,7 +24,6 @@ class DeviceListView extends Component {
       // Remove device
       const result = this.props.idxWhitelist.slice(0);
       result.splice(this.props.idxWhitelist.indexOf(checkboxEl.value), 1);
-      console.log(result);
       this.props.onWhitelistChange(result);
     }
   }

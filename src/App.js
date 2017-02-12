@@ -52,19 +52,21 @@ class App extends Component {
       themeId: 'Default',
       theme: {}
     };
-    this.store = new LocalStorage();
-    this.mqtt = new MqttClientSingleton();
-    this.mqtt.setEventHandler(this.mqttEventHandler);
+    this.configId = '';
     this.json = new JSONClientSingleton();
     this.json.setEventHandler(this.domoticzEventHandler);
+    this.mqtt = new MqttClientSingleton();
+    this.mqtt.setEventHandler(this.mqttEventHandler);
+    this.store = new LocalStorage();
   }
 
   componentWillMount() {
+    this.readConfigId();
     const storedServerConfig = this.store.read('serverConfig');
     const themeId = this.store.read('themeId') || this.state.themeId;
     this.setState({
-      whitelist: this.store.read('whitelist') || [],
-      layout: this.store.read('layout') || [],
+      whitelist: this.store.read('whitelist' + this.configId) || [],
+      layout: this.store.read('layout' + this.configId) || [],
       themeId: themeId,
       theme: Themes[themeId] || {}
     });
@@ -128,12 +130,22 @@ class App extends Component {
     }
   }
 
+  readConfigId() {
+    const param = Number(document.location.search.slice(1));
+    if (param > 1 && Math.round(param) === param) {
+      this.configId = param;
+      document.title = 'Reacticz (' + this.configId + ')';
+    }
+  }
+
   readConfigParameter() {
     const param = document.location.hash.slice(1);
     if (!param) {
       return;
     }
-    if (confirm('Reacticz configuration parameters detected! Apply here?\n(existing configuration will be lost)')) {
+    const configInfo = this.configId === '' ? '' : ' #' + this.configId;
+    if (confirm('Reacticz configuration parameters detected! Apply here?\n'
+          + '(existing configuration' + configInfo + ' will be lost)')) {
       try {
         const config = JSON.parse(LZString.decompressFromEncodedURIComponent(param));
         config.s && this.handleServerConfigChange(config.s);
@@ -171,7 +183,7 @@ class App extends Component {
       }
     }
     this.setState({whitelist: list, devices: devices});
-    this.store.write('whitelist', list);
+    this.store.write('whitelist' + this.configId, list);
     this.cleanupLayout(list);
     for (let i = 0; i < list.length; i++) {
       if (!devices[list[i]]) {
@@ -287,19 +299,19 @@ class App extends Component {
       }
     };
     this.setState({layout: updatedLayout});
-    this.store.write('layout', updatedLayout);
+    this.store.write('layout' + this.configId, updatedLayout);
   }
 
   onLayoutChange = (layout) => {
     this.setState({layout: layout});
-    this.store.write('layout', layout);
+    this.store.write('layout' + this.configId, layout);
   }
 
   renderCurrentView = (opt_forceView = null) => {
     const view = opt_forceView || this.state.currentView;
     switch (view) {
       case View.ABOUT:
-        return (<AboutView appState={this.state} themes={Themes} onThemeChange={this.handleThemeChange} />);
+        return (<AboutView appState={this.state} themes={Themes} configId={this.configId} onThemeChange={this.handleThemeChange} />);
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange}></SettingsView>);
       case View.DEVICE_LIST:

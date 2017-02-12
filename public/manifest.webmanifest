@@ -1,10 +1,9 @@
 {
   "name": "Reacticz",
   "short_name": "Reacticz",
-  "start_url": ".",
   "display": "standalone",
   "background_color": "#fff",
-  "description": "Domoticz dashboard in a static web app",
+  "description": "A minimalistic Domoticz dashboard",
   "icons": [{
       "src": "icon/icon_64.png",
       "sizes": "64x64"

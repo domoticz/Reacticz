@@ -3,7 +3,6 @@ import LZString from 'lz-string'
 import ThemeSelector from './ThemeSelector'
 import icon from '../public/icon/icon_64.png';
 import appInfo from '../package.json';
-//import QRCanvas from 'qrcanvas-react';
 
 import './AboutView.css';
 
@@ -48,16 +47,13 @@ class AboutView extends Component {
       }
       params.l = lightLayout;
     }
-    const url = document.location.href.split("#")[0] + '#' + LZString.compressToEncodedURIComponent(JSON.stringify(params));
+    const configParam = this.props.configId !== '' ?
+        '?' + this.props.configId : '';
+    const url = document.location.href.split('?')[0].replace('#','') +
+        configParam + '#' +
+        LZString.compressToEncodedURIComponent(JSON.stringify(params));
     return url;
   }
-
-  // renderQrCode = (url) => {
-  //   if (url.length > 13328) {
-  //     return <p>Sorry, there is too much data to render as a QR code, use the link above or try checking fewer export options.</p>;
-  //   }
-  //   return <QRCanvas options={{data: url}} />
-  // }
 
   render() {
     const url = this.generateExportUrl();
