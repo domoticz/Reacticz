@@ -8,6 +8,7 @@ import MeterWidget from './MeterWidget'
 import MotionSensorWidget from './MotionSensorWidget'
 import PercentWidget from './PercentWidget'
 import RainWidget from './RainWidget'
+import SmokeSensorWidget from './SmokeSensorWidget'
 import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
@@ -73,6 +74,10 @@ class DeviceWidget extends Component {
         return <MotionSensorWidget label={device.name} value={Number(device.nvalue)}
             {...this.props} />
       case 'On/Off' :
+        if (device.stype === 'KD101 smoke detector') {
+          return <SmokeSensorWidget idx={device.idx} label={device.name}
+              value={device.nvalue} {...this.props} />;
+        }
         return <SwitchOnOff idx={device.idx} label={device.name}
             value={device.nvalue} {...this.props} />;
       case 'Push Off Button' :
