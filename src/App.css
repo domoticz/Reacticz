@@ -38,12 +38,7 @@ body {
 .icon {
   width: 34px;
   height: 34px;
-  fill: #666;
   vertical-align: middle;
-}
-
-.icon.selected {
-  fill: #ffbc00;
 }
 
 .appbar button {
