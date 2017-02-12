@@ -138,12 +138,12 @@ class App extends Component {
     }
   }
 
-  readConfigParameter() {
-    const param = document.location.hash.slice(1);
+  readConfigParameter = (opt_param) => {
+    const param = opt_param || document.location.hash.slice(1);
     if (!param) {
       return;
     }
-    const configInfo = this.configId === '' ? '' : ' #' + this.configId;
+    const configInfo = Number(this.configId) > 1 ? ' #' + this.configId : '';
     if (confirm('Reacticz configuration parameters detected! Apply here?\n'
           + '(existing configuration' + configInfo + ' will be lost)')) {
       try {
@@ -153,10 +153,20 @@ class App extends Component {
         this.handleDeviceListChange(config.w || []);
         this.setState({layout: config.l || []});
       } catch (e) {
+        console.log(e);
         alert('Sorry, something went wrong. The configuration could not be read.');
       }
     }
     document.location.hash = '';
+  }
+
+  importConfigPrompt = () => {
+    const url = prompt('Please paste the full configuration URL to import.\n\n'
+        + 'This URL can be found in the About page of a configured Reacticz '
+        + 'dashboard.');
+    if (url && url.split('#').length === 2) {
+      this.readConfigParameter(url.split('#')[1]);
+    }
   }
 
   handleServerConfigChange = (config) => {
@@ -313,7 +323,7 @@ class App extends Component {
       case View.ABOUT:
         return (<AboutView appState={this.state} themes={Themes} configId={this.configId} onThemeChange={this.handleThemeChange} />);
       case View.SERVER_SETTINGS:
-        return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange}></SettingsView>);
+        return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange} importConfigPrompt={this.importConfigPrompt}></SettingsView>);
       case View.DEVICE_LIST:
         return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
       default:

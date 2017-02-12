@@ -50,6 +50,7 @@ class SettingsView extends Component {
         <p>Welcome to Reacticz, the minimalistic <a href="http://www.domoticz.com" target="_blank">Domoticz</a> dashboard!<br/>
         Documentation is available on  <a href="https://github.com/t0mg/reacticz#reacticz" target="_blank">GitHub</a>.</p>
         <p>Please setup your server config to proceed.</p>
+        <p><em>Not your first time here?&nbsp;&nbsp;<button onClick={this.props.importConfigPrompt}>Import config from another dashboard</button></em></p>
       </div>
     );
   }
