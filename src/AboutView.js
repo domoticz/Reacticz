@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import LZString from 'lz-string'
 import ThemeSelector from './ThemeSelector'
-import icon from '../public/icon/icon_64.png';
 import appInfo from '../package.json';
+import select from 'select';
 
+import icon from '../public/icon/icon_64.png';
 import './AboutView.css';
 
 class AboutView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      copyResultTimeoutId: null,
+      copyResult: null,
       exportWhitelist: false,
       exportLayout: false,
       exportUrl: ''
@@ -25,10 +28,6 @@ class AboutView extends Component {
 
   handleLayoutCheckChange = (event) => {
     this.setState({exportLayout: event.target.checked});
-  }
-
-  handleUrlInputFocus = (event) => {
-    event.target.setSelectionRange(0, event.target.value.length);
   }
 
   generateExportUrl = () => {
@@ -55,6 +54,28 @@ class AboutView extends Component {
     return url;
   }
 
+  handleFocus = (event) => {
+    select(event.target);
+  }
+
+  copyUrl = () => {
+    global.clearTimeout(this.state.copyResultTimeoutId);
+    select(this.refs.url);
+    let succeeded = false;
+    try {
+      succeeded = document.execCommand('copy');
+    }
+    catch (err) {
+      console.log('Unable to copy', err);
+    }
+    this.refs.url.blur();
+    this.setState({
+      copyResult: succeeded ? 'Copied!' : 'Failed! Use Ctrl+C',
+      copyResultTimeoutId:
+          global.setTimeout(() => { this.setState({ copyResult: null }) }, 3000)
+    });
+  }
+
   render() {
     const url = this.generateExportUrl();
     return (
@@ -69,6 +90,8 @@ class AboutView extends Component {
         <section>
           <h2>Export settings</h2>
           <p>To clone your settings to another device, share the URL below.</p>
+          {this.props.configId !== '' &&
+              <p><em>Note that this is dashboard #{this.props.configId}. The id number is included in the shared config.</em></p>}
           <div className="exportOptions">
             <label>
               <input type="checkbox" checked={this.state.exportWhitelist} onChange={this.handleWhitelistCheckChange} /> Include device selection
@@ -77,7 +100,10 @@ class AboutView extends Component {
               <input type="checkbox" disabled={!this.state.exportWhitelist} checked={this.state.exportLayout} onChange={this.handleLayoutCheckChange} /> Include dashboard layout
             </label>
           </div>
-          <textarea className="url" type="text" value={url} onFocus={this.handleUrlInputFocus} readOnly />
+          <div className="exportUrl">
+            <input type="text" className="url" ref='url' value={url} onFocus={this.handleFocus} readOnly />
+            <button onClick={this.copyUrl}>{this.state.copyResult || 'Copy to Clipboard'}</button>
+          </div>
         </section>
       </div>
     );

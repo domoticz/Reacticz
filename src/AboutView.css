@@ -2,14 +2,26 @@
   margin: 50px 20px;
 }
 
-.url {
-  margin: 20px 0;
-  width: 100%;
-  font-size: 16px;
-  font-family: monospace;
-}
-
 .exportOptions {
   display: flex;
   flex-direction: column;
+}
+
+.exportUrl {
+  display: flex;
+  margin: 15px 0;
+  max-width: 640px;
+}
+
+.url {
+  margin: 0;
+  width: 100%;
+  font-size: 16px;
+  font-family: monospace;
+  text-overflow: ellipsis;
+}
+
+.exportUrl button {
+  width: 100px;
+  height: 40px;
 }
