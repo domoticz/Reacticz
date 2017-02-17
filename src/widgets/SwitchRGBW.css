@@ -3,24 +3,58 @@
   height: 100%;
 }
 
-.SwitchRGBW input, .SwitchRGBW button {
-  flex-grow: 1;
+.SwitchRGBW .toggle {
+  width: calc(100% / 6);
+  border: none;
+  min-width: 70px;
+}
+
+.SwitchRGBW button {
+  transition: all .3s ease-out;
+  font-size: 20px;
+  font-weight: lighter;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.SwitchRGBW button:active {
+  transform: scale(0.9);
+  outline: none;
+}
+
+.SwitchRGBW button:focus {
+  outline: none;
+}
+
+.SwitchRGBW .colorSelect {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.SwitchRGBW .hue {
+  background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%);
+  height: 100%;
+}
+
+.SwitchRGBW .swatch {
+  display: flex;
+  height: 100%;
+}
+
+.SwitchRGBW .swatch * {
+  width: calc(100% / 5);
   height: 100%;
   border: none;
-  width: 50%
+  background-color: transparent;
 }
 
-.SwitchRGBW h3 {
-  position: absolute;
+.SwitchRGBW button.white {
+  background-color: white;
+  width: 100%;
 }
 
-.unknown {
-  position: absolute;
-  left: calc(75% - 11px);
-  top: calc( 50% - 20px);
-  color: #eee;
-  pointer-events: none;
-  font-size: 40px;
-  font-weight: 100;
-  transition: opacity .3s linear;
+.SwitchRGBW button.white:active {
+  opacity: 0.6;
 }
+
