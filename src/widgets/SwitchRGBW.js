@@ -108,16 +108,16 @@ class SwitchRGBW extends Component {
     return (
       <div className="SwitchRGBW">
         <button className="toggle" style={buttonStyle} title={value} onClick={this.toggle}>{this.props.label}</button>
-        <div className="colorSelect">
+        {this.props.layoutWidth > 1 && <div className="colorSelect">
           <div className="hue" ref={(div) => this.hueStrip = div} onClick={this.changeHue}></div>
           <div className="swatch">
             <button title="Color at 25%" style={{background: lv1}} onClick={() => this.changeColor(lv1)}></button>
             <button title="Color at 50%" style={{background: lv2}} onClick={() => this.changeColor(lv2)}></button>
             <button title="Color at 75%" style={{background: lv3}} onClick={() => this.changeColor(lv3)}></button>
             <button title="Color at 100%" style={{background: lv4}} onClick={() => this.changeColor(lv4)}></button>
-            <div style={{background: theme.buttonOn}}><button className="white" title="Return to white" onClick={this.toWhite}></button></div>
+            <div style={{background: theme.buttonOn}}><button className="white" style={{borderColor: theme.buttonOn}} title="Return to white" onClick={this.toWhite}></button></div>
           </div>
-        </div>
+        </div>}
       </div>
     );
   }

@@ -358,6 +358,7 @@ class App extends Component {
           } else {
           widget = <DeviceWidget
               className="widget"
+              layoutWidth={deviceLayout.w}
               readOnly={!this.state.layoutLocked}
               key={'item'+ deviceId}
               device={device}
@@ -399,7 +400,7 @@ class App extends Component {
     const menuIconSelectedStyle = {
       fill: this.state.theme.menuIconSelected
     };
-	
+
     return (
       <div className="App">
         <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={{display: shouldConfigure ? 'none' : ''}}>
