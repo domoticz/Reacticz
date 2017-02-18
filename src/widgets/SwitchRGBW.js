@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Slider from './helpers/Slider';
 import JSONClientSingleton from '../util/JSONClientSingleton'
 
 import './SwitchRGBW.css';
@@ -57,13 +58,8 @@ class SwitchRGBW extends Component {
     return '#' + this.toHexStr(r) + this.toHexStr(g) + this.toHexStr(b);
   }
 
-  changeHue = (event) => {
-    if (this.props.readOnly) {
-      return;
-    }
-    const box = this.hueStrip.getBoundingClientRect();
-    const hue = (event.clientX - box.left) / box.width;
-    this.setState({hue: hue, sat: 1});
+  changeHue = (value) => {
+    this.setState({hue: value, sat: 1});
   }
 
   changeColor = (color) => {
@@ -109,7 +105,10 @@ class SwitchRGBW extends Component {
       <div className="SwitchRGBW">
         <button className="toggle" style={buttonStyle} title={value} onClick={this.toggle}>{this.props.label}</button>
         {this.props.layoutWidth > 1 && <div className="colorSelect">
-          <div className="hue" ref={(div) => this.hueStrip = div} onClick={this.changeHue}></div>
+          <div className="hue" ref={(div) => this.hueStrip = div}>
+            <Slider disabled={this.props.readOnly} edgeTolerance={0.1}
+                onChange={this.changeHue} value={this.state.hue} />
+          </div>
           <div className="swatch">
             <button title="Color at 25%" style={{background: lv1}} onClick={() => this.changeColor(lv1)}></button>
             <button title="Color at 50%" style={{background: lv2}} onClick={() => this.changeColor(lv2)}></button>

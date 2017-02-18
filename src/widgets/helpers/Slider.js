@@ -86,9 +86,13 @@ class Slider extends Component {
     const rect = this.touchTarget.getBoundingClientRect();
     let value = (event.pageX - rect.left) / rect.width;
     // Make 0 and 1 slightly larger touch targets (it's hard to hit the edge).
-    if (value <= 0.1) {
+    // Border tolerance can be anywhing between zero and 1 (in which case the
+    // slider basically becomes a toggle).
+    const edgeTolerance = this.props.edgeTolerance !== undefined ?
+        this.props.edgeTolerance / 2 : 0.1;
+    if (value <= edgeTolerance) {
       value = 0;
-    } else if (value >= 0.9) {
+    } else if (value >= 1 - edgeTolerance) {
       value = 1;
     }
     this.updateValue(value);
