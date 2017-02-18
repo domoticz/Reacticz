@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GenericWidget from './GenericWidget';
+import GenericWidget from './helpers/GenericWidget';
 import './WindWidget.css';
 
 class WindWidget extends Component {

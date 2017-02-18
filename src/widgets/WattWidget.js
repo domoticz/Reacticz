@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GenericWidget from './GenericWidget';
+import GenericWidget from './helpers/GenericWidget';
 import './WattWidget.css';
 
 class WattWidget extends Component {

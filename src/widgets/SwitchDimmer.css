@@ -1,4 +1,4 @@
-.slider, .bar, .dimmerContainer, .dimmerProgress, .dimmerProgressContent {
+.dimmerContainer, .dimmerProgress, .dimmerProgressContent {
   position: absolute;
   top: 0;
   left: 0;
@@ -11,19 +11,8 @@
   user-select: none;
 }
 
-.slider {
-  opacity: 0;
-  pointer-events: all;
-}
-
-.bar, .dimmerProgress {
+.dimmerProgress {
   margin-left: -100%;
-}
-
-.bar {
-  box-sizing: border-box;
-  border-right: 3px solid #4a4a4a;
-  transition: transform .3s ease-out, opacity .3s linear;
 }
 
 .dimmerContainer, .dimmerProgressContent {
