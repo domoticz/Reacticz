@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
 import ContactWidget from './ContactWidget'
+import CustomSensorWidget from './CustomSensorWidget'
 import GasWidget from './GasWidget'
 import LuxWidget from './LuxWidget'
 import MediaPlayer from './MediaPlayer'
@@ -39,6 +40,13 @@ class DeviceWidget extends Component {
         if (this.props.device.stype !== 'RGBW') {
           this.props.requestDeviceSpec();
         }
+        break;
+      default :
+        break;
+    }
+    switch (this.props.device.stype) {
+      case 'Custom Sensor' :
+        this.props.requestDeviceSpec();
         break;
       default :
         break;
@@ -101,6 +109,9 @@ class DeviceWidget extends Component {
           case 'Alert' :
             return <AlertWidget label={device.name} value={device.svalue1}
                 level={device.nvalue} {...this.props} />
+          case 'Custom Sensor' :
+            return <CustomSensorWidget label={device.name} value={device.svalue1}
+                {...this.props} />
           case 'kWh' :
             return <WattWidget label={device.name} powerValue={device.svalue1}
                 energyValue={device.svalue2} {...this.props} />
