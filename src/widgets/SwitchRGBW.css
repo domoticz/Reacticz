@@ -8,6 +8,7 @@
   height: 100%;
   min-width: 80px;
   border: none;
+  padding: 5px;
 }
 
 .SwitchRGBW .toggle:only-child {
