@@ -15,7 +15,6 @@ class SwitchRGBW extends Component {
       sat: 0
     }
     this.json = new JSONClientSingleton();
-    this.hueStrip = null;
   }
 
   toggle = () => {
@@ -105,7 +104,7 @@ class SwitchRGBW extends Component {
       <div className="SwitchRGBW">
         <button className="toggle" style={buttonStyle} title={value} onClick={this.toggle}>{this.props.label}</button>
         {this.props.layoutWidth > 1 && <div className="colorSelect">
-          <div className="hue" ref={(div) => this.hueStrip = div}>
+          <div className="hue">
             <Slider disabled={this.props.readOnly} edgeTolerance={0.1}
                 onChange={this.changeHue} value={this.state.hue} />
           </div>
