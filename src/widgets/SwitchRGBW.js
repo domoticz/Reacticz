@@ -87,6 +87,9 @@ class SwitchRGBW extends Component {
 
   render() {
     const theme = this.props.theme;
+    const style = {
+      backgroundColor: this.props.readOnly ? '' : theme.background
+    };
     const buttonStyle = theme ? {
       background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,
       color: this.props.value === 0 ? theme.textOff : theme.textOn
@@ -101,7 +104,7 @@ class SwitchRGBW extends Component {
     const lv4 = this.hslToHex(this.state.hue, this.state.sat,
         this.state.sat ? .5 : .8);
     return (
-      <div className="SwitchRGBW">
+      <div className="SwitchRGBW" style={style}>
         <button className="toggle" style={buttonStyle} title={value} onClick={this.toggle}>{this.props.label}</button>
         {this.props.layoutWidth > 1 && <div className="colorSelect">
           <div className="swatch">

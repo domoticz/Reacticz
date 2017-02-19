@@ -67,6 +67,9 @@ class SwitchDimmer extends Component {
       return <LoadingWidget />
     }
     const theme = this.props.theme;
+    const style = {
+      backgroundColor: this.props.readOnly ? '' : theme.background,
+    }
     const buttonStyle = theme ? {
       background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,
       color: this.props.value === 0 ? theme.textOff : theme.textOn
@@ -84,7 +87,7 @@ class SwitchDimmer extends Component {
     progressStyle.transform = 'translateX(' + (100 - currentPct) + '%)';
     const toggleLabel = this.props.device.nvalue === 0 ? 'Off' : 'On';
     return (
-      <div className="SwitchDimmer">
+      <div className="SwitchDimmer" style={style}>
         <button className="toggle" style={buttonStyle} title={this.props.layoutWidth > 1 ? toggleLabel : this.props.label} onClick={this.toggle}>{this.props.layoutWidth > 1 ? '' : this.props.label}</button>
         {this.props.layoutWidth > 1 && <div className="dimmerSlider">
           <div className="dimmerContainer" style={containerStyle}>
