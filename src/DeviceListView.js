@@ -27,7 +27,7 @@ class DeviceListView extends Component {
       this.props.onWhitelistChange(result);
     }
   }
-  
+
   handleNameChange = (event) => {
     const name = event.target.value;
     this.props.onNameChange(name);
@@ -86,10 +86,10 @@ class DeviceListView extends Component {
     return (
       <div className="DeviceListView">
         <p><label>
-          Layout Name:&nbsp;
+          Dashboard name:&nbsp;
           <input type="text" value={this.props.name} name="name" placeholder="Name" onChange={this.handleNameChange} />
         </label></p>
-        <span>Tick the devices to show in the dashboard</span>
+        <span>Tick the devices to show in this dashboard:</span>
         <RoomplanSelector needConfirm={this.props.idxWhitelist &&
             this.props.idxWhitelist.length > 0}
             onWhitelistChange={this.props.onWhitelistChange}/>

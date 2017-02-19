@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-import AboutView from './AboutView'
-import DeviceListView from './DeviceListView'
-import DeviceWidget from './widgets/DeviceWidget'
-import JSONClientSingleton from './util/JSONClientSingleton'
-import LZString from 'lz-string'
-import LoadingWidget from './widgets/LoadingWidget'
-import LocalStorage from './util/LocalStorage'
-import MqttClientSingleton from './util/MqttClientSingleton'
-import SceneWidget from './widgets/SceneWidget'
-import SettingsView from './SettingsView'
-import Themes from './Themes'
+import AboutView from './AboutView';
+import ConfigStorageHelper from './util/ConfigStorageHelper';
+import DeviceListView from './DeviceListView';
+import DeviceWidget from './widgets/DeviceWidget';
+import JSONClientSingleton from './util/JSONClientSingleton';
+import LZString from 'lz-string';
+import LoadingWidget from './widgets/LoadingWidget';
+import LocalStorage from './util/LocalStorage';
+import MqttClientSingleton from './util/MqttClientSingleton';
+import SceneWidget from './widgets/SceneWidget';
+import SettingsView from './SettingsView';
+import Themes from './Themes';
 
 import './App.css';
-import '../node_modules/react-grid-layout/css/styles.css'
-import '../node_modules/react-resizable/css/styles.css'
+import '../node_modules/react-grid-layout/css/styles.css';
+import '../node_modules/react-resizable/css/styles.css';
 
 
 const View = {
@@ -42,52 +43,62 @@ class App extends Component {
         domoticzLogin: '',
         domoticzPassword: ''
       },
-      configIdPagination: {
-        nbConfigId: 1,
-        prevConfigId: '',
-        nextConfigId: ''
+      serverStatus: {
+        mqtt: false,
+        domoticz: false,
       },
-      mqttConnected: false,
-      domoticzConnected: false,
       lastMqttMessage: null,
-      whitelist: [],
+      configId: 0,
+      configName: '',
+      multiConfig: false,
       devices: {},
       deviceSpecs: {},
       layout: [],
-      name: '',
+      whitelist: [],
       themeId: 'Default',
       theme: {}
     };
-    this.configId = '';
     this.json = new JSONClientSingleton();
     this.json.setEventHandler(this.domoticzEventHandler);
     this.mqtt = new MqttClientSingleton();
     this.mqtt.setEventHandler(this.mqttEventHandler);
     this.store = new LocalStorage();
+    this.configHelper = new ConfigStorageHelper();
   }
 
   componentWillMount() {
-    this.readConfigId();
     const storedServerConfig = this.store.read('serverConfig');
     const themeId = this.store.read('themeId') || this.state.themeId;
+    const configId = this.readConfigIdFromUrlParam();
+    const configs = this.configHelper.getConfigs();
+    const config = this.configHelper.getConfig(configId) || {};
     this.setState({
-      whitelist: this.store.read('whitelist' + this.configId) || [],
-      layout: this.store.read('layout' + this.configId) || [],
-      name: this.store.read('name' + this.configId) || 'Layout ' + this.configId,
+      whitelist: config.whitelist || [],
+      layout: config.layout || [],
+      configId: configId,
+      configName: config.name || 'Layout ' + this.state.configId,
+      multiConfig: configs.length > 1,
       themeId: themeId,
       theme: Themes[themeId] || {}
     });
     if (storedServerConfig) {
       this.setState({serverConfig: storedServerConfig});
     }
-    this.readConfigParameter();
-    this.setConfigIdPagination();
+    this.setState({ multiConfig: this.configHelper.getConfigs().length > 1});
+    window.onpopstate = this.handlePopstate;
   }
 
   componentDidMount() {
     this.connectClients(this.state.serverConfig);
+    this.readSharedConfigFromUrl();
     if (this.hasWhitelistedScenes()) {
       this.requestScenesStatus();
+    }
+  }
+
+  handlePopstate = (event) => {
+    if (event.state && event.state.id !== undefined) {
+      this.loadConfig(event.state.id, true /* opt_noHistoryPush */ );
     }
   }
 
@@ -99,7 +110,8 @@ class App extends Component {
   mqttEventHandler = (eventType, opt_data = null) => {
     switch (eventType) {
       case 'connected':
-        this.setState({mqttConnected: !!opt_data});
+        this.setState({serverStatus:
+            Object.assign(this.state.serverStatus, {mqtt: !!opt_data})});
         if (opt_data === true) {
           for (let i = 0; i < this.state.whitelist.length; i++) {
             this.requestDeviceStatus(this.state.whitelist[i]);
@@ -130,7 +142,8 @@ class App extends Component {
   domoticzEventHandler = (eventType, opt_data = null) => {
     switch (eventType) {
       case 'connected':
-        this.setState({domoticzConnected: !!opt_data});
+        this.setState({serverStatus:
+            Object.assign(this.state.serverStatus, {domoticz: !!opt_data})});
         break;
       default:
         console.log('unknown event type from JSONClientSingleton', eventType);
@@ -138,42 +151,94 @@ class App extends Component {
     }
   }
 
-  readConfigId() {
+  readConfigIdFromUrlParam() {
     const param = Number(document.location.search.slice(1));
-    if (param > 1 && Math.round(param) === param) {
-      this.configId = param;
-      document.title = 'Reacticz (' + this.configId + ')';
+    if (param >= 0 && Math.round(param) === param) {
+      if (this.configHelper.getConfig(param)) {
+        return param;
+      }
+      return 0;
     }
-  }
-  
-  setConfigIdPagination() {
-    const allLayouts = this.getLayoutsList();
-    const nbLayouts = allLayouts.length;
-    const currentLayout = allLayouts.indexOf("layout" + this.configId);
-    const prevLayout = currentLayout > 0 ? currentLayout-1 : nbLayouts-1;
-    const nextLayout = currentLayout < nbLayouts-1 ? currentLayout+1 : 0;
-    const pagination = {
-      nbConfigId : nbLayouts,
-      prevConfigId : nbLayouts > 1 ? allLayouts[prevLayout].substring(6) : '',
-      nextConfigId : nbLayouts > 1 ? allLayouts[nextLayout].substring(6) : ''
-    };
-    this.setState({configIdPagination: pagination});
+    return 0;
   }
 
-  readConfigParameter = (opt_param) => {
+  getPrevConfig = () => {
+    this.getNewConfig(true /* opt_prev */);
+  }
+
+  getNextConfig = () => {
+    this.getNewConfig();
+  }
+
+  getNewConfig = (opt_prev = false) => {
+    const newId = this.configHelper.getNextId(this.state.configId, opt_prev);
+    this.loadConfig(newId);
+  }
+
+  loadConfig(id, opt_noHistoryPush = false) {
+    const config = this.configHelper.getConfig(id);
+    if (!config) {
+      console.log('Unable to load config with id ' + id);
+      return;
+    }
+    this.setState({
+      configId: id,
+      configName: config.name,
+      layout: config.layout,
+      whitelist: config.whitelist
+    });
+    !opt_noHistoryPush && history.pushState({id: id}, '', '?' + id);
+    this.setState({
+      multiConfig: this.configHelper.getConfigs().length > 1,
+      layoutLocked: true
+    });
+    for (let i = 0; i < config.whitelist.length; i++) {
+      this.requestDeviceStatus(config.whitelist[i]);
+    }
+  }
+
+  deleteCurrentConfig = () => {
+    if (!confirm('Delete this dashboard ?')) {
+      return;
+    }
+    this.configHelper.deleteConfig(this.state.configId);
+    const nextConfigId =
+        this.configHelper.getConfigs().length >= this.state.configId + 1 ?
+        this.state.configId : 0;
+    this.loadConfig(nextConfigId);
+  }
+
+  readSharedConfigFromUrl = (opt_param) => {
     const param = opt_param || document.location.hash.slice(1);
     if (!param) {
       return;
     }
-    const configInfo = Number(this.configId) > 1 ? ' #' + this.configId : '';
-    if (confirm('Reacticz configuration parameters detected! Apply here?\n'
-          + '(existing configuration' + configInfo + ' will be lost)')) {
+    if (confirm('Reacticz configuration parameters detected! Apply here?\n' +
+      '\nNote: if a dashboard configuration is found in the parameters and ' +
+      'your already have one setup here, a new separate dashboard will be ' +
+      'created.')) {
       try {
-        const config = JSON.parse(LZString.decompressFromEncodedURIComponent(param));
+        const config =
+            JSON.parse(LZString.decompressFromEncodedURIComponent(param));
         config.s && this.handleServerConfigChange(config.s);
         config.t && this.handleThemeChange(config.t);
-        this.handleDeviceListChange(config.w || []);
-        this.setState({layout: config.l || []});
+        if (config.w) {
+          // Importing dashboard config.
+          if (this.state.whitelist.length > 0) {
+            console.log('adding config');
+            // Don't override the current dahboard.
+            this.loadConfig(this.configHelper.addConfig({
+              name: config.n || 'Imported dashboard',
+              layout: config.l || [],
+              whitelist: config.w || []
+            }));
+            return;
+          }
+          this.handleConfigNameChange(config.n || 'Imported dashboard');
+          this.handleDeviceListChange(config.w || []);
+          this.storeConfigChange({layout: config.l || []});
+          this.setState({layout: config.l || []});
+        }
       } catch (e) {
         console.log(e);
         alert('Sorry, something went wrong. The configuration could not be read.');
@@ -187,7 +252,7 @@ class App extends Component {
         + 'This URL can be found in the About page of a configured Reacticz '
         + 'dashboard.');
     if (url && url.split('#').length === 2) {
-      this.readConfigParameter(url.split('#')[1]);
+      this.readSharedConfigFromUrl(url.split('#')[1]);
     }
   }
 
@@ -204,26 +269,15 @@ class App extends Component {
       this.store.write('themeId', themeId);
     }
   }
- 
-  handleNameChange = (name) => {
-    this.setState({name: name});
-    this.store.write('name' + this.configId, name);
+
+  handleConfigNameChange = (configName) => {
+    this.setState({configName: configName});
+    this.storeConfigChange({name: configName});
   }
 
-  handleConfigIdChange = (id) => {
-    this.configId = id;
-    const list = this.store.read('whitelist' + this.configId) || [];
-    const layout = this.store.read('layout' + this.configId) || [];
-    const name = this.store.read('name' + this.configId) ||  'Layout ' + this.configId;
-    this.setState({
-      whitelist: list,
-      layout: layout,
-      name: name
-    });
-    for (let i = 0; i < list.length; i++) {
-      this.requestDeviceStatus(list[i]);
-    }
-    this.setConfigIdPagination();
+  storeConfigChange = (partialConfigObject) => {
+    this.configHelper.storeConfigChange(
+        this.state.configId, partialConfigObject);
   }
 
   handleDeviceListChange = (list) => {
@@ -236,7 +290,7 @@ class App extends Component {
       }
     }
     this.setState({whitelist: list, devices: devices});
-    this.store.write('whitelist' + this.configId, list);
+    this.storeConfigChange({whitelist: list})
     this.cleanupLayout(list);
     for (let i = 0; i < list.length; i++) {
       if (!devices[list[i]]) {
@@ -335,11 +389,6 @@ class App extends Component {
     this.setState({ 'currentView': View.DASHBOARD });
   }
 
-  getLayoutsList = () => {
-    const keys = this.store.getKeys();
-    return keys.filter(function (propertyName) { return propertyName.indexOf("layout") === 0;});
-  }
-
   cleanupLayout(list) {
     // Clear layout items for devices that are no longer present.
     const ids = [];
@@ -357,32 +406,33 @@ class App extends Component {
       }
     };
     this.setState({layout: updatedLayout});
-    this.store.write('layout' + this.configId, updatedLayout);
+    this.storeConfigChange({layout: updatedLayout});
   }
 
   onLayoutChange = (layout) => {
     this.setState({layout: layout});
-    this.store.write('layout' + this.configId, layout);
+    this.storeConfigChange({'layout': layout});
   }
 
   renderCurrentView = (opt_forceView = null) => {
     const view = opt_forceView || this.state.currentView;
     switch (view) {
       case View.ABOUT:
-        return (<AboutView appState={this.state} themes={Themes} configId={this.configId} onThemeChange={this.handleThemeChange} />);
+        return (<AboutView appState={this.state} themes={Themes} configName={this.state.configName} onThemeChange={this.handleThemeChange} />);
       case View.SERVER_SETTINGS:
-        return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange} importConfigPrompt={this.importConfigPrompt}></SettingsView>);
+        return (<SettingsView config={this.state.serverConfig} serverStatus={this.state.serverStatus} onChange={this.handleServerConfigChange} importConfigPrompt={this.importConfigPrompt}></SettingsView>);
       case View.DEVICE_LIST:
-        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist} name={this.state.name} onNameChange={this.handleNameChange}></DeviceListView>);
+        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist} name={this.state.configName} onNameChange={this.handleConfigNameChange}></DeviceListView>);
       default:
         if (this.state.whitelist.length === 0) {
           return (
             <div className="addDevices">
-              <h2>Welcome to your Reacticz dashboard!</h2>
-              <p>Your dashboard is currently empty. Open the menu at the top right (<svg className='icon'><use xlinkHref="#settings" /></svg>) and go to the devices list screen (<svg className='icon'><use xlinkHref="#playlist-add-check" /></svg>) to select the widgets you want to add.</p>
+              {!this.state.multiConfig && <h2>Welcome to your Reacticz dashboard!</h2>}
+              {this.state.multiConfig && <h2>This is a new blank dashboard!</h2>}
+              {this.state.multiConfig && <p>Use the arrows (<svg className='icon'><use xlinkHref="#navigate-before" /></svg> and <svg className='icon'><use xlinkHref="#navigate-next" /></svg>) at the bottom to switch between your dashboards.</p>}
+              <p>This dashboard is currently empty. Open the menu at the top right (<svg className='icon'><use xlinkHref="#settings" /></svg>) and go to the devices list screen (<svg className='icon'><use xlinkHref="#playlist-add-check" /></svg>) to select the widgets you want to add.</p>
               <p>Then come back here (<svg className='icon'><use xlinkHref="#home" /></svg>) and unlock the layout (<svg className='icon'><use xlinkHref="#lock" /></svg>) to drag and resize the widgets however you like.</p>
               <p>That's it!</p>
-              <aside>Note: this is a work in progress, only a limited number of device types are currently supported.</aside>
             </div>
           );
         }
@@ -438,21 +488,38 @@ class App extends Component {
     }
   }
 
-  renderFooter() {
-      const menuIconStyle = {
+  renderFooter(showFooter) {
+      const footerElementStyle = {
+        color: this.state.theme.text,
         fill: this.state.theme.menuIcon
       };
       return (
-          <div className='footer'>
-            <div className='left'>
-              <button key='prev' title='Previous Layout' onClick={() => this.handleConfigIdChange(this.state.configIdPagination.prevConfigId)}>
-              <svg className="icon" style={menuIconStyle}><use xlinkHref="#arrow-left-bold-box-outline" /></svg></button>
+          <div className={'footer' + (showFooter ? '' : ' hidden')}>
+            <div className="left">
+              {this.state.layoutLocked && this.state.multiConfig &&
+                <button title="Previous Layout" onClick={this.getPrevConfig}>
+                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#navigate-before" /></svg>
+                </button>
+              }
+              {!this.state.layoutLocked && this.state.multiConfig &&
+                <button title="Delete" onClick={this.deleteCurrentConfig}>
+                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#delete" /></svg>
+                </button>
+              }
             </div>
-            <div className='right'>
-              <button key='next' title='Next Layout' onClick={() => this.handleConfigIdChange(this.state.configIdPagination.nextConfigId)}>
-              <svg className="icon" style={menuIconStyle}><use xlinkHref="#arrow-right-bold-box-outline" /></svg></button>
+            <div className="right">
+              {this.state.layoutLocked && this.state.multiConfig &&
+                <button title="Next Layout" onClick={this.getNextConfig}>
+                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#navigate-next" /></svg>
+                </button>
+              }
+              {!this.state.layoutLocked &&
+                <button title="Add a new dashboard" onClick={() => this.loadConfig(this.configHelper.addConfig())}>
+                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#add" /></svg>
+                </button>
+              }
             </div>
-            <div className='title'>{this.state.name}</div>
+            <div className="title" style={footerElementStyle}>{this.state.configName}</div>
           </div>);
   }
 
@@ -466,7 +533,10 @@ class App extends Component {
     const menuIconSelectedStyle = {
       fill: this.state.theme.menuIconSelected
     };
-    const footer = this.state.configIdPagination.nbConfigId > 1 ? this.renderFooter() : '';
+    if (document) {
+      document.title = this.state.configName + ' | Reacticz';
+    }
+    const showFooter = (currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && (this.state.multiConfig || !this.state.layoutLocked);
 
     return (
       <div className="App">
@@ -491,7 +561,7 @@ class App extends Component {
           </button>
         </div>
         {view}
-        {(currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && footer}
+        {this.renderFooter(showFooter)}
       </div>
     );
   }

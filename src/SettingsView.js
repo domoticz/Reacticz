@@ -86,8 +86,8 @@ class SettingsView extends Component {
   }
 
   render() {
-    const mqttOk = this.props.mqttStatus ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
-    const domoticzOk = this.props.domoticzStatus ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
+    const mqttOk = this.props.serverStatus && this.props.serverStatus.mqtt ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
+    const domoticzOk = this.props.serverStatus && this.props.serverStatus.domoticz ? <span className="Status OK">connected!</span> : <span className="Status">unavailable</span>;
 
     return (
       <div className="SettingsView">

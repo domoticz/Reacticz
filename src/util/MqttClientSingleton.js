@@ -52,7 +52,6 @@ class MqttClientSingleton {
     }
     // Register the listeners.
     this.client.on('connect', () => {
-      console.log('connected to mqtt broker');
       this.client.subscribe(TOPIC_OUT);
       this.setConnected_(true);
     });

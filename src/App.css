@@ -71,10 +71,6 @@ body {
   vertical-align: middle;
 }
 
-.addDevices aside {
-  font-size: .8em;
-}
-
 .addDevices .icon {
   width: 24px;
   height: 24px;
@@ -92,6 +88,12 @@ body {
   width:100%;
   background-color: rgba(255, 255, 255, .85);
   z-index: 2;
+  transition: transform .3s ease-out;
+  will-change: transform;
+}
+
+.footer.hidden {
+  transform: translate3d(0, 50px, 0);
 }
 
 .footer .left {

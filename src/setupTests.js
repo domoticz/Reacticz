@@ -25,10 +25,11 @@ const axiosMock = new MockAdapter(axios);
 // Mock any GET request to /users
 // arguments for reply are (status, data, headers)
 axiosMock.onGet().reply(function(config) {
-  console.log(config);
   switch (config.url) {
     case 'http://ac.me:42/json.htm?type=devices&filter=all&used=true&order=Name':
-      return [200, {}];
+    case 'http://ac.me:42/json.htm?type=scenes':
+    case 'http://ac.me:42/json.htm?type=plans&order=name&used=true':
+      return [200, {result:[]}];
     default:
       return [404];
   }

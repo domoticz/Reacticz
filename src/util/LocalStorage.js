@@ -27,7 +27,7 @@ class LocalStorage {
     }
     return null;
   }
-  
+
   getKeys() {
     if (this.ls) {
       return Object.keys(this.ls);

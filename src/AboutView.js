@@ -13,25 +13,15 @@ class AboutView extends Component {
     this.state = {
       copyResultTimeoutId: null,
       copyResult: null,
-      exportWhitelist: false,
-      exportLayout: false,
+      exportDashboard: false,
       exportUrl: ''
     }
   }
 
-  componentWillUnmount() {
-    window.clearTimeout(this.state.copyResultTimeoutId);
-  }
-
-  handleWhitelistCheckChange = (event) => {
+  handleDashboardCheckChange = (event) => {
     this.setState({
-      exportWhitelist: event.target.checked,
-      exportLayout: event.target.checked ? this.state.exportLayout : false
+      exportDashboard: event.target.checked,
     });
-  }
-
-  handleLayoutCheckChange = (event) => {
-    this.setState({exportLayout: event.target.checked});
   }
 
   generateExportUrl = () => {
@@ -39,19 +29,19 @@ class AboutView extends Component {
       s: this.props.appState && this.props.appState.serverConfig,
       t: this.props.appState && this.props.appState.themeId
     };
-    if (this.state.exportWhitelist) {
+    if (this.state.exportDashboard) {
       params.w = this.props.appState.whitelist;
-    }
-    if (this.state.exportLayout) {
       const lightLayout = this.props.appState.layout.concat([]);
       for (let i = 0; i < lightLayout.length; i++) {
         delete lightLayout[i].moved;
         delete lightLayout[i].static;
       }
       params.l = lightLayout;
+      params.n = this.props.configName;
     }
-    const configParam = this.props.configId !== '' ?
-        '?' + this.props.configId : '';
+    // const configParam = this.props.configId !== '' ?
+    // '?' + this.props.configId : '';
+    const configParam = '';
     const url = document.location.href.split('?')[0].replace('#','') +
         configParam + '#' +
         LZString.compressToEncodedURIComponent(JSON.stringify(params));
@@ -94,14 +84,9 @@ class AboutView extends Component {
         <section>
           <h2>Export settings</h2>
           <p>To clone your settings to another device, share the URL below.</p>
-          {this.props.configId !== '' &&
-              <p><em>Note that this is dashboard #{this.props.configId}. The id number is included in the shared config.</em></p>}
           <div className="exportOptions">
             <label>
-              <input type="checkbox" checked={this.state.exportWhitelist} onChange={this.handleWhitelistCheckChange} /> Include device selection
-            </label>
-            <label>
-              <input type="checkbox" disabled={!this.state.exportWhitelist} checked={this.state.exportLayout} onChange={this.handleLayoutCheckChange} /> Include dashboard layout
+              <input type="checkbox" checked={this.state.exportDashboard} onChange={this.handleDashboardCheckChange} /> include current dashboard ("{this.props.configName}")
             </label>
           </div>
           <div className="exportUrl">
