@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AlertWidget from './AlertWidget'
 import ContactWidget from './ContactWidget'
+import CustomSensorWidget from './CustomSensorWidget'
 import GasWidget from './GasWidget'
 import LuxWidget from './LuxWidget'
 import MediaPlayer from './MediaPlayer'
@@ -43,6 +44,13 @@ class DeviceWidget extends Component {
       default :
         break;
     }
+    switch (this.props.device.stype) {
+      case 'Custom Sensor' :
+        this.props.requestDeviceSpec();
+        break;
+      default :
+        break;
+    }
   }
 
   render() {
@@ -74,7 +82,7 @@ class DeviceWidget extends Component {
         return <MotionSensorWidget label={device.name} value={Number(device.nvalue)}
             {...this.props} />
       case 'On/Off' :
-        if (device.stype === 'KD101 smoke detector') {
+        if (device.stype === 'KD101 smoke detector' || (typeof device.description === 'string' && device.description.includes('Reacticz: smoke sensor'))) {
           return <SmokeSensorWidget idx={device.idx} label={device.name}
               value={device.nvalue} {...this.props} />;
         }
@@ -101,6 +109,9 @@ class DeviceWidget extends Component {
           case 'Alert' :
             return <AlertWidget label={device.name} value={device.svalue1}
                 level={device.nvalue} {...this.props} />
+          case 'Custom Sensor' :
+            return <CustomSensorWidget label={device.name} value={device.svalue1}
+                {...this.props} />
           case 'kWh' :
             return <WattWidget label={device.name} powerValue={device.svalue1}
                 energyValue={device.svalue2} {...this.props} />
