@@ -19,6 +19,10 @@ class AboutView extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.state.copyResultTimeoutId);
+  }
+
   handleWhitelistCheckChange = (event) => {
     this.setState({
       exportWhitelist: event.target.checked,
