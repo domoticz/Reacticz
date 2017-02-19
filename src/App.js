@@ -42,6 +42,11 @@ class App extends Component {
         domoticzLogin: '',
         domoticzPassword: ''
       },
+      configIdPagination: {
+        nbConfigId: 1,
+        prevConfigId: '',
+        nextConfigId: ''
+      },
       mqttConnected: false,
       domoticzConnected: false,
       lastMqttMessage: null,
@@ -49,6 +54,7 @@ class App extends Component {
       devices: {},
       deviceSpecs: {},
       layout: [],
+      name: '',
       themeId: 'Default',
       theme: {}
     };
@@ -67,6 +73,7 @@ class App extends Component {
     this.setState({
       whitelist: this.store.read('whitelist' + this.configId) || [],
       layout: this.store.read('layout' + this.configId) || [],
+      name: this.store.read('name' + this.configId) || 'Layout ' + this.configId,
       themeId: themeId,
       theme: Themes[themeId] || {}
     });
@@ -74,6 +81,7 @@ class App extends Component {
       this.setState({serverConfig: storedServerConfig});
     }
     this.readConfigParameter();
+    this.setConfigIdPagination();
   }
 
   componentDidMount() {
@@ -137,6 +145,20 @@ class App extends Component {
       document.title = 'Reacticz (' + this.configId + ')';
     }
   }
+  
+  setConfigIdPagination() {
+    const allLayouts = this.getLayoutsList();
+    const nbLayouts = allLayouts.length;
+    const currentLayout = allLayouts.indexOf("layout" + this.configId);
+    const prevLayout = currentLayout > 0 ? currentLayout-1 : nbLayouts-1;
+    const nextLayout = currentLayout < nbLayouts-1 ? currentLayout+1 : 0;
+    const pagination = {
+      nbConfigId : nbLayouts,
+      prevConfigId : nbLayouts > 1 ? allLayouts[prevLayout].substring(6) : '',
+      nextConfigId : nbLayouts > 1 ? allLayouts[nextLayout].substring(6) : ''
+    };
+    this.setState({configIdPagination: pagination});
+  }
 
   readConfigParameter = (opt_param) => {
     const param = opt_param || document.location.hash.slice(1);
@@ -181,6 +203,27 @@ class App extends Component {
       this.setState({themeId: themeId, theme: theme});
       this.store.write('themeId', themeId);
     }
+  }
+ 
+  handleNameChange = (name) => {
+    this.setState({name: name});
+    this.store.write('name' + this.configId, name);
+  }
+
+  handleConfigIdChange = (id) => {
+    this.configId = id;
+    const list = this.store.read('whitelist' + this.configId) || [];
+    const layout = this.store.read('layout' + this.configId) || [];
+    const name = this.store.read('name' + this.configId) ||  'Layout ' + this.configId;
+    this.setState({
+      whitelist: list,
+      layout: layout,
+      name: name
+    });
+    for (let i = 0; i < list.length; i++) {
+      this.requestDeviceStatus(list[i]);
+    }
+    this.setConfigIdPagination();
   }
 
   handleDeviceListChange = (list) => {
@@ -292,6 +335,11 @@ class App extends Component {
     this.setState({ 'currentView': View.DASHBOARD });
   }
 
+  getLayoutsList = () => {
+    const keys = this.store.getKeys();
+    return keys.filter(function (propertyName) { return propertyName.indexOf("layout") === 0;});
+  }
+
   cleanupLayout(list) {
     // Clear layout items for devices that are no longer present.
     const ids = [];
@@ -325,7 +373,7 @@ class App extends Component {
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig} mqttStatus={this.state.mqttConnected} domoticzStatus={this.state.domoticzConnected} onChange={this.handleServerConfigChange} importConfigPrompt={this.importConfigPrompt}></SettingsView>);
       case View.DEVICE_LIST:
-        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist}></DeviceListView>);
+        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist} name={this.state.name} onNameChange={this.handleNameChange}></DeviceListView>);
       default:
         if (this.state.whitelist.length === 0) {
           return (
@@ -390,6 +438,24 @@ class App extends Component {
     }
   }
 
+  renderFooter() {
+      const menuIconStyle = {
+        fill: this.state.theme.menuIcon
+      };
+      return (
+          <div className='footer'>
+            <div className='left'>
+              <button key='prev' title='Previous Layout' onClick={() => this.handleConfigIdChange(this.state.configIdPagination.prevConfigId)}>
+              <svg className="icon" style={menuIconStyle}><use xlinkHref="#arrow-left-bold-box-outline" /></svg></button>
+            </div>
+            <div className='right'>
+              <button key='next' title='Next Layout' onClick={() => this.handleConfigIdChange(this.state.configIdPagination.nextConfigId)}>
+              <svg className="icon" style={menuIconStyle}><use xlinkHref="#arrow-right-bold-box-outline" /></svg></button>
+            </div>
+            <div className='title'>{this.state.name}</div>
+          </div>);
+  }
+
   render() {
     const shouldConfigure = !this.state.serverConfig.mqttBrokerUrl || !this.state.serverConfig.domoticzUrl;
     const view = this.renderCurrentView(shouldConfigure ? View.SERVER_SETTINGS : undefined);
@@ -400,6 +466,7 @@ class App extends Component {
     const menuIconSelectedStyle = {
       fill: this.state.theme.menuIconSelected
     };
+    const footer = this.state.configIdPagination.nbConfigId > 1 ? this.renderFooter() : '';
 
     return (
       <div className="App">
@@ -424,6 +491,7 @@ class App extends Component {
           </button>
         </div>
         {view}
+        {(currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && footer}
       </div>
     );
   }

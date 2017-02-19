@@ -27,6 +27,11 @@ class DeviceListView extends Component {
       this.props.onWhitelistChange(result);
     }
   }
+  
+  handleNameChange = (event) => {
+    const name = event.target.value;
+    this.props.onNameChange(name);
+  }
 
   componentDidMount() {
     this.json.getAllDevices((data) => {
@@ -40,7 +45,7 @@ class DeviceListView extends Component {
         }
         devices[deviceType].push(data.result[i]);
       }
-      this.setState({deviceTypes: deviceTypes.sort(), devices: devices});
+      this.setState({deviceTypes: deviceTypes.sort(), devices: devices, name: this.props.name});
     });
   }
 
@@ -80,6 +85,10 @@ class DeviceListView extends Component {
 
     return (
       <div className="DeviceListView">
+        <p><label>
+          Layout Name:&nbsp;
+          <input type="text" value={this.props.name} name="name" placeholder="Name" onChange={this.handleNameChange} />
+        </label></p>
         <span>Tick the devices to show in the dashboard</span>
         <RoomplanSelector needConfirm={this.props.idxWhitelist &&
             this.props.idxWhitelist.length > 0}

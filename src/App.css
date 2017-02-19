@@ -79,3 +79,38 @@ body {
   width: 24px;
   height: 24px;
 }
+
+.layout {
+  margin-bottom: 50px;
+}
+
+.footer {
+  position:fixed;
+  left:0;
+  bottom:0;
+  height:50px;
+  width:100%;
+  background-color: rgba(255, 255, 255, .85);
+  z-index: 2;
+}
+
+.footer .left {
+    float: left;
+}
+
+.footer .title {
+  text-align: center;
+  line-height: 50px;
+}
+
+.footer .right {
+    float: right;
+}
+
+.footer button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 4px;
+  outline: none;
+}
