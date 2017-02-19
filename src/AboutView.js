@@ -18,6 +18,10 @@ class AboutView extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.state.copyResultTimeoutId);
+  }
+
   handleDashboardCheckChange = (event) => {
     this.setState({
       exportDashboard: event.target.checked,
@@ -39,11 +43,7 @@ class AboutView extends Component {
       params.l = lightLayout;
       params.n = this.props.configName;
     }
-    // const configParam = this.props.configId !== '' ?
-    // '?' + this.props.configId : '';
-    const configParam = '';
-    const url = document.location.href.split('?')[0].replace('#','') +
-        configParam + '#' +
+    const url = document.location.href.split('?')[0].replace('#','') + '#' +
         LZString.compressToEncodedURIComponent(JSON.stringify(params));
     return url;
   }
