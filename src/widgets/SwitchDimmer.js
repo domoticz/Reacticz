@@ -20,7 +20,6 @@ class SwitchDimmer extends Component {
   }
 
   handleValueChange = (value) => {
-    console.log(value);
     if (value === 0) {
       this.sendOff();
     } else {
@@ -64,7 +63,6 @@ class SwitchDimmer extends Component {
   }
 
   render() {
-    console.log(this.props.device);
     if (!this.props.deviceSpec) {
       return <LoadingWidget />
     }
