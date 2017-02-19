@@ -50,11 +50,29 @@ class SwitchDimmer extends Component {
     this.json.get(message);
   }
 
+  toggle = () => {
+    if (this.props.readOnly) {
+      return
+    }
+    let message = {
+      type: 'command',
+      param: 'switchlight',
+      switchcmd: 'Toggle',
+      idx: this.props.idx
+    }
+    this.json.get(message);
+  }
+
   render() {
+    console.log(this.props.device);
     if (!this.props.deviceSpec) {
       return <LoadingWidget />
     }
     const theme = this.props.theme;
+    const buttonStyle = theme ? {
+      background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,
+      color: this.props.value === 0 ? theme.textOff : theme.textOn
+    } : {};
     const progressStyle = theme ? {
       backgroundColor: theme.buttonOn,
       color: theme.textOn
@@ -66,18 +84,22 @@ class SwitchDimmer extends Component {
     const maxDimLevel = this.props.deviceSpec['MaxDimLevel'] || 100;
     const currentPct = this.props.value / maxDimLevel * 100;
     progressStyle.transform = 'translateX(' + (100 - currentPct) + '%)';
+    const toggleLabel = this.props.device.nvalue === 0 ? 'Off' : 'On';
     return (
-      <div>
-        <div className="dimmerContainer" style={containerStyle}>
-          <div className="dimmerProgress" style={{transform: 'translateX(' + currentPct + '%)'}}>
-            <div className="dimmerProgressContent" style={progressStyle}>
-              <p>{this.props.label}</p>
+      <div className="SwitchDimmer">
+        <button className="toggle" style={buttonStyle} title={this.props.layoutWidth > 1 ? toggleLabel : this.props.label} onClick={this.toggle}>{this.props.layoutWidth > 1 ? '' : this.props.label}</button>
+        {this.props.layoutWidth > 1 && <div className="dimmerSlider">
+          <div className="dimmerContainer" style={containerStyle}>
+            <div className="dimmerProgress" style={{transform: 'translateX(' + currentPct + '%)'}}>
+              <div className="dimmerProgressContent" style={progressStyle}>
+                <p>{this.props.label}</p>
+              </div>
             </div>
+            <p>{this.props.label}</p>
           </div>
-          <p>{this.props.label}</p>
-        </div>
-        <Slider disabled={this.props.readOnly} throttle={200}
-            onChange={this.handleValueChange} value={this.props.value/maxDimLevel} />
+          <Slider disabled={this.props.readOnly} throttle={200}
+              onChange={this.handleValueChange} value={this.props.value/maxDimLevel} />
+        </div>}
       </div>
     );
   }

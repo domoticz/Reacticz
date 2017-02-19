@@ -1,4 +1,47 @@
-.dimmerContainer, .dimmerProgress, .dimmerProgressContent {
+.SwitchDimmer {
+  display: flex;
+  height: 100%;
+}
+
+.SwitchDimmer .toggle {
+  width: 15%;
+  height: 100%;
+  min-width: 40px;
+  border: none;
+  padding: 5px;
+}
+
+.SwitchDimmer .toggle:only-child {
+  width: 100%;
+  border: none;
+}
+
+.SwitchDimmer button {
+  display: block;
+  margin: 0;
+  transition: all .3s ease-out;
+  font-size: 18px;
+  font-weight: lighter;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.SwitchDimmer button:active {
+  transform: scale(0.9);
+  outline: none;
+}
+
+.SwitchDimmer button:focus {
+  outline: none;
+}
+
+.SwitchDimmer .dimmerSlider {
+  position: relative;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.SwitchDimmer .dimmerContainer, .dimmerProgress, .dimmerProgressContent {
   position: absolute;
   top: 0;
   left: 0;
@@ -11,27 +54,27 @@
   user-select: none;
 }
 
-.dimmerProgress {
+.SwitchDimmer .dimmerProgress {
   margin-left: -100%;
 }
 
-.dimmerContainer, .dimmerProgressContent {
+.SwitchDimmer .dimmerContainer, .dimmerProgressContent {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.dimmerContainer {
+.SwitchDimmer .dimmerContainer {
   font-size: 20px;
   font-weight: lighter;
   text-align: center;
 }
 
-.dimmerProgressContent {
+.SwitchDimmer .dimmerProgressContent {
   position: relative;
   color: white;
 }
 
-.dimmerContainer p {
+.SwitchDimmer .dimmerContainer p {
   font-weight: lighter;
 }
