@@ -20,11 +20,15 @@ All widgets are draggable and resizeable. See more screenshots [on the wiki](htt
 
 Optionally, you can build this project and host the resulting files on a webserver of your choosing. Or you can use the [public Reacticz url](http://reacticz.t0m.fr) that points at the [gh-pages branch of this repository](https://github.com/t0mg/reacticz/tree/gh-pages).
 
+## Getting started
+
+If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr). If you prefer having a local copy, you can [download a pre-built release package](https://github.com/t0mg/reacticz/releases) and copy the files in your `domoticz/www folder`.
+
+Either way, once you're there, you can jump to [Configuration](#configuration).
+
 ## Running, building, testing
 
-If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr) or [download the files](https://github.com/t0mg/reacticz/archive/gh-pages.zip) it serves, and jump to [Configuration](#configuration).
-
-If you want to build this project yourself, for example to host your own instance of Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+If you want to build this project yourself, for example to make some changes to Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 ####Important note
 By default, Reacticz builds assuming it will be hosted at the root of the server (like the [public server](http://reacticz.t0m.fr) does). If you host Reacticz on a subpath of your server, you'll need to change the `homepage` property in `package.json` to make sure it matches the url where your build will be deployed (or relative paths might break). 
