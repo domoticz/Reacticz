@@ -6,7 +6,7 @@ class GenericWidget extends Component {
   render() {
     const theme = this.props.theme;
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text,
       fill: this.props.isOn === undefined ? '' :
           (this.props.isOn ? theme.buttonOn : theme.buttonOff)

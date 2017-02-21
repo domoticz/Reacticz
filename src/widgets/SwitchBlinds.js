@@ -70,7 +70,7 @@ class SwitchBlinds extends Component {
     const theme = this.props.theme;
     const gradient = 'linear-gradient(to bottom, _a, _a 50%, _b 50%, _b)';
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text
     } : {};
     const buttonStyleOpen = theme ? {

@@ -490,8 +490,9 @@ class App extends Component {
 
   renderFooter(showFooter) {
       const footerElementStyle = {
-        color: this.state.theme.text,
-        fill: this.state.theme.menuIcon
+        background: this.state.theme.overlayBackground,
+        color: this.state.theme.overlayText,
+        fill: this.state.theme.menuIcon,
       };
       return (
           <div className={'footer' + (showFooter ? '' : ' hidden')}>
@@ -533,14 +534,25 @@ class App extends Component {
     const menuIconSelectedStyle = {
       fill: this.state.theme.menuIconSelected
     };
+    const appStyle = {
+      background: this.state.theme.appBackground,
+      color: this.state.theme.appText,
+      fill: this.state.theme.appText
+    };
+
+    const appBarStyle = {
+      background: this.state.menuOpen ? this.state.theme.overlayBackground : '',
+      display: shouldConfigure ? 'none' : ''
+    };
     if (document) {
       document.title = this.state.configName + ' | Reacticz';
+      document.body.style.backgroundColor = this.state.theme.appBackground;
     }
     const showFooter = (currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && (this.state.multiConfig || !this.state.layoutLocked);
 
     return (
-      <div className="App">
-        <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={{display: shouldConfigure ? 'none' : ''}}>
+      <div className="App" style={appStyle}>
+        <div key='menu' className={this.state.menuOpen ? 'appbar open' : 'appbar'} style={appBarStyle}>
           <button key='toggle' title='Menu' onClick={this.toggleMenu}>
             <svg className="icon" style={menuIconStyle}><use xlinkHref="#settings" /></svg>
           </button>

@@ -56,21 +56,21 @@ class SwitchOnOff extends Component {
     }
     const style = {
       color: theme.textOn,
-      background: theme.buttonOn
+      background: this.props.readOnly ? theme.unlockedBackground : theme.buttonOn
     }
     const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
     if (this.props.pushOn && this.props.isScene) {
       style.color = theme.textMixed;
-      style.background = gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
+      style.background = this.props.readOnly ? theme.unlockedBackground : gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
       return style;
     }
     if (this.props.valueText === "Mixed") {
       style.color = theme.textMixed;
-      style.background = gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
+      style.background = this.props.readOnly ? theme.unlockedBackground : gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
     }
     if (this.props.valueText === "Off" || this.props.value === 0) {
       style.color = theme.textOff;
-      style.background =  theme.buttonOff;
+      style.background =  this.props.readOnly ? theme.unlockedBackground : theme.buttonOff;
     }
     return style;
   }

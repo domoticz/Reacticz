@@ -68,7 +68,7 @@ class SwitchDimmer extends Component {
     }
     const theme = this.props.theme;
     const style = {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
     }
     const buttonStyle = theme ? {
       background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,

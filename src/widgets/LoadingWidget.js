@@ -24,7 +24,7 @@ class LoadingWidget extends Component {
   render() {
     const theme = this.props.theme;
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text
     } : {};
     return (

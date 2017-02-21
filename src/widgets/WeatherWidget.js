@@ -25,13 +25,13 @@ class WeatherWidget extends Component {
     const params = this.getProperties();
     const theme = this.props.theme;
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? '' : theme.background,
+      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text
     } : {};
     return (
-      <div className="WeatherWidget">
+      <div className="WeatherWidget" style={style}>
         {params.forecast !== undefined && <div className={'weatherImage weather' + params.forecast}></div>}
-        <div className={'weatherData'} style={style}>
+        <div className={'weatherData'}>
           <div className="name">{this.props.device.name}</div>
           {params.temp !== undefined && <div className="temp">{params.temp}</div>}
           {params.baro !== undefined && <div className="baro">{params.baro}</div>}
