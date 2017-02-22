@@ -68,18 +68,18 @@ class SwitchDimmer extends Component {
     }
     const theme = this.props.theme;
     const style = {
-      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
+      background: this.props.readOnly ? theme.unlockedBackground : theme.background,
     }
     const buttonStyle = theme ? {
       background: this.props.value === 0 ? theme.buttonOff : theme.buttonOn,
       color: this.props.value === 0 ? theme.textOff : theme.textOn
     } : {};
     const progressStyle = theme ? {
-      backgroundColor: theme.buttonOn,
+      background: theme.buttonOn,
       color: theme.textOn
     } : {};
     const containerStyle = theme ? {
-      backgroundColor: theme.buttonOff,
+      background: theme.buttonOff,
       color: theme.textOff
     } : {};
     const maxDimLevel = this.props.deviceSpec['MaxDimLevel'] || 100;

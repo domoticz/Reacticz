@@ -30,7 +30,7 @@ class SwitchSelector extends Component {
     }
     const theme = this.props.theme;
     const style = theme ? {
-      backgroundColor: this.props.readOnly ? theme.unlockedBackground : theme.background,
+      background: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text
     } : {};
     const buttonStyleOff = theme ? {

@@ -546,7 +546,7 @@ class App extends Component {
     };
     if (document) {
       document.title = this.state.configName + ' | Reacticz';
-      document.body.style.backgroundColor = this.state.theme.appBackground;
+      document.body.style.background = this.state.theme.appBackground;
     }
     const showFooter = (currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && (this.state.multiConfig || !this.state.layoutLocked);
 

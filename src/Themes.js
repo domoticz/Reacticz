@@ -102,7 +102,7 @@ const Themes = {
     textMixed: '#F5F5F5',
     textOff: '#F5F5F5',
     textOn: '#F5F5F5',
-    unlockedBackground: '#78909C'
+    unlockedBackground: 'repeating-linear-gradient(45deg, #607D8B, #607D8B 5px, #90A4AE 10px, #90A4AE 20px)'
   },
   'Darker' : {
     appBackground: '#636363',
