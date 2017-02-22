@@ -489,38 +489,38 @@ class App extends Component {
   }
 
   renderFooter(showFooter) {
-      const footerElementStyle = {
+      const footerStyle = {
         background: this.state.theme.overlayBackground,
         color: this.state.theme.overlayText,
         fill: this.state.theme.menuIcon,
       };
       return (
-          <div className={'footer' + (showFooter ? '' : ' hidden')}>
+          <div className={'footer' + (showFooter ? '' : ' hidden')} style={footerStyle}>
             <div className="left">
               {this.state.layoutLocked && this.state.multiConfig &&
                 <button title="Previous Layout" onClick={this.getPrevConfig}>
-                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#navigate-before" /></svg>
+                  <svg className="icon"><use xlinkHref="#navigate-before" /></svg>
                 </button>
               }
               {!this.state.layoutLocked && this.state.multiConfig &&
                 <button title="Delete" onClick={this.deleteCurrentConfig}>
-                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#delete" /></svg>
+                  <svg className="icon"><use xlinkHref="#delete" /></svg>
                 </button>
               }
             </div>
             <div className="right">
               {this.state.layoutLocked && this.state.multiConfig &&
                 <button title="Next Layout" onClick={this.getNextConfig}>
-                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#navigate-next" /></svg>
+                  <svg className="icon"><use xlinkHref="#navigate-next" /></svg>
                 </button>
               }
               {!this.state.layoutLocked &&
                 <button title="Add a new dashboard" onClick={() => this.loadConfig(this.configHelper.addConfig())}>
-                  <svg className="icon" style={footerElementStyle}><use xlinkHref="#add" /></svg>
+                  <svg className="icon"><use xlinkHref="#add" /></svg>
                 </button>
               }
             </div>
-            <div className="title" style={footerElementStyle}>{this.state.configName}</div>
+            <div className="title">{this.state.configName}</div>
           </div>);
   }
 
