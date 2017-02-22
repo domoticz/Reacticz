@@ -103,6 +103,27 @@ const Themes = {
     textOff: '#F5F5F5',
     textOn: '#F5F5F5',
     unlockedBackground: '#78909C'
+  },
+  'Darker' : {
+    appBackground: '#636363',
+    appText: '#dadada',
+    background: 'rgba(37, 37, 37, .02)',
+    blindClosed: '#5d5d5d',
+    blindOpen: 'rgba(53, 53, 53, .9)',
+    blindTextOff: '#dadada',
+    blindTextOn: '#FBC02D',
+    buttonMixed: 'rgba(37, 37, 37, .9)',
+    buttonOff: 'rgba(37, 37, 37, .4)',
+    buttonOn: 'rgba(37, 37, 37, .9)',
+    menuIcon: 'rgba(53, 53, 53, .99)',
+    menuIconSelected: '#dadada',
+    overlayBackground: 'rgba(68, 68, 68, .4)',
+    overlayText: '#dadada',
+    text: '#dadada',
+    textMixed: '#dadada',
+    textOff: '#dadada',
+    textOn: '#dadada',
+    unlockedBackground: 'rgba(68, 68, 68, .9)'
   }
 }
 export default Themes
