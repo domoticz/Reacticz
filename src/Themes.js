@@ -104,10 +104,10 @@ const Themes = {
     textOn: '#F5F5F5',
     unlockedBackground: 'repeating-linear-gradient(45deg, #607D8B, #607D8B 5px, #90A4AE 10px, #90A4AE 20px)'
   },
-  'Darker' : {
+  'Dark' : {
     appBackground: '#636363',
     appText: '#dadada',
-    background: 'rgba(37, 37, 37, .02)',
+    background: 'rgba(37, 37, 37, .1)',
     blindClosed: '#5d5d5d',
     blindOpen: 'rgba(53, 53, 53, .9)',
     blindTextOff: '#dadada',
@@ -115,15 +115,15 @@ const Themes = {
     buttonMixed: 'rgba(37, 37, 37, .9)',
     buttonOff: 'rgba(37, 37, 37, .4)',
     buttonOn: 'rgba(37, 37, 37, .9)',
-    menuIcon: 'rgba(53, 53, 53, .99)',
+    menuIcon: 'rgba(33, 33, 33, .9)',
     menuIconSelected: '#dadada',
-    overlayBackground: 'rgba(68, 68, 68, .4)',
+    overlayBackground: 'rgba(68, 68, 68, .8)',
     overlayText: '#dadada',
     text: '#dadada',
     textMixed: '#dadada',
     textOff: '#dadada',
     textOn: '#dadada',
-    unlockedBackground: 'rgba(68, 68, 68, .9)'
+    unlockedBackground: 'rgba(51, 51, 51, .9)'
   }
 }
 export default Themes
