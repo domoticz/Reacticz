@@ -76,7 +76,7 @@ class App extends Component {
       whitelist: config.whitelist || [],
       layout: config.layout || [],
       configId: configId,
-      configName: config.name || 'Layout ' + this.state.configId,
+      configName: config.name || 'Dashboard',
       multiConfig: configs.length > 1,
       themeId: themeId,
       theme: Themes[themeId] || {}
@@ -418,11 +418,19 @@ class App extends Component {
     const view = opt_forceView || this.state.currentView;
     switch (view) {
       case View.ABOUT:
-        return (<AboutView appState={this.state} themes={Themes} configName={this.state.configName} onThemeChange={this.handleThemeChange} />);
+        return (<AboutView appState={this.state} themes={Themes}
+            configName={this.state.configName}
+            onThemeChange={this.handleThemeChange}
+            multiConfig={this.state.multiConfig} />);
       case View.SERVER_SETTINGS:
-        return (<SettingsView config={this.state.serverConfig} serverStatus={this.state.serverStatus} onChange={this.handleServerConfigChange} importConfigPrompt={this.importConfigPrompt}></SettingsView>);
+        return (<SettingsView config={this.state.serverConfig}
+            serverStatus={this.state.serverStatus}
+            onChange={this.handleServerConfigChange}
+            importConfigPrompt={this.importConfigPrompt} />);
       case View.DEVICE_LIST:
-        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange} idxWhitelist={this.state.whitelist} name={this.state.configName} onNameChange={this.handleConfigNameChange}></DeviceListView>);
+        return (<DeviceListView onWhitelistChange={this.handleDeviceListChange}
+            idxWhitelist={this.state.whitelist} name={this.state.configName}
+            onNameChange={this.handleConfigNameChange} />);
       default:
         if (this.state.whitelist.length === 0) {
           return (

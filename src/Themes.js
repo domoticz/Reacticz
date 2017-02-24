@@ -1,7 +1,7 @@
 const Themes = {
   'Default' : {
     appBackground: 'white',
-    appText: 'black',
+    appText: '#3a3a3a',
     background: 'white',
     blindClosed: '#5d5d5d',
     blindOpen: '#303F9F',
@@ -22,7 +22,7 @@ const Themes = {
   },
   'Lighter' : {
     appBackground: 'white',
-    appText: 'black',
+    appText: '#3a3a3a',
     background: 'white',
     blindClosed: '#a9a9a9',
     blindOpen: '#718bbb',

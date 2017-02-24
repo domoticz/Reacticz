@@ -86,13 +86,14 @@ class AboutView extends Component {
           <p>To clone your settings to another device, share the URL below.</p>
           <div className="exportOptions">
             <label>
-              <input type="checkbox" checked={this.state.exportDashboard} onChange={this.handleDashboardCheckChange} /> include current dashboard ("{this.props.configName}")
+              <input type="checkbox" checked={this.state.exportDashboard} onChange={this.handleDashboardCheckChange} /> include dashboard layout{this.props.multiConfig && ' (' + this.props.configName + ')'}
             </label>
           </div>
           <div className="exportUrl">
             <input type="text" className="url" ref='url' value={url} onFocus={this.handleFocus} readOnly />
             <button onClick={this.copyUrl}>{this.state.copyResult || 'Copy to Clipboard'}</button>
           </div>
+          {this.props.multiConfig && this.state.exportDashboard && <em>Tip: repeat the operation with your other dashboards to add them too (they won't overwrite each other).</em>}
         </section>
       </div>
     );

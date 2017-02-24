@@ -2,9 +2,18 @@
   margin: 50px 20px;
 }
 
+.AboutView button, .AboutView select {
+  color: inherit;
+  filter: invert(30%);
+}
+
 .exportOptions {
   display: flex;
   flex-direction: column;
+}
+
+.AboutView em {
+  margin: 5px 0;
 }
 
 .exportUrl {
