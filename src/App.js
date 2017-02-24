@@ -72,11 +72,12 @@ class App extends Component {
     const configId = this.readConfigIdFromUrlParam();
     const configs = this.configHelper.getConfigs();
     const config = this.configHelper.getConfig(configId) || {};
+    const configName = config.name || 'Dashboard';
     this.setState({
       whitelist: config.whitelist || [],
       layout: config.layout || [],
       configId: configId,
-      configName: config.name || 'Dashboard',
+      configName: configName,
       multiConfig: configs.length > 1,
       themeId: themeId,
       theme: Themes[themeId] || {}
@@ -86,6 +87,7 @@ class App extends Component {
     }
     this.setState({ multiConfig: this.configHelper.getConfigs().length > 1});
     window.onpopstate = this.handlePopstate;
+    this.updateDocumentTitle(configName);
   }
 
   componentDidMount() {
@@ -151,6 +153,12 @@ class App extends Component {
     }
   }
 
+  updateDocumentTitle = (configName) => {
+    if (document) {
+      document.title = configName ? configName + ' | Reacticz' : 'Reacticz';
+    }
+  }
+
   readConfigIdFromUrlParam() {
     const param = Number(document.location.search.slice(1));
     if (param >= 0 && Math.round(param) === param) {
@@ -192,6 +200,7 @@ class App extends Component {
       multiConfig: this.configHelper.getConfigs().length > 1,
       layoutLocked: true
     });
+    this.updateDocumentTitle(config.name);
     for (let i = 0; i < config.whitelist.length; i++) {
       this.requestDeviceStatus(config.whitelist[i]);
     }
@@ -553,7 +562,6 @@ class App extends Component {
       display: shouldConfigure ? 'none' : ''
     };
     if (document) {
-      document.title = this.state.configName + ' | Reacticz';
       document.body.style.background = this.state.theme.appBackground;
     }
     const showFooter = (currentView === View.DASHBOARD || currentView === View.DEVICE_LIST) && (this.state.multiConfig || !this.state.layoutLocked);
