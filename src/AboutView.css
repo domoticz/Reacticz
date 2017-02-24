@@ -5,6 +5,8 @@
 .AboutView button, .AboutView select {
   color: inherit;
   filter: invert(30%);
+  background: transparent;
+  -webkit-appearance: none;
 }
 
 .exportOptions {
