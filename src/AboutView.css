@@ -4,9 +4,8 @@
 
 .AboutView button, .AboutView select {
   color: inherit;
-  filter: invert(30%);
-  background: transparent;
-  -webkit-appearance: none;
+  background: rgba(211, 211, 211, .5);
+  border: 1px solid #d3d3d3;
 }
 
 .exportOptions {

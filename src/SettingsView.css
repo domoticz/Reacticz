@@ -31,12 +31,12 @@
   margin: 5px 0;
 }
 
-.SettingsView input[type=submit] {
-  font-size: 20px;
+.SettingsView input[type=submit], .SettingsView button {
+  font-size: 18px;
   margin-left: 0;
   color: inherit;
-  filter: invert(30%);
-  background: transparent;
+  background: rgba(211, 211, 211, .5);
+  border: 1px solid #d3d3d3;
 }
 
 .SettingsView em {
