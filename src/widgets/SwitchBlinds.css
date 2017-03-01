@@ -25,7 +25,6 @@
 }
 
 .blindsOpen, .blindsStop, .blindsClose {
-  color: white;
   flex-grow: 1;
   width: 33%;
   border: none;
@@ -48,6 +47,3 @@
   margin: 0 10px;
 }
 
-.blindsClose {
-  background-size: 100% 20px !important;
-}

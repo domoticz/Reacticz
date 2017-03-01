@@ -68,30 +68,29 @@ class SwitchBlinds extends Component {
     const isOpen = this.props.value === this.valueOpen;
     const isClosed = this.props.value === this.valueClosed;
     const theme = this.props.theme;
-    const gradient = 'linear-gradient(to bottom, _a, _a 50%, _b 50%, _b)';
     const style = theme ? {
       background: this.props.readOnly ? theme.unlockedBackground : theme.background,
       color: theme.text
     } : {};
     const buttonStyleOpen = theme ? {
-      color: isOpen ? theme.blindTextOn : theme.blindTextOff,
-      background: theme.blindOpen
+      fill: isOpen ? theme.textOn : theme.textOff,
+      background: isOpen ? theme.buttonOn : theme.buttonOff
     } : {};
     const buttonStyleStop = theme ? {
-      color: this.props.value === 0 ? theme.blindTextOn : theme.blindTextOff,
-      background: theme.buttonOff
+      fill: this.props.value === 0 ? theme.textOn : theme.textOff,
+      background: this.props.value === 0 ? theme.buttonOn : theme.buttonOff
     } : {};
     const buttonStyleClose = theme ? {
-      color: isClosed ? theme.blindTextOn : theme.blindTextOff,
-      background: gradient.replace(/_a/g, theme.blindClosed).replace(/_b/g, theme.buttonMixed)
+      fill: isClosed ? theme.textOn : theme.textOff,
+      background: isClosed ? theme.buttonOn : theme.buttonOff
     } : {};
     return (
       <div className="SwitchBlinds" style={style}>
         <h2>{this.props.label}</h2>
         <section>
-          <button onClick={this.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}>Open</button>
-          <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')} style={buttonStyleStop}>Stop</button>
-          <button onClick={this.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}>Close</button>
+          <button onClick={this.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}><svg className='icon'><use xlinkHref='#arrow-up-drop-circle' /></svg></button>
+          <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')} style={buttonStyleStop}><svg className='icon'><use xlinkHref='#stop-circle' /></svg></button>
+          <button onClick={this.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}><svg className='icon'><use xlinkHref='#arrow-down-drop-circle' /></svg></button>
         </section>
       </div>
     );
