@@ -5,7 +5,7 @@ button.switch {
   border: none;
   outline: none;
   transition: all .2s ease-out;
-  font-size: 20px;
+  font-size: 1.25em;
   font-weight: lighter;
   text-overflow: ellipsis;
   overflow: hidden;

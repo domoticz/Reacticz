@@ -13,7 +13,7 @@
   width: 100%;
   padding: 10px;
   margin: 0;
-  font-size: 16px;
+  font-size: 1em;
   font-weight: lighter;
   text-align: center;
   white-space: nowrap;
@@ -28,7 +28,6 @@
   flex-grow: 1;
   width: 33%;
   border: none;
-  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: transform .3s ease-out;

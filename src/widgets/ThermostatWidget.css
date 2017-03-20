@@ -15,7 +15,7 @@
   width: 100%;
   padding: 10px;
   margin: 0;
-  font-size: 16px;
+  font-size: 1em;
   font-weight: lighter;
   text-align: center;
   white-space: nowrap;
@@ -35,7 +35,7 @@
 
 .ThermostatWidget .controls div {
   flex: 2;
-  font-size: 28px;
+  font-size: 1.75em;
   font-weight: lighter;
   text-align: center;
   text-overflow: ellipsis;
@@ -47,7 +47,7 @@
 }
 
 .ThermostatWidget button {
-  font-size: 28px;
+  font-size: 1.75em;
   line-height: 28px;
 }
 

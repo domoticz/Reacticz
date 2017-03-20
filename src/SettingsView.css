@@ -27,12 +27,12 @@
   display: block;
   width: 100%;
   max-width: 500px;
-  font-size: 15px;
+  font-size: .9em;
   margin: 5px 0;
 }
 
 .SettingsView input[type=submit], .SettingsView button {
-  font-size: 18px;
+  font-size: 1.12em;
   margin-left: 0;
   color: inherit;
   background: rgba(211, 211, 211, .5);
@@ -40,6 +40,6 @@
 }
 
 .SettingsView em {
-  font-size: 14px;
+  font-size: .9px;
   color: #666;
 }

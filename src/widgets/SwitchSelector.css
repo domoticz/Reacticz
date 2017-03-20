@@ -12,7 +12,7 @@
   width: 100%;
   padding: 10px;
   margin: 0;
-  font-size: 16px;
+  font-size: 1em;
   font-weight: lighter;
   text-align: center;
   white-space: nowrap;
@@ -42,7 +42,7 @@
 
 @media (max-width: 414px) {
 	.selector button {
-		font-size: 16px;
+		font-size: 1em;
 	}
 }
 
@@ -61,7 +61,7 @@
 .selector select {
   width: 100%;
   padding: 0 30px 0 10px;
-  font-size: 20px;
+  font-size: 1.25em;
   font-weight: 100;
   text-align-last: center;
   border: none;
