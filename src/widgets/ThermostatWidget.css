@@ -48,7 +48,7 @@
 
 .ThermostatWidget button {
   font-size: 1.75em;
-  line-height: 28px;
+  line-height: 1.75em;
 }
 
 @-webkit-keyframes blinker {
