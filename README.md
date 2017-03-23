@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/t0mg/reacticz.svg?branch=master)](https://travis-ci.org/t0mg/reacticz)
+[![Build Status](https://travis-ci.org/domoticz/Reacticz.svg?branch=master)](https://travis-ci.org/domoticz/Reacticz)
 
 # Reacticz
 
