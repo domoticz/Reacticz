@@ -88,7 +88,7 @@ class AboutView extends Component {
         <p>A minimalistic Domoticz dashboard</p>
         <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState && this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
         <p>Font size: <span className="zoomlabel">Smaller</span><input className="zoomrange" type="range" min="0.7" max="1.3" value={this.state.zoom} step="0.1" onChange={this.handleZoomChange}/><span className="zoomlabel">Bigger</span></p>
-        <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/t0mg/reacticz" target="_blank">GitHub repository</a>.</p>
+        <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/domoticz/Reacticz" target="_blank">GitHub repository</a>.</p>
         <p><a href=".">Reload</a></p>
         <section>
           <h2>Export settings</h2>

@@ -1,12 +1,12 @@
 {
   "name": "reacticz",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/t0mg/reacticz.git"
+    "url": "https://github.com/domoticz/Reacticz.git"
   },
-  "homepage": "http://reacticz.t0m.fr",
+  "homepage": "http://localhost:8080/reacticz",
   "devDependencies": {
     "axios-mock-adapter": "^1.7.1",
     "enzyme": "^2.7.0",

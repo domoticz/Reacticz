@@ -31,11 +31,12 @@ Either way, once you're there, you can jump to [Configuration](#configuration).
 If you want to build this project yourself, for example to make some changes to Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 ####Important note
-By default, Reacticz builds assuming it will be hosted at the root of the server (like the [public server](http://reacticz.t0m.fr) does). If you host Reacticz on a subpath of your server, you'll need to change the `homepage` property in `package.json` to make sure it matches the url where your build will be deployed (or relative paths might break). 
+By default, Reacticz builds assuming it will be hosted under a reacticz/ subpath on the web server. This allows you to simply copy the `build` folder in your Domoticz `www` directory, rename it to `reacticz`, and access Reacticz at `http://<your domoticz ip>:8080/reacticz`.
+If you want to build Reacticz to work from a different path, or at the root of the server (like the [public server](http://reacticz.t0m.fr) does), you'll need to change the `homepage` property in `package.json` to make sure it matches the URL where your build will be deployed (or relative paths in the app might break).
 
-For example, **if you want to deploy to a `reacticz` directory in your Domoticz `www` directory, the homepage property should be set as follows:**
+For example, if you want to deploy to a dedicated webserver that's hosted at 192.168.1.1, the homepage property should be set as follows:
 ```js
-"homepage": "http://localhost:8080/reacticz",
+"homepage": "http://192.168.1.1",
 ```
 --
 In the project directory, you can run:
@@ -66,9 +67,9 @@ When opening Reacticz for the first time on a new device, you will be redirected
 
 ### Note on personal data
 
-All configuration settings are stored on your web browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) only and are not shared with the rest of the world. When using the dashboard, your browser uses MQTT (via websockets) and JSON to talk directly to your Domoticz server through your local network, there is no external third party involved. 
+All configuration settings are stored on your web browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) only and are not shared with the rest of the world. When using the dashboard, your browser uses MQTT (via websockets) and JSON to talk directly to your Domoticz server through your local network, there is no external third party involved.
 
-In other words it is safe to use the [public server](http://reacticz.t0m.fr). 
+In other words it is safe to use the [public server](http://reacticz.t0m.fr).
 
 **Disclaimer:** on the public server some very basic, anonymous Google Analytics are collected (such as number of visitors, time spent, or country location), but personal configuration or dashboard actions are **not** tracked. If you [make your own build](#running-building-testing) of Reacticz, the analytics code will not be inserted.
 
