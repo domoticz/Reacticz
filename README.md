@@ -8,7 +8,7 @@ A [Domoticz](http://www.domoticz.com) dashboard as a static web app, using [MQTT
 
 Have a Domoticz home automation server with MQTT gateway? Open [this page](http://reacticz.t0m.fr) and start building your custom dashboard!
 
-![reacticz](https://cloud.githubusercontent.com/assets/1903597/21564032/c2789068-ce88-11e6-8531-7a6f689e505c.png)
+![reacticz](https://cloud.githubusercontent.com/assets/1903597/24274892/d9cd2e56-102b-11e7-902c-1bac26a108c5.png)
 
 All widgets are draggable and resizeable. See more screenshots [on the wiki](https://github.com/domoticz/Reacticz/wiki/Supported-devices).
 
