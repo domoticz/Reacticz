@@ -55,6 +55,7 @@ class App extends Component {
       deviceSpecs: {},
       layout: [],
       whitelist: [],
+      zoom: 1,
       themeId: 'Default',
       theme: {}
     };
@@ -69,6 +70,7 @@ class App extends Component {
   componentWillMount() {
     const storedServerConfig = this.store.read('serverConfig');
     const themeId = this.store.read('themeId') || this.state.themeId;
+    const zoom = this.store.read('zoom') || this.state.zoom;
     const configId = this.readConfigIdFromUrlParam();
     const configs = this.configHelper.getConfigs();
     const config = this.configHelper.getConfig(configId) || {};
@@ -79,6 +81,7 @@ class App extends Component {
       configId: configId,
       configName: configName,
       multiConfig: configs.length > 1,
+      zoom: zoom,
       themeId: themeId,
       theme: Themes[themeId] || {}
     });
@@ -278,6 +281,11 @@ class App extends Component {
       this.store.write('themeId', themeId);
     }
   }
+  
+  handleZoomChange = (zoom) => {
+    this.setState({zoom: zoom});
+    this.store.write('zoom', zoom);
+  }
 
   handleConfigNameChange = (configName) => {
     this.setState({configName: configName});
@@ -428,8 +436,10 @@ class App extends Component {
     switch (view) {
       case View.ABOUT:
         return (<AboutView appState={this.state} themes={Themes}
+            zoom={this.state.zoom}
             configName={this.state.configName}
             onThemeChange={this.handleThemeChange}
+            onZoomChange={this.handleZoomChange}
             multiConfig={this.state.multiConfig} />);
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig}
@@ -487,6 +497,9 @@ class App extends Component {
             </div>
           );
         }, this);
+        const style = {
+          fontSize: (100 * this.state.zoom) + '%'
+        };
         return (
             <ResponsiveGridLayout
                 layouts={{lg:this.state.layout}}
@@ -498,6 +511,7 @@ class App extends Component {
                 breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                 cols={{lg: 12, md: 10, sm: 8, xs: 6, xxs: 4}}
                 className="layout"
+                style={style}
                 items={this.state.whitelist.length}
                 rowHeight={100}>
               {widgets}
@@ -510,6 +524,9 @@ class App extends Component {
         background: this.state.theme.overlayBackground,
         color: this.state.theme.overlayText,
         fill: this.state.theme.menuIcon,
+        fontSize: (100 * this.state.zoom) + '%',
+        height:(50 * this.state.zoom) + 'px',
+        lineHeight: (50 * this.state.zoom) + 'px',
       };
       return (
           <div className={'footer' + (showFooter ? '' : ' hidden')} style={footerStyle}>

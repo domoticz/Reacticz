@@ -14,7 +14,8 @@ class AboutView extends Component {
       copyResultTimeoutId: null,
       copyResult: null,
       exportDashboard: false,
-      exportUrl: ''
+      exportUrl: '',
+      zoom: this.props.zoom
     }
   }
 
@@ -26,6 +27,13 @@ class AboutView extends Component {
     this.setState({
       exportDashboard: event.target.checked,
     });
+  }
+  
+  handleZoomChange = (event) => {
+    this.setState({
+      zoom: event.target.value,
+    });
+    this.props.onZoomChange(event.target.value);
   }
 
   generateExportUrl = () => {
@@ -79,6 +87,7 @@ class AboutView extends Component {
         <p>v{appInfo.version}</p>
         <p>A minimalistic Domoticz dashboard</p>
         <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState && this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
+        <p>Layout Zoom: <span className="zoomlabel">Smaller</span><input type="range" min="0.8" max="1.2" value={this.state.zoom} step="0.1" onChange={this.handleZoomChange}/><span className="zoomlabel">Bigger</span></p>
         <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/t0mg/reacticz" target="_blank">GitHub repository</a>.</p>
         <p><a href=".">Reload</a></p>
         <section>

@@ -90,8 +90,7 @@ a {
   position:fixed;
   left:0;
   bottom:0;
-  height:50px;
-  width:100%;
+  width: 100%;
   z-index: 2;
   transition: transform .3s ease-out;
   will-change: transform;
@@ -107,7 +106,6 @@ a {
 
 .footer .title {
   text-align: center;
-  line-height: 50px;
 }
 
 .footer .right {
@@ -120,4 +118,11 @@ a {
   cursor: pointer;
   margin: 4px;
   outline: none;
+}
+
+.zoomlabel {
+    font-style: italic;
+    font-size: small;
+    padding: 2px;
+    text-align: center;
 }
