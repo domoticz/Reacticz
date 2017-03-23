@@ -10,7 +10,7 @@ Have a Domoticz home automation server with MQTT gateway? Open [this page](http:
 
 ![reacticz](https://cloud.githubusercontent.com/assets/1903597/21564032/c2789068-ce88-11e6-8531-7a6f689e505c.png)
 
-All widgets are draggable and resizeable. See more screenshots [on the wiki](https://github.com/t0mg/reacticz/wiki/Supported-devices).
+All widgets are draggable and resizeable. See more screenshots [on the wiki](https://github.com/domoticz/Reacticz/wiki/Supported-devices).
 
 ## Requirements
 
@@ -18,11 +18,11 @@ All widgets are draggable and resizeable. See more screenshots [on the wiki](htt
 - An [MQTT](http://mqtt.org) broker also running locally. For example [Mosquitto](https://mosquitto.org/) can easily be installed [on Raspberry Pi](http://blog.ithasu.org/2016/05/enabling-and-using-websockets-on-mosquitto/) or [Synology Diskstation](https://primalcortex.wordpress.com/2015/06/11/mosquitto-broker-with-websockets-enabled-on-the-synology-nas/). Make sure that websockets are enabled, as described in these articles.
 - A properly configured MQTT Client gateway in Domoticz, to bind the above two (see [Domoticz Wiki](https://www.domoticz.com/wiki/MQTT#Add_hardware_.22MQTT_Client_Gateway.22)).
 
-Optionally, you can build this project and host the resulting files on a webserver of your choosing. Or you can use the [public Reacticz url](http://reacticz.t0m.fr) that points at the [gh-pages branch of this repository](https://github.com/t0mg/reacticz/tree/gh-pages).
+Optionally, you can build this project and host the resulting files on a webserver of your choosing. Or you can use the [public Reacticz url](http://reacticz.t0m.fr) that points at the [gh-pages branch of this repository](https://github.com/domoticz/Reacticz/tree/gh-pages).
 
 ## Getting started
 
-If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr). If you prefer having a local copy, you can [download a pre-built release package](https://github.com/t0mg/reacticz/releases) and copy the files in your `domoticz/www folder`.
+If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr). If you prefer having a local copy, you can [download a pre-built release package](https://github.com/domoticz/Reacticz/releases) and copy the files in your `domoticz/www folder`.
 
 Either way, once you're there, you can jump to [Configuration](#configuration).
 
@@ -98,7 +98,7 @@ The information page (last icon in the menu bar) provides a special link that le
 
 ## Supported widgets
 
-See the [dedicated wiki page](https://github.com/t0mg/reacticz/wiki/Supported-devices) for a list of currently supported devices.
+See the [dedicated wiki page](https://github.com/domoticz/Reacticz/wiki/Supported-devices) for a list of currently supported devices.
 
 ## Credits
 
