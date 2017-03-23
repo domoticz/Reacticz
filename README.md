@@ -30,8 +30,9 @@ Either way, once you're there, you can jump to [Configuration](#configuration).
 
 If you want to build this project yourself, for example to make some changes to Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-####Important note
+#### Important note
 By default, Reacticz builds assuming it will be hosted under a reacticz/ subpath on the web server. This allows you to simply copy the `build` folder in your Domoticz `www` directory, rename it to `reacticz`, and access Reacticz at `http://<your domoticz ip>:8080/reacticz`.
+
 If you want to build Reacticz to work from a different path, or at the root of the server (like the [public server](http://reacticz.t0m.fr) does), you'll need to change the `homepage` property in `package.json` to make sure it matches the URL where your build will be deployed (or relative paths in the app might break).
 
 For example, if you want to deploy to a dedicated webserver that's hosted at 192.168.1.1, the homepage property should be set as follows:
