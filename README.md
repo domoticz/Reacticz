@@ -39,7 +39,7 @@ For example, if you want to deploy to a dedicated webserver that's hosted at 192
 ```js
 "homepage": "http://192.168.1.1",
 ```
---
+---
 In the project directory, you can run:
 
 ### `npm install`
