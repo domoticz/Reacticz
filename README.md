@@ -20,6 +20,8 @@ All widgets are draggable and resizeable. See more screenshots [on the wiki](htt
 
 Optionally, you can build this project and host the resulting files on a webserver of your choosing. Or you can use the [public Reacticz url](http://reacticz.t0m.fr) that points at the [gh-pages branch of this repository](https://github.com/domoticz/Reacticz/tree/gh-pages).
 
+If you want to use https/wss, a few extra steps are required which are described in [this article on the wiki](https://github.com/domoticz/Reacticz/wiki/Tips-%26-tricks#securing-domoticz-reacticz-and-mqtt-websockets-with-httpswss).
+
 ## Getting started
 
 If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr). If you prefer having a local copy, you can [download a pre-built release package](https://github.com/domoticz/Reacticz/releases) and copy the files in your `domoticz/www folder`.
