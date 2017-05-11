@@ -20,7 +20,7 @@ class SwitchOnOff extends Component {
     } else if (this.props.pushOff) {
       return 'Off'
     }
-    const isOn = this.props.isScene ? this.props.valueText === 'On' :
+    const isOn = this.props.isScene ? this.props.valueText !== 'Off' :
         this.props.value === 1;
     return isOn ? 'Off' : 'On';
   }
