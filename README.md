@@ -8,7 +8,7 @@ A [Domoticz](http://www.domoticz.com) dashboard as a static web app, using [MQTT
 
 Have a Domoticz home automation server with MQTT gateway? Open [this page](http://reacticz.t0m.fr) and start building your custom dashboard!
 
-![reacticz](https://cloud.githubusercontent.com/assets/1903597/21564032/c2789068-ce88-11e6-8531-7a6f689e505c.png)
+![reacticz](https://cloud.githubusercontent.com/assets/1903597/24274892/d9cd2e56-102b-11e7-902c-1bac26a108c5.png)
 
 All widgets are draggable and resizeable. See more screenshots [on the wiki](https://github.com/domoticz/Reacticz/wiki/Supported-devices).
 
@@ -20,6 +20,8 @@ All widgets are draggable and resizeable. See more screenshots [on the wiki](htt
 
 Optionally, you can build this project and host the resulting files on a webserver of your choosing. Or you can use the [public Reacticz url](http://reacticz.t0m.fr) that points at the [gh-pages branch of this repository](https://github.com/domoticz/Reacticz/tree/gh-pages).
 
+If you want to use https/wss, a few extra steps are required which are described in [this article on the wiki](https://github.com/domoticz/Reacticz/wiki/Tips-%26-tricks#securing-domoticz-reacticz-and-mqtt-websockets-with-httpswss).
+
 ## Getting started
 
 If you only want to use Reacticz without modifying it, you can simply use the [public server](http://reacticz.t0m.fr). If you prefer having a local copy, you can [download a pre-built release package](https://github.com/domoticz/Reacticz/releases) and copy the files in your `domoticz/www folder`.
@@ -30,15 +32,16 @@ Either way, once you're there, you can jump to [Configuration](#configuration).
 
 If you want to build this project yourself, for example to make some changes to Reacticz, use the commands below. These are provided by [Create React App](https://github.com/facebookincubator/create-react-app), for more details please refer to [the full guide here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-####Important note
+#### Important note
 By default, Reacticz builds assuming it will be hosted under a reacticz/ subpath on the web server. This allows you to simply copy the `build` folder in your Domoticz `www` directory, rename it to `reacticz`, and access Reacticz at `http://<your domoticz ip>:8080/reacticz`.
+
 If you want to build Reacticz to work from a different path, or at the root of the server (like the [public server](http://reacticz.t0m.fr) does), you'll need to change the `homepage` property in `package.json` to make sure it matches the URL where your build will be deployed (or relative paths in the app might break).
 
 For example, if you want to deploy to a dedicated webserver that's hosted at 192.168.1.1, the homepage property should be set as follows:
 ```js
 "homepage": "http://192.168.1.1",
 ```
---
+---
 In the project directory, you can run:
 
 ### `npm install`
