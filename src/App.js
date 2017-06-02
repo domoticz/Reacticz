@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {Responsive, WidthProvider} from 'react-grid-layout';
-const ResponsiveGridLayout = WidthProvider(Responsive);
-
 import AboutView from './AboutView';
 import ConfigStorageHelper from './util/ConfigStorageHelper';
 import DeviceListView from './DeviceListView';
@@ -14,11 +12,11 @@ import MqttClientSingleton from './util/MqttClientSingleton';
 import SceneWidget from './widgets/SceneWidget';
 import SettingsView from './SettingsView';
 import Themes from './Themes';
-
 import './App.css';
 import '../node_modules/react-grid-layout/css/styles.css';
 import '../node_modules/react-resizable/css/styles.css';
 
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const View = {
   DASHBOARD: 1,
@@ -198,7 +196,7 @@ class App extends Component {
       layout: config.layout,
       whitelist: config.whitelist
     });
-    !opt_noHistoryPush && history.pushState({id: id}, '', '?' + id);
+    !opt_noHistoryPush && window.history.pushState({id: id}, '', '?' + id);
     this.setState({
       multiConfig: this.configHelper.getConfigs().length > 1,
       layoutLocked: true
@@ -210,7 +208,7 @@ class App extends Component {
   }
 
   deleteCurrentConfig = () => {
-    if (!confirm('Delete this dashboard ?')) {
+    if (!window.confirm('Delete this dashboard ?')) {
       return;
     }
     this.configHelper.deleteConfig(this.state.configId);
@@ -225,7 +223,8 @@ class App extends Component {
     if (!param) {
       return;
     }
-    if (confirm('Reacticz configuration parameters detected! Apply here?\n' +
+    if (window.confirm(
+      'Reacticz configuration parameters detected! Apply here?\n' +
       '\nNote: if a dashboard configuration is found in the parameters and ' +
       'your already have one setup here, a new separate dashboard will be ' +
       'created.')) {
@@ -281,7 +280,7 @@ class App extends Component {
       this.store.write('themeId', themeId);
     }
   }
-  
+
   handleZoomChange = (zoom) => {
     this.setState({zoom: zoom});
     this.store.write('zoom', zoom);
@@ -320,7 +319,7 @@ class App extends Component {
   }
 
   removeDevice = (id) => {
-    if (confirm('Remove this widget ?')) {
+    if (window.confirm('Remove this widget ?')) {
       const whitelist = this.state.whitelist.slice(0);
       whitelist.splice(whitelist.indexOf(id), 1);
       this.handleDeviceListChange(whitelist);

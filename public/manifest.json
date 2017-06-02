@@ -2,6 +2,7 @@
   "name": "Reacticz",
   "short_name": "Reacticz",
   "display": "standalone",
+  "start_url": "./index.html",
   "background_color": "#fff",
   "description": "A minimalistic Domoticz dashboard",
   "icons": [{

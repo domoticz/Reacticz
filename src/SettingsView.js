@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './SettingsView.css';
-import icon from '../public/icon/icon_64.png';
+import icon from './ext/icon_64.png';
 
 class SettingsView extends Component {
 
@@ -47,8 +47,8 @@ class SettingsView extends Component {
       <div>
         <h1>Reacticz</h1>
         <img src={icon} alt="Reacticz logo"/>
-        <p>Welcome to Reacticz, the minimalistic <a href="http://www.domoticz.com" target="_blank">Domoticz</a> dashboard!<br/>
-        Documentation is available on  <a href="https://github.com/domoticz/Reacticz#reacticz" target="_blank">GitHub</a>.</p>
+        <p>Welcome to Reacticz, the minimalistic <a href="http://www.domoticz.com" target="_blank" rel="noopener noreferrer">Domoticz</a> dashboard!<br/>
+        Documentation is available on  <a href="https://github.com/domoticz/Reacticz#reacticz" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
         <p>Please setup your server config to proceed.</p>
         <p><em>Not your first time here?&nbsp;&nbsp;<button onClick={this.props.importConfigPrompt}>Import config from another dashboard</button></em></p>
       </div>
@@ -93,7 +93,7 @@ class SettingsView extends Component {
       <div className="SettingsView">
         {!(this.props.config && this.props.config.mqttBrokerUrl && this.props.config.domoticzUrl) && this.renderWelcomeMsg()}
         <h2>Server Settings</h2>
-        <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled (see <a href="https://github.com/domoticz/Reacticz#requirements" target="_blank">requirements</a>).</p>
+        <p>To use Reacticz you need a working Domoticz server and a configured MQTT broker with websockets enabled (see <a href="https://github.com/domoticz/Reacticz#requirements" target="_blank" rel="noopener noreferrer">requirements</a>).</p>
         <form onSubmit={this.handleSubmit}>
           <h3>MQTT {this.props.config && this.props.config.mqttBrokerUrl && mqttOk}</h3>
           <label>

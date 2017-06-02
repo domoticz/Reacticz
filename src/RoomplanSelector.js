@@ -72,8 +72,8 @@ class RoomplanSelector extends Component {
     if (event.target.value === "none") {
       return;
     }
-    if (this.props.needConfirm &&
-      !confirm('Replace current selection with the devices of this room ?')) {
+    if (this.props.needConfirm && !window.confirm(
+        'Replace current selection with the devices of this room ?')) {
       return;
     }
     // Force-reset layout.

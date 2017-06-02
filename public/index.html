@@ -1,10 +1,9 @@
 <!doctype html>
-<!-- Using invalid manifest to clear cache on non iOS browsers -->
-<html lang="en" manifest="dummy.manifest">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.webmanifest">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <!-- iOS option to add page to homescreen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +20,7 @@
     -->
     <!-- Load ios.manifest on iOS devices -->
     <script type="text/javascript">
-      if(navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
+      if(window.navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
         const htmlEl = document.getElementsByTagName('html')[0];
         htmlEl.setAttribute('manifest', '%PUBLIC_URL%/ios.manifest');
         // Check if a new cache is available on page load
