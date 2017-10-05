@@ -7,7 +7,7 @@ class SwitchOnOff extends Component {
 
   constructor(props) {
     super(props);
-    if (this.props.isScene) {
+    if (this.props.sceneType) {
       this.json = new JSONClientSingleton();
     } else {
       this.mqtt = new MqttClientSingleton();
@@ -20,7 +20,7 @@ class SwitchOnOff extends Component {
     } else if (this.props.pushOff) {
       return 'Off'
     }
-    const isOn = this.props.isScene ? this.props.valueText !== 'Off' :
+    const isOn = this.props.sceneType ? this.props.valueText !== 'Off' :
         this.props.value === 1;
     return isOn ? 'Off' : 'On';
   }
@@ -30,7 +30,7 @@ class SwitchOnOff extends Component {
       return
     }
     const command = this.getPushCommand();
-    if (this.props.isScene) {
+    if (this.props.sceneType) {
       const message = {
         type: 'command',
         param: 'switchscene',
@@ -59,7 +59,7 @@ class SwitchOnOff extends Component {
       background: this.props.readOnly ? theme.unlockedBackground : theme.buttonOn
     }
     const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
-    if (this.props.pushOn && this.props.isScene) {
+    if (this.props.pushOn && this.props.sceneType) {
       style.color = theme.textMixed;
       style.background = this.props.readOnly ? theme.unlockedBackground : gradient.replace(/_corner/g, theme.buttonMixed).replace(/_bg/g, theme.buttonOff);
       return style;

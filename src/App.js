@@ -477,7 +477,7 @@ class App extends Component {
                 readOnly={!this.state.layoutLocked}
                 key={'item'+ deviceId}
                 scene={device}
-                onSceneChange={this.requestScenesStatus}
+                onChange={this.requestScenesStatus}
                 theme={this.state.theme} />
           } else {
           widget = <DeviceWidget
