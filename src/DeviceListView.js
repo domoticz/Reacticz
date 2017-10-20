@@ -10,7 +10,8 @@ class DeviceListView extends Component {
     super(props);
     this.state = {
       deviceTypes: [],
-      devices: {}
+      devices: {},
+      filter: ""
     };
     this.json = new JSONClientSingleton();
   }
@@ -31,6 +32,15 @@ class DeviceListView extends Component {
   handleNameChange = (event) => {
     const name = event.target.value;
     this.props.onNameChange(name);
+  }
+
+  handleFilterChange = (event) => {
+    const filter = event.target.value;
+    this.setState({filter: filter});
+  }
+
+  clearFilter = () => {
+    this.setState({filter: ""});
   }
 
   componentDidMount() {
@@ -62,13 +72,22 @@ class DeviceListView extends Component {
 
   renderDeviceTypeSection(type) {
     const devices = this.state.devices[type];
+    let showSection = false;
     const list = devices.sort((a, b) => b.Name >= a.Name ? -1 : 1).map(
         function(device) {
           const id = this.getUid(device);
-          return (
-            <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
-          );
+          if (escape(device.Name).toLowerCase().match(escape(this.state.filter).toLowerCase())) {
+            showSection = true;
+            return (
+              <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
+            );
+          } else {
+            return null;
+          }
         }, this);
+    if (!showSection) {
+      return null;
+    }
     return (
       <section key={type}>
         <h3>{type}</h3>
@@ -90,6 +109,9 @@ class DeviceListView extends Component {
           <input type="text" value={this.props.name} name="name" placeholder="Name" onChange={this.handleNameChange} />
         </label></p>
         <span>Tick the devices to show in this dashboard:</span>
+        <p>
+          <input type="text" value={this.state.filter} name="filter" placeholder="Search devices" onChange={this.handleFilterChange} /><button onClick={this.clearFilter}>Clear</button>
+        </p>
         <RoomplanSelector needConfirm={this.props.idxWhitelist &&
             this.props.idxWhitelist.length > 0}
             onWhitelistChange={this.props.onWhitelistChange}/>
