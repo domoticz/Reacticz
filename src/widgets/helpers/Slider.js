@@ -11,6 +11,7 @@ class Slider extends Component {
     this.state = {
       throttleTimeoutId: null,
       touchStartData: null,
+      ignoringMove: false,
       fadeTimeoutId: null,
       showBar: false,
       value: this.props.value
@@ -50,11 +51,11 @@ class Slider extends Component {
       x: event.touches[0].pageX,
       y: event.touches[0].pageY,
       rect: this.touchTarget.getBoundingClientRect()
-    }});
+    }, ignoringMove: false});
   }
 
   onTouchMove = (event) => {
-    if (this.props.disabled) {
+    if (this.props.disabled || this.state.ignoringMove) {
       return;
     }
     const touch = event.changedTouches[0];
@@ -64,6 +65,7 @@ class Slider extends Component {
     const isVertical =
         (Math.abs(Math.abs(angle) - Math.PI / 2)) <= HORIZONTAL_THRESHOLD_RAD;
     if (isVertical) {
+      this.setState({ignoringMove: true});
       return;
     }
     const pct = (touch.pageX - this.state.touchStartData.rect.left) /
