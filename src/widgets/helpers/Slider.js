@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './Slider.css';
 
-const HORIZONTAL_THRESHOLD_RAD = 0.8;
+const HORIZONTAL_THRESHOLD_RAD = 1;
 
 class Slider extends Component {
 
