@@ -5,7 +5,6 @@ import './GenericWidget.css';
 class GenericWidget extends Component {
 
   sanitize(htmlString) {
-    console.log(sanitizeHtml.defaults.allowedTags.concat([ 'img' ]));
     return {__html: sanitizeHtml(htmlString, {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])})};
   }
