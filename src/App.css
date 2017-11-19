@@ -86,6 +86,10 @@ a {
   -webkit-user-select: none;
 }
 
+.layout button {
+  border-radius: 0;
+}
+
 .footer {
   position:fixed;
   left:0;
