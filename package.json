@@ -21,6 +21,7 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-grid-layout": "^0.13.9",
+    "sanitize-html": "^1.15.0",
     "select": "^1.1.2"
   },
   "scripts": {
