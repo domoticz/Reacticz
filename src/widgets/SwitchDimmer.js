@@ -34,7 +34,7 @@ class SwitchDimmer extends Component {
       param: 'switchlight',
       idx: this.props.idx,
       switchcmd: 'Set Level',
-      level: Math.round(value * scale) + 1
+      level: Math.round(value * scale)
     };
     this.json.get(message);
   }
