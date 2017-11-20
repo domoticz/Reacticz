@@ -10,7 +10,8 @@ class TemperatureWidget extends Component {
       return (
       <GenericWidget class="TemperatureWidget" icon="water-percent"
         isOn={this.props.humstat > 2}
-        value1={<div className="humonly">{this.props.humonly}</div>}
+        value1={this.props.humonly}
+        value1Class="humonly"
         value2={humidityStatus}
         {...this.props} />
       );
@@ -18,8 +19,10 @@ class TemperatureWidget extends Component {
       return (
       <GenericWidget class="TemperatureWidget" icon="thermometer-lines"
         isOn={this.props.temp > 19.9}
-        value1={<div className="temp">{this.props.temp}</div>}
-        value2={this.props.hum !== undefined && <div className="hum">{this.props.hum}</div>}
+        value1={this.props.temp}
+        value1Class="temp"
+        value2={this.props.hum}
+        value2Class="hum"
         {...this.props} />
       );
   }

@@ -9,7 +9,8 @@ class WeatherInfoWidget extends Component {
       return (
       <GenericWidget class="WeatherInfoWidget" icon="eye"
         isOn={this.props.visibility > 0}
-        value1={<div className="visibility">{this.props.visibility}</div>}
+        value1={this.props.visibility}
+        value1Class="visibility"
         {...this.props} />
       );
     }
@@ -17,14 +18,16 @@ class WeatherInfoWidget extends Component {
       return (
       <GenericWidget class="WeatherInfoWidget" icon="weather-sunny"
         isOn={this.props.radiation > 0}
-        value1={<div className="radiation">{this.props.radiation}</div>}
+        value1={this.props.radiation}
+        value1Class="radiation"
         {...this.props} />
       );
     }
     return (
     <GenericWidget class="WeatherInfoWidget" icon="sunglasses"
       isOn={this.props.uv > 0}
-      value1={<div className="uv">{this.props.uv}</div>}
+      value1={this.props.uv}
+      value1Class="uv"
       {...this.props} />
     );
   }

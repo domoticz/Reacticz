@@ -27,8 +27,11 @@ class GenericWidget extends Component {
         {this.props.children}
         <section>
           <div>{this.props.label}</div>
-          <h2 className="value1" dangerouslySetInnerHTML={safeValue1}></h2>
-          {safeValue2 && <div className="value2"
+          <h2 className={this.props.value1Class ?
+              this.props.value1Class : "value1"}
+              dangerouslySetInnerHTML={safeValue1}></h2>
+          {safeValue2 && <div className={this.props.value2Class ?
+              this.props.value2Class : "value2"}
               dangerouslySetInnerHTML={safeValue2}></div>}
         </section>
       </div>
