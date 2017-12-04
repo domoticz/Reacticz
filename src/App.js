@@ -99,6 +99,11 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.json.setEventHandler(() => {});
+    this.mqtt.setEventHandler(() => {});
+  }
+
   handlePopstate = (event) => {
     if (event.state && event.state.id !== undefined) {
       this.loadConfig(event.state.id, true /* opt_noHistoryPush */ );
@@ -506,7 +511,7 @@ class App extends Component {
                 onResizeStop={this.onLayoutChange}
                 isDraggable={!this.state.layoutLocked}
                 isResizable={!this.state.layoutLocked}
-                verticalCompact={false}
+                compactType={null}
                 breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                 cols={{lg: 12, md: 10, sm: 8, xs: 6, xxs: 4}}
                 className="layout"

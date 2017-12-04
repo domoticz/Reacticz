@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import App from './App';
 
 it('renders without crashing', () => {
   const wrapper = mount(<App />);
   expect(wrapper.contains(welcomeMessage)).toEqual(true);
+  wrapper.unmount();
 });
 
 it('reads config from localstorage', () => {
@@ -17,5 +19,7 @@ it('reads config from localstorage', () => {
   const wrapper = mount(<App />);
   const settings = <h2>Welcome to your Reacticz dashboard!</h2>;
   expect(wrapper.contains(settings)).toEqual(true);
-  expect(wrapper.node.state.serverConfig).toEqual(serverConfig);
+  expect(wrapper.state('serverConfig')).toEqual(serverConfig);
+  wrapper.unmount();
 });
+

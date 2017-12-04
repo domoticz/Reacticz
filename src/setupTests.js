@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import JSONClientSingleton from './util/JSONClientSingleton';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+Enzyme.configure({ adapter: new Adapter() });
 
 const localStorageMock = {
   __dataStore: [],
