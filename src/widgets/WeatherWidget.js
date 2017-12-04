@@ -30,7 +30,7 @@ class WeatherWidget extends Component {
     } : {};
     return (
       <div className="WeatherWidget" style={style}>
-        {params.forecast !== undefined && <div className={'weatherImage weather' + params.forecast}></div>}
+        {params.forecast !== undefined && this.props.layoutWidth > 1 && <div className={'weatherImage weather' + params.forecast}></div>}
         <div className={'weatherData'}>
           <div className="name">{this.props.device.name}</div>
           {params.temp !== undefined && <div className="temp">{params.temp}</div>}
