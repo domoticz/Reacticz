@@ -63,6 +63,7 @@ class DeviceWidget extends Component {
         return <SwitchBlinds idx={device.idx} label={device.name}
             value={device.nvalue} type={device.switchType} {...this.props} />;
       case 'Contact' :
+      case 'Door Contact' :
         return <ContactWidget label={device.name} value={device.nvalue}
             {...this.props} />
       case 'Dimmer' :
