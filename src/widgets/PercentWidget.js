@@ -27,10 +27,11 @@ class PercentWidget extends Component {
       <GenericWidget class='PercentWidget'
           value1={Number(this.props.value).toFixed(0)}
           {...this.props}>
-        <svg className="doughnut" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <circle style={circleStyle} r={this.radius} cx="100" cy="100"></circle>
-          <circle className="bar" style={barStyle} r={this.radius} cx="100" cy="100"></circle>
-        </svg>
+        {this.props.layoutWidth > 1 &&
+            <svg className="doughnut" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <circle style={circleStyle} r={this.radius} cx="100" cy="100"></circle>
+              <circle className="bar" style={barStyle} r={this.radius} cx="100" cy="100"></circle>
+            </svg>}
       </GenericWidget>
     );
   }

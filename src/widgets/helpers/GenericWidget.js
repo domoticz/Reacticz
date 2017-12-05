@@ -23,7 +23,8 @@ class GenericWidget extends Component {
         null : this.sanitize(this.props.value2);
     return (
       <div className={'GenericWidget '+ this.props.class} style={style}>
-        {this.props.icon && <svg><use xlinkHref={'#' + this.props.icon}/></svg>}
+        {this.props.icon && this.props.layoutWidth > 1 &&
+            <svg><use xlinkHref={'#' + this.props.icon}/></svg>}
         {this.props.children}
         <section>
           <div>{this.props.label}</div>

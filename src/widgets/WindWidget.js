@@ -11,9 +11,10 @@ class WindWidget extends Component {
           value1={this.props.direction}
           value2={Number((this.props.speed / 10) * 3.6).toFixed(1)}
           {...this.props}>
-        <svg style={{transform:'rotateZ(' + this.props.bearing +'deg)' }}>
+        {this.props.layoutWidth > 1 &&
+            <svg style={{transform:'rotateZ(' + this.props.bearing +'deg)' }}>
           <use xlinkHref="#navigation"/>
-        </svg>
+        </svg>}
       </GenericWidget>
     );
   }
