@@ -13,6 +13,7 @@ import SmokeSensorWidget from './SmokeSensorWidget'
 import SwitchOnOff from './SwitchOnOff'
 import SwitchBlinds from './SwitchBlinds'
 import SwitchDimmer from './SwitchDimmer'
+import SwitchLock from './SwitchLock'
 import SwitchRGBW from './SwitchRGBW'
 import SwitchSelector from './SwitchSelector'
 import TemperatureWidget from './TemperatureWidget'
@@ -66,6 +67,9 @@ class DeviceWidget extends Component {
       case 'Door Contact' :
         return <ContactWidget label={device.name} value={device.nvalue}
             {...this.props} />
+      case 'Door Lock' :
+        return <SwitchLock idx={device.idx} label={device.name}
+            value={device.nvalue} {...this.props} />;
       case 'Dimmer' :
         if (device.stype === 'RGBW') {
           return <SwitchRGBW idx={device.idx} label={device.name}

@@ -49,14 +49,15 @@ class SwitchOnOff extends Component {
     }
   }
 
-  getButtonStyle() {
+  getButtonStyle(swapStyles = false) {
     const theme = this.props.theme;
     if (!theme) {
       return {};
     }
     const style = {
-      color: theme.textOn,
-      background: this.props.readOnly ? theme.unlockedBackground : theme.buttonOn
+      color: swapStyles ? theme.textOff : theme.textOn,
+      fill: swapStyles ? theme.textOff : theme.textOn,
+      background: this.props.readOnly ? theme.unlockedBackground : ( swapStyles ? theme.buttonOff : theme.buttonOn )
     }
     const gradient = 'repeating-linear-gradient(-45deg, _corner, _corner 20%, _bg 20%, _bg 80%, _corner 80%, _corner 100%)';
     if (this.props.pushOn && this.props.sceneType) {
@@ -69,8 +70,9 @@ class SwitchOnOff extends Component {
       style.background = this.props.readOnly ? theme.unlockedBackground : gradient.replace(/_corner/g, theme.buttonOn).replace(/_bg/g, theme.buttonOff);
     }
     if (this.props.valueText === "Off" || this.props.value === 0) {
-      style.color = theme.textOff;
-      style.background =  this.props.readOnly ? theme.unlockedBackground : theme.buttonOff;
+      style.color = swapStyles ? theme.textOn : theme.textOff;
+      style.fill = swapStyles ? theme.textOn : theme.textOff;
+      style.background =  this.props.readOnly ? theme.unlockedBackground : ( swapStyles ? theme.buttonOn : theme.buttonOff );
     }
     return style;
   }

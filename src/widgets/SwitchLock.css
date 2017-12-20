@@ -1,0 +1,19 @@
+button.SwitchLock {
+  display: flex;
+  align-items: center;
+}
+
+.SwitchLock > * {
+  flex: 2;
+  margin: 0 5px;
+  overflow: hidden;
+}
+
+.SwitchLock .lockicon {
+  height: 70%;
+  min-width: 35px;
+  flex: 1;
+  opacity: 1;
+  transform: scaleX(-1);
+}
+
