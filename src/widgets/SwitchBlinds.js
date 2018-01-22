@@ -13,8 +13,20 @@ class SwitchBlinds extends Component {
     // nvalue for normal Blinds switch type.
     this.valueOpen = 1;
     this.valueClosed = 3;
+    this.valueStopped = 0;
     this.inverted = false;
     switch (this.props.type) {
+      case 'Blinds' :
+        switch (this.props.device.stype) {
+          case 'ASP' :
+            this.valueOpen = 0;
+            this.valueClosed = 1;
+            this.valueStopped = 2;
+            break;
+          default :
+            break;
+        }
+        break;
       case 'Blinds Inverted' :
         this.inverted = true;
         this.valueOpen = 3;
@@ -77,8 +89,8 @@ class SwitchBlinds extends Component {
       background: isOpen ? theme.buttonOn : theme.buttonOff
     } : {};
     const buttonStyleStop = theme ? {
-      fill: this.props.value === 0 ? theme.textOn : theme.textOff,
-      background: this.props.value === 0 ? theme.buttonOn : theme.buttonOff
+      fill: this.props.value === this.valueStopped ? theme.textOn : theme.textOff,
+      background: this.props.value === this.valueStopped ? theme.buttonOn : theme.buttonOff
     } : {};
     const buttonStyleClose = theme ? {
       fill: isClosed ? theme.textOn : theme.textOff,
@@ -89,7 +101,7 @@ class SwitchBlinds extends Component {
         <h2>{this.props.label}</h2>
         <section>
           <button onClick={this.inverted ? this.close: this.open} className={'blindsOpen' + (isOpen ? ' selected' : '')} style={buttonStyleOpen}><svg className='icon'><use xlinkHref='#arrow-up-drop-circle' /></svg></button>
-          <button onClick={this.stop} className={'blindsStop' + (this.props.value === 0 ? ' selected' : '')} style={buttonStyleStop}><svg className='icon'><use xlinkHref='#stop-circle' /></svg></button>
+          <button onClick={this.stop} className={'blindsStop' + (this.props.value === this.valueStopped ? ' selected' : '')} style={buttonStyleStop}><svg className='icon'><use xlinkHref='#stop-circle' /></svg></button>
           <button onClick={this.inverted ? this.open : this.close} className={'blindsClose' + (isClosed ? ' selected' : '')} style={buttonStyleClose}><svg className='icon'><use xlinkHref='#arrow-down-drop-circle' /></svg></button>
         </section>
       </div>
