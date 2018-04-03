@@ -117,7 +117,10 @@ class DeviceListView extends Component {
           Dashboard name:&nbsp;
           <input type="text" value={this.props.name} name="name" placeholder="Name" onChange={this.handleNameChange} />
         </label></p>
-        <span>Tick the devices to show in this dashboard:</span>
+        <span>Tick the devices to show in this dashboard</span>
+        <RoomplanSelector needConfirm={this.props.idxWhitelist &&
+            this.props.idxWhitelist.length > 0}
+            onWhitelistChange={this.props.onWhitelistChange}/>
         <section className="searchbar">
           <div>
             <input type="text" value={this.state.filter} name="filter" placeholder="Search devices" onChange={this.handleFilterChange} /><button onClick={this.clearFilter}>Clear</button>
@@ -126,9 +129,6 @@ class DeviceListView extends Component {
             <input type="checkbox" name="unused" id="unused" onChange={this.handleUnusedFilterChange} checked={this.state.showUnused}/><label htmlFor="unused">Show unused</label>
           </div>
         </section>
-        <RoomplanSelector needConfirm={this.props.idxWhitelist &&
-            this.props.idxWhitelist.length > 0}
-            onWhitelistChange={this.props.onWhitelistChange}/>
         {sections}
       </div>
     );
