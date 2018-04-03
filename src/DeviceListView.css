@@ -11,10 +11,26 @@
   margin: 5px 0;
 }
 
+.DeviceListView li.unused {
+  text-decoration: line-through;
+}
+
 .DeviceListView input {
   margin-right: 5px;
 }
 
 .DeviceListView label {
   cursor: pointer;
+}
+
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.searchbar > div {
+  white-space: nowrap;
+  margin-right: 20px;
 }

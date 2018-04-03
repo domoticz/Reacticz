@@ -11,7 +11,8 @@ class DeviceListView extends Component {
     this.state = {
       deviceTypes: [],
       devices: {},
-      filter: ""
+      filter: "",
+      showUnused: false
     };
     this.json = new JSONClientSingleton();
   }
@@ -27,6 +28,11 @@ class DeviceListView extends Component {
       result.splice(this.props.idxWhitelist.indexOf(checkboxEl.value), 1);
       this.props.onWhitelistChange(result);
     }
+  }
+
+  handleUnusedFilterChange = (event) => {
+    const checkboxEl = event.target;
+    this.setState({showUnused: checkboxEl && checkboxEl.checked});
   }
 
   handleNameChange = (event) => {
@@ -77,9 +83,12 @@ class DeviceListView extends Component {
         function(device) {
           const id = this.getUid(device);
           if (escape(device.Name).toLowerCase().match(escape(this.state.filter).toLowerCase())) {
+            if (!this.state.showUnused && device.Used === 0) {
+              return null;
+            }
             showSection = true;
             return (
-              <li key={id}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
+              <li key={id} className={device.Used === 0 ? "unused" : ""}><label><input type="checkbox" value={id} onChange={this.handleListChange} checked={this.props.idxWhitelist.indexOf(id) >= 0}/>{device.Name}</label></li>
             );
           } else {
             return null;
@@ -109,9 +118,14 @@ class DeviceListView extends Component {
           <input type="text" value={this.props.name} name="name" placeholder="Name" onChange={this.handleNameChange} />
         </label></p>
         <span>Tick the devices to show in this dashboard:</span>
-        <p>
-          <input type="text" value={this.state.filter} name="filter" placeholder="Search devices" onChange={this.handleFilterChange} /><button onClick={this.clearFilter}>Clear</button>
-        </p>
+        <section className="searchbar">
+          <div>
+            <input type="text" value={this.state.filter} name="filter" placeholder="Search devices" onChange={this.handleFilterChange} /><button onClick={this.clearFilter}>Clear</button>
+          </div>
+          <div>
+            <input type="checkbox" name="unused" id="unused" onChange={this.handleUnusedFilterChange} checked={this.state.showUnused}/><label htmlFor="unused">Show unused</label>
+          </div>
+        </section>
         <RoomplanSelector needConfirm={this.props.idxWhitelist &&
             this.props.idxWhitelist.length > 0}
             onWhitelistChange={this.props.onWhitelistChange}/>

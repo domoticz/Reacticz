@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let singletonInstance = null;
 
-const GET_ALL_DEVICES = {type: 'devices', filter: 'all', used: true, order: 'Name'};
+const GET_ALL_DEVICES = {type: 'devices', filter: 'all', order: 'Name'};
 const GET_ALL_SCENES = {type: 'scenes'};
 
 class JSONClientSingleton {
