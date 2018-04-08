@@ -50,19 +50,25 @@ class DeviceListView extends Component {
   }
 
   componentDidMount() {
-    this.json.getAllDevices((data) => {
-      const devices = {};
-      const deviceTypes = [];
-      for (let i = 0 ; i < data.result.length; i++) {
-        const deviceType = data.result[i]['Type'];
-        if (!devices[deviceType]) {
-          devices[deviceType] = [];
-          deviceTypes.push(deviceType);
-        }
-        devices[deviceType].push(data.result[i]);
+    this.json.getAllDevices(this.addDevices);
+    // We need to poll scenes separately because for some reason, when calling 
+    // JSON API for type=devices without specifying the used=true param (as 
+    // getAllDevices above does), scenes are omitted.
+    this.json.getAllScenes(this.addDevices);
+  }
+
+  addDevices = (data) => {
+    const devices = Object.assign({}, this.state.devices);
+    const deviceTypes = this.state.deviceTypes;
+    for (let i = 0 ; i < data.result.length; i++) {
+      const deviceType = data.result[i]['Type'];
+      if (!devices[deviceType]) {
+        devices[deviceType] = [];
+        deviceTypes.push(deviceType);
       }
-      this.setState({deviceTypes: deviceTypes.sort(), devices: devices, name: this.props.name});
-    });
+      devices[deviceType].push(data.result[i]);
+    }
+    this.setState({deviceTypes: deviceTypes.sort(), devices: devices});
   }
 
   getUid(device) {
