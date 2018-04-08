@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import MqttClientSingleton from '../util/MqttClientSingleton'
-import JSONClientSingleton from '../util/JSONClientSingleton'
 import './SwitchOnOff.css';
 
 class SwitchOnOff extends Component {
 
   constructor(props) {
     super(props);
-    if (this.props.sceneType) {
-      this.json = new JSONClientSingleton();
-    } else {
-      this.mqtt = new MqttClientSingleton();
-    }
+    this.mqtt = new MqttClientSingleton();
   }
 
   getPushCommand = () => {
@@ -20,33 +15,19 @@ class SwitchOnOff extends Component {
     } else if (this.props.pushOff) {
       return 'Off'
     }
-    const isOn = this.props.sceneType ? this.props.valueText !== 'Off' :
-        this.props.value === 1;
-    return isOn ? 'Off' : 'On';
+    return 'Toggle';
   }
 
   handleClick = (event) => {
     if (this.props.readOnly) {
       return
     }
-    const command = this.getPushCommand();
-    if (this.props.sceneType) {
-      const message = {
-        type: 'command',
-        param: 'switchscene',
-        idx: this.props.idx,
-        switchcmd: command
-      };
-      this.json.get(message, this.props.onChange);
-    } else {
-      const message = {
-        command: 'switchlight',
-        idx: this.props.idx,
-        switchcmd: command,
-        level: 100
-      };
-      this.mqtt.publish(message);
-    }
+    const message = {
+      command: this.props.sceneType ? 'switchscene' : 'switchlight',
+      idx: parseInt(this.props.idx, 10),
+      switchcmd: this.getPushCommand()
+    };
+    this.mqtt.publish(message);
   }
 
   getButtonStyle(swapStyles = false) {
