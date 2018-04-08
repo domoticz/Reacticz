@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import LoadingWidget from './LoadingWidget';
 import Slider from './helpers/Slider';
-import JSONClientSingleton from '../util/JSONClientSingleton';
+import MqttClientSingleton from '../util/MqttClientSingleton'
 import './SwitchDimmer.css';
 
 class SwitchDimmer extends Component {
 
   constructor(props) {
     super(props);
-    this.json = new JSONClientSingleton();
+    this.mqtt = new MqttClientSingleton();
     this.state = {
       localValue: this.props.value,
       debounceTimeoutId: null,
@@ -30,23 +30,21 @@ class SwitchDimmer extends Component {
   sendValue = (value) => {
     const scale = this.props.deviceSpec['MaxDimLevel'] || 100;
     const message = {
-      type: 'command',
-      param: 'switchlight',
+      command: 'switchlight',
       idx: this.props.idx,
       switchcmd: 'Set Level',
       level: Math.round(value * scale)
     };
-    this.json.get(message);
+    this.mqtt.publish(message);
   }
 
   sendOff = () => {
     const message = {
-      type: 'command',
-      param: 'switchlight',
+      command: 'switchlight',
       idx: this.props.idx,
       switchcmd: 'Off'
     };
-    this.json.get(message);
+    this.mqtt.publish(message);
   }
 
   toggle = () => {
@@ -54,12 +52,11 @@ class SwitchDimmer extends Component {
       return
     }
     let message = {
-      type: 'command',
-      param: 'switchlight',
+      command: 'switchlight',
       switchcmd: 'Toggle',
       idx: this.props.idx
     }
-    this.json.get(message);
+    this.mqtt.publish(message);
   }
 
   render() {
