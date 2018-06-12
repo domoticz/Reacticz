@@ -1,0 +1,53 @@
+.Screensaver {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: black;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: screensaverFade 1s linear forwards;
+  opacity: 0;
+}
+
+@keyframes screensaverFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.Clock .react-clock__second-hand {
+  transition: transform cubic-bezier(0.68, 0, 0.27, 1.55) 0.2s;
+}
+
+.Clock .react-clock__face {
+  border: none;
+}
+
+.Clock .react-clock__second-hand__body:after {
+  content: '';
+  display: block;
+  width: 3vmin;
+  height: 3vmin;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background-color: red;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.Clock .react-clock__second-hand__body:before {
+  content: '';
+  display: block;
+  width: 1vmin;
+  height: 1vmin;
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  background-color: red;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

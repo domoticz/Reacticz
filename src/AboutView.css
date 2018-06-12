@@ -39,3 +39,25 @@
 .zoomrange {
   vertical-align: middle;
 }
+
+.aboutHeader {
+  display: flex;
+  align-items: center;
+}
+
+.aboutHeader img {
+  image-rendering: pixelated;
+  height: 100%;
+  margin-right: 10px;
+}
+
+.aboutHeader h1 {
+  display: inline-block;
+  margin: 0 0 5px 0;
+  font-size: 20px;
+}
+
+#delayInput {
+  width: 30px;
+  margin-left: 10px;
+}

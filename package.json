@@ -1,6 +1,6 @@
 {
   "name": "reacticz",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "lz-string": "^1.4.4",
     "mqtt": "^2.14.0",
     "react": "^16.2.0",
+    "react-clock": "^2.3.0",
     "react-dom": "^16.2.0",
     "react-grid-layout": "^0.16.0",
     "sanitize-html": "^1.16.1",

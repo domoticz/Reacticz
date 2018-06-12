@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import LZString from 'lz-string'
-import ThemeSelector from './ThemeSelector'
+import LZString from 'lz-string';
+import ThemeSelector from './ThemeSelector';
 import appInfo from './ext/package.json';
 import select from 'select';
 
 import icon from './ext/icon_64.png';
 import './AboutView.css';
+
+const DEFAULT_SCREENSAVER_DELAY_SEC = 60;
 
 class AboutView extends Component {
   constructor(props) {
@@ -14,8 +16,7 @@ class AboutView extends Component {
       copyResultTimeoutId: null,
       copyResult: null,
       exportDashboard: false,
-      exportUrl: '',
-      zoom: this.props.zoom
+      exportUrl: ''
     }
   }
 
@@ -30,10 +31,16 @@ class AboutView extends Component {
   }
 
   handleZoomChange = (event) => {
-    this.setState({
-      zoom: event.target.value,
-    });
-    this.props.onZoomChange(event.target.value);
+    this.props.onZoomChange && this.props.onZoomChange(event.target.value);
+  }
+
+  handleToggleScreensaver = (event) => {
+    const delaySec = event.target.checked ? DEFAULT_SCREENSAVER_DELAY_SEC : -1;
+    this.props.onScreensaverDelayChange && this.props.onScreensaverDelayChange(delaySec);
+  }
+
+  handleChangeScreensaverDelay = (event) => {
+    this.props.onScreensaverDelayChange && this.props.onScreensaverDelayChange(event.target.value);
   }
 
   generateExportUrl = () => {
@@ -80,18 +87,28 @@ class AboutView extends Component {
 
   render() {
     const url = this.generateExportUrl();
+    const screensaverOn = this.props.screensaverDelay >= 0;
     return (
       <div className="AboutView">
-        <h1>Reacticz</h1>
-        <img src={icon} alt="Reacticz logo"/>
-        <p>v{appInfo.version}</p>
-        <p>A minimalistic Domoticz dashboard</p>
-        <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState && this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
-        <p>Font size: <span className="zoomlabel">Smaller</span><input className="zoomrange" type="range" min="0.7" max="1.3" value={this.state.zoom} step="0.1" onChange={this.handleZoomChange}/><span className="zoomlabel">Bigger</span></p>
-        <p>This is a work in progress! Documentation is available on the project's <a href="https://github.com/domoticz/Reacticz" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
-        <p><a href=".">Reload</a></p>
+        <div className="aboutHeader">
+          <img src={icon} alt="Reacticz logo"/>
+          <div>
+            <h1>Reacticz v{appInfo.version}</h1> - <a href="https://github.com/domoticz/Reacticz" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <aside>A minimalistic Domoticz dashboard</aside>
+          </div>
+        </div>
         <section>
-          <h2>Export settings</h2>
+          <h2>Interface settings</h2>
+          <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState && this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
+          <p>Font size: <span className="zoomlabel">Smaller</span><input className="zoomrange" type="range" min="0.7" max="1.3" value={this.props.zoom} step="0.1" onChange={this.handleZoomChange}/><span className="zoomlabel">Bigger</span></p>
+          <p><label htmlFor="toggleScreensaver">Enable screensaver: </label><input id="toggleScreensaver" type="checkbox" onChange={this.handleToggleScreensaver}
+                  checked={screensaverOn} /> 
+              {screensaverOn && <span><input type="number" max="3600" min="1" step="1" value={this.props.screensaverDelay} id="delayInput" onChange={this.handleChangeScreensaverDelay} /> <label htmlFor="delayInput">seconds</label></span>}
+          </p>
+          <p><a href=".">Reload</a></p>
+        </section>
+        <section>
+          <h2>Export configuration</h2>
           <p>To clone your settings to another device, share the URL below.</p>
           <div className="exportOptions">
             <label>
