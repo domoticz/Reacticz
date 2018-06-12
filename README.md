@@ -115,3 +115,5 @@ Reacticz communicates with Domoticz thanks to the [MQTT.js](https://github.com/m
 Weather widget icons are based on [Kevin Aguilar's Material Design Weather Icon Set](https://material.uplabs.com/posts/material-design-weather-icon-set).
 
 Other icons are from [material.io](https://material.io/icons/) and [Material Design Icons](https://materialdesignicons.com).
+
+The clock in the screensaver is rendered by [React-Clock](http://projects.wojtekmaj.pl/react-clock/)
