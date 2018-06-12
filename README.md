@@ -116,4 +116,4 @@ Weather widget icons are based on [Kevin Aguilar's Material Design Weather Icon 
 
 Other icons are from [material.io](https://material.io/icons/) and [Material Design Icons](https://materialdesignicons.com).
 
-The clock in the screensaver is rendered by [React-Clock](http://projects.wojtekmaj.pl/react-clock/)
+The clock in the screensaver is rendered by [React-Clock](http://projects.wojtekmaj.pl/react-clock/).
