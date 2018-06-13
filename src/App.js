@@ -10,7 +10,7 @@ import LoadingWidget from './widgets/LoadingWidget';
 import LocalStorage from './util/LocalStorage';
 import MqttClientSingleton from './util/MqttClientSingleton';
 import SceneWidget from './widgets/SceneWidget';
-import Screensaver from './util/Screensaver';
+import Screensaver from './Screensaver';
 import SettingsView from './SettingsView';
 import Themes from './Themes';
 import './App.css';
@@ -58,7 +58,10 @@ class App extends Component {
       layout: [],
       whitelist: [],
       zoom: 1,
-      screensaverDelay: -1,
+      screensaverConfig: {
+        delay: -1,
+        type: "blank"
+      },
       themeId: 'Default',
       theme: {}
     };
@@ -74,7 +77,7 @@ class App extends Component {
     const storedServerConfig = this.store.read('serverConfig');
     const themeId = this.store.read('themeId') || this.state.themeId;
     const zoom = this.store.read('zoom') || this.state.zoom;
-    const screensaverDelay = this.store.read('screensaverDelay') || this.state.screensaverDelay;
+    const screensaverConfig = this.store.read('screensaverConfig') || this.state.screensaverConfig;
     const configId = this.readConfigIdFromUrlParam();
     const configs = this.configHelper.getConfigs();
     const config = this.configHelper.getConfig(configId) || {};
@@ -86,7 +89,7 @@ class App extends Component {
       configName: configName,
       multiConfig: configs.length > 1,
       zoom: zoom,
-      screensaverDelay: screensaverDelay,
+      screensaverConfig: screensaverConfig,
       themeId: themeId,
       theme: Themes[themeId] || {}
     });
@@ -298,10 +301,12 @@ class App extends Component {
     this.store.write('zoom', zoom);
   }
 
-  handleScreensaverDelayChange = (delay) => {
-    delay = delay !== DELAY_OFF_VALUE ? Math.abs(Math.min(delay, MAX_SCREENSAVER_DELAY_SEC)) : delay;
-    this.setState({screensaverDelay: delay});
-    this.store.write('screensaverDelay', delay);
+  handleScreensaverConfigChange = (config = {}) => {
+    config.delay = config.delay !== DELAY_OFF_VALUE ? Math.abs(Math.min(config.delay, MAX_SCREENSAVER_DELAY_SEC)) : config.delay;
+    this.setState({
+      screensaverConfig: config
+    });
+    this.store.write('screensaverConfig', config);
   }
 
   handleConfigNameChange = (configName) => {
@@ -454,11 +459,11 @@ class App extends Component {
       case View.ABOUT:
         return (<AboutView appState={this.state} themes={Themes}
             zoom={this.state.zoom}
-            screensaverDelay={this.state.screensaverDelay}
+            screensaverConfig={this.state.screensaverConfig}
             configName={this.state.configName}
             onThemeChange={this.handleThemeChange}
             onZoomChange={this.handleZoomChange}
-            onScreensaverDelayChange={this.handleScreensaverDelayChange}
+            onScreensaverConfigChange={this.handleScreensaverConfigChange}
             multiConfig={this.state.multiConfig} />);
       case View.SERVER_SETTINGS:
         return (<SettingsView config={this.state.serverConfig}
@@ -626,7 +631,7 @@ class App extends Component {
         </div>
         {view}
         {this.renderFooter(showFooter)}
-        {this.state.screensaverDelay >= 0 && <Screensaver delay={this.state.screensaverDelay} theme={this.state.theme} />}
+        {this.state.screensaverConfig.delay >= 0 && <Screensaver type={this.state.screensaverConfig.type} delay={this.state.screensaverConfig.delay} theme={this.state.theme} />}
       </div>
     );
   }

@@ -4,6 +4,12 @@ import Clock from 'react-clock';
 import './Screensaver.css';
 
 const MONITORED_EVENTS = ["touchstart", "touchmove", "mousedown", "mousemove", "click"];
+const DEBOUNCE_DELAY_MS = 350;
+
+export const TYPE = {
+  CLOCK: "clock",
+  BLANK: "blank"
+};
 
 class Screensaver extends Component {
   constructor(props) {
@@ -12,9 +18,11 @@ class Screensaver extends Component {
       visible: false,
       activityTimeoutId: null,
       date: new Date(),
+      dateIntervalId: null,
+      debounceTimeoutId: null,
       size: Math.min(window.innerHeight, window.innerWidth) * .6
     }
-    console.log(this.props.theme);
+    this.unmounted = false;
   }
 
   stopTimer = () => {
@@ -32,19 +40,16 @@ class Screensaver extends Component {
     for (let i in MONITORED_EVENTS) {
       window.addEventListener(MONITORED_EVENTS[i], this.onMove, { passive: false });
     }
+    this.setState({dateIntervalId: window.setInterval(() => this.setState({ date: new Date() }), 1000)});
     this.restartTimer();
   }
 
-  componentDidMount() {
-    window.setInterval(
-      () => this.setState({ date: new Date() }),
-      1000
-    );
-  }
-
   componentWillUnmount() {
+    this.unmounted = true;
     this.stopTimer();
-      for (let i in MONITORED_EVENTS) {
+    window.clearTimeout(this.state.debounceTimeoutId);
+    window.clearInterval(this.state.dateIntervalId);
+    for (let i in MONITORED_EVENTS) {
       window.removeEventListener(MONITORED_EVENTS[i], this.onMove, { passive: false });
     }
   }
@@ -58,8 +63,14 @@ class Screensaver extends Component {
       event.stopPropagation();
       event.preventDefault();
     }
-    this.restartTimer();
-    this.setState({visible: false});
+    this.stopTimer();
+    this.setState({debounceTimeoutId: window.setTimeout(() => {
+      if (this.unmounted) {
+        return;
+      }
+      this.restartTimer();
+      this.setState({visible: false});
+    }, DEBOUNCE_DELAY_MS)});
   }
 
   render() {
@@ -67,8 +78,8 @@ class Screensaver extends Component {
       return null;
     }
     return (
-      <div className="Screensaver" style={{backgroundColor: this.props.theme.appBackground}}>
-        <Clock className="Clock"
+      <div className="Screensaver" style={{backgroundColor: this.props.type === TYPE.CLOCK ? this.props.theme.appBackground : ''}}>
+        {this.props.type === TYPE.CLOCK && <Clock className="Clock"
             value={this.state.date} 
             size={this.state.size} 
             hourHandLength={60}
@@ -84,7 +95,7 @@ class Screensaver extends Component {
             secondHandLength={75}
             secondHandOppositeLength={25}
             secondHandWidth={3}
-          />
+          />}
       </div>
     );
   }

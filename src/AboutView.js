@@ -3,6 +3,7 @@ import LZString from 'lz-string';
 import ThemeSelector from './ThemeSelector';
 import appInfo from './ext/package.json';
 import select from 'select';
+import {TYPE as SCREENSAVER_TYPE} from './Screensaver';
 
 import icon from './ext/icon_64.png';
 import './AboutView.css';
@@ -35,12 +36,21 @@ class AboutView extends Component {
   }
 
   handleToggleScreensaver = (event) => {
-    const delaySec = event.target.checked ? DEFAULT_SCREENSAVER_DELAY_SEC : -1;
-    this.props.onScreensaverDelayChange && this.props.onScreensaverDelayChange(delaySec);
+    const newConfig = Object.assign({}, this.props.screensaverConfig);
+    newConfig.delay = event.target.checked ? DEFAULT_SCREENSAVER_DELAY_SEC : -1;
+    this.props.onScreensaverConfigChange && this.props.onScreensaverConfigChange(newConfig);
   }
 
   handleChangeScreensaverDelay = (event) => {
-    this.props.onScreensaverDelayChange && this.props.onScreensaverDelayChange(event.target.value);
+    const newConfig = Object.assign({}, this.props.screensaverConfig);
+    newConfig.delay = event.target.value;
+    this.props.onScreensaverConfigChange && this.props.onScreensaverConfigChange(newConfig);
+  }
+
+  handleChangeScreensaverType = (event) => {
+    const newConfig = Object.assign({}, this.props.screensaverConfig);
+    newConfig.type = event.target.value;
+    this.props.onScreensaverConfigChange && this.props.onScreensaverConfigChange(newConfig);
   }
 
   generateExportUrl = () => {
@@ -87,7 +97,7 @@ class AboutView extends Component {
 
   render() {
     const url = this.generateExportUrl();
-    const screensaverOn = this.props.screensaverDelay >= 0;
+    const screensaverOn = this.props.screensaverConfig.delay >= 0;
     return (
       <div className="AboutView">
         <div className="aboutHeader">
@@ -101,9 +111,13 @@ class AboutView extends Component {
           <h2>Interface settings</h2>
           <p>Color theme: <ThemeSelector themes={this.props.themes} currentTheme={this.props.appState && this.props.appState.themeId} onThemeChange={this.props.onThemeChange} /></p>
           <p>Font size: <span className="zoomlabel">Smaller</span><input className="zoomrange" type="range" min="0.7" max="1.3" value={this.props.zoom} step="0.1" onChange={this.handleZoomChange}/><span className="zoomlabel">Bigger</span></p>
-          <p><label htmlFor="toggleScreensaver">Enable screensaver: </label><input id="toggleScreensaver" type="checkbox" onChange={this.handleToggleScreensaver}
+          <p><label htmlFor="toggleScreensaver">Screensaver: </label><input id="toggleScreensaver" type="checkbox" onChange={this.handleToggleScreensaver}
                   checked={screensaverOn} /> 
-              {screensaverOn && <span><input type="number" max="3600" min="1" step="1" value={this.props.screensaverDelay} id="delayInput" onChange={this.handleChangeScreensaverDelay} /> <label htmlFor="delayInput">seconds</label></span>}
+              {screensaverOn && <span><input type="number" max="3600" min="1" step="1" value={this.props.screensaverConfig.delay} id="delayInput" onChange={this.handleChangeScreensaverDelay} /> <label htmlFor="delayInput">seconds</label>,&nbsp;
+              <label htmlFor="screensaverType">type: </label><select id="screensaverType" onChange={this.handleChangeScreensaverType} value={this.props.screensaverConfig.type}>
+                <option value={SCREENSAVER_TYPE.BLANK}>Blank</option>
+                <option value={SCREENSAVER_TYPE.CLOCK}>Analog clock</option>
+              </select></span>}
           </p>
           <p><a href=".">Reload</a></p>
         </section>
