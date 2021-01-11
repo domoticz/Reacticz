@@ -28,6 +28,7 @@ class SwitchOnOff extends Component {
       switchcmd: this.getPushCommand()
     };
     this.mqtt.publish(message);
+    this.mqtt.publish({'command': 'getdeviceinfo', 'idx': this.props.idx });
   }
 
   getButtonStyle(swapStyles = false) {
