@@ -119,7 +119,7 @@ class App extends Component {
     clearInterval(this.state.intervalId);
   }
 
-  timer() {
+  timer=()=>{
     for (let i = 0; i < this.state.whitelist.length; i++) {
       this.requestDeviceStatus(this.state.whitelist[i]);
     }
