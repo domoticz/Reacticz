@@ -120,7 +120,7 @@ class App extends Component {
   }
 
   timer() {
-    for (let i = 0; i < this.state.length; i++) {
+    for (let i = 0; i < this.state.whitelist.length; i++) {
       this.requestDeviceStatus(this.state.whitelist[i]);
     }
   }
