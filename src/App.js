@@ -107,9 +107,8 @@ class App extends Component {
     if (this.hasWhitelistedScenes()) {
       this.requestScenesStatus();
     }
-    var intervalId = setInterval(this.timer, 5000);
     // store intervalId in the state so it can be accessed later:
-    this.setState({intervalId: intervalId});
+    this.setState({intervalId: setInterval(this.timer, 5000)});
   }
 
   componentWillUnmount() {
@@ -120,9 +119,7 @@ class App extends Component {
   }
 
   timer=()=>{
-    for (let i = 0; i < this.state.whitelist.length; i++) {
-      this.requestDeviceStatus(this.state.whitelist[i]);
-    }
+    this.state.whitelist.forEach(device => this.requestDeviceStatus(device));
   }
 
   handlePopstate = (event) => {
