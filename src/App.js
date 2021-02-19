@@ -107,11 +107,19 @@ class App extends Component {
     if (this.hasWhitelistedScenes()) {
       this.requestScenesStatus();
     }
+    // store intervalId in the state so it can be accessed later:
+    this.setState({intervalId: setInterval(this.timer, 5000)});
   }
 
   componentWillUnmount() {
     this.json.setEventHandler(() => {});
     this.mqtt.setEventHandler(() => {});
+    // use intervalId from the state to clear the interval
+    clearInterval(this.state.intervalId);
+  }
+
+  timer=()=>{
+    this.state.whitelist.forEach(device => this.requestDeviceStatus(device));
   }
 
   handlePopstate = (event) => {
