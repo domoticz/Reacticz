@@ -23,7 +23,7 @@
     "react-clock": "^2.3.0",
     "react-dom": "^16.2.0",
     "react-grid-layout": "^0.16.0",
-    "sanitize-html": "^1.16.1",
+    "sanitize-html": "^2.3.2",
     "select": "^1.1.2"
   },
   "scripts": {
